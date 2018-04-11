@@ -227,6 +227,7 @@ void CWindow::WinProc (unsigned int msg, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:        OnDestroy(wParam, lParam);         break;
 #ifndef DIRECTX_INPUT
     case SDL_JOYAXISMOTION: OnJoystickAxis(wParam, lParam);        break;
+	case SDL_JOYHATMOTION: OnJoystickHatMotion(wParam, lParam);        break;
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:    OnJoystickButton(wParam, lParam);    break;
 #endif
@@ -320,6 +321,10 @@ void CWindow::MessagePump()
             case SDL_JOYAXISMOTION:  // Handle Joystick Motion
                 WinProc(SDL_JOYAXISMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
                 break;
+
+			case SDL_JOYHATMOTION:
+				WinProc(SDL_JOYHATMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
+				break;;
 
             case SDL_JOYBUTTONDOWN:  // Handle Joystick buttons
             case SDL_JOYBUTTONUP:
@@ -605,6 +610,10 @@ void CWindow::OnJoystickAxis(WPARAM wParam, LPARAM lParam)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
+void CWindow::OnJoystickHatMotion(WPARAM wParam, LPARAM lParam)
+{
+
+}
 
 
 // Handles the SDL_JOYBUTTONDOWN/-UP message (SDL only).

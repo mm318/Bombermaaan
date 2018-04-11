@@ -107,6 +107,7 @@ private:
     void            OnSize         (WPARAM wParam, LPARAM lParam);
 #ifndef DIRECTX
     void            OnJoystickAxis (WPARAM wParam, LPARAM lParam);             // SDL_JOYAXISMOTION
+	void            OnJoystickHatMotion(WPARAM wParam, LPARAM lParam);
     void            OnJoystickButton (WPARAM wParam, LPARAM lParam);       // SDL_JOYBUTTONDOWN/-UP
 #endif
     void            OnWindowActive (void);

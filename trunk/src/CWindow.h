@@ -68,6 +68,7 @@ protected:
     virtual void OnDestroy(WPARAM wParam, LPARAM lParam);                  // WM_DESTROY
 #ifndef DIRECTX_INPUT
     virtual void OnJoystickAxis(WPARAM wParam, LPARAM lParam);             // SDL_JOYAXISMOTION
+	virtual void OnJoystickHatMotion(WPARAM wParam, LPARAM lParam);        // SDL_JOYHATMOTION
     virtual void OnJoystickButton(WPARAM wParam, LPARAM lParam);           // SDL_JOYBUTTONDOWN/-UP
 #endif
     virtual void OnWindowActive(void);

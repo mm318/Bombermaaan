@@ -79,6 +79,9 @@
 // Define this if you want sound and music in the game
 #define ENABLE_SOUND
 
+#define SDL_JOYSTICK_AXIS_MIN -32768
+#define SDL_JOYSTICK_AXIS_MAX 32767
+
 // Define the name of the DLL (where sprites and sound samples are stored)
 #ifdef WIN32
 #define NAME_OF_BOMBERMAN_DLL "Bombermaaan32.dll"
@@ -1313,6 +1316,46 @@ void CGame::OnJoystickAxis(WPARAM wParam, LPARAM lParam)
     return;
 }
 #endif
+
+void CGame::OnJoystickHatMotion(WPARAM wParam, LPARAM lParam)
+{
+	SDL_JoyHatEvent *jhat;
+
+	if (wParam != 0) jhat = (SDL_JoyHatEvent*)wParam;
+	else return;
+
+	CInputSDL input = m_Input.GetDirectInput();
+
+	if (jhat->value == SDL_HAT_CENTERED)
+	{
+		input.SetJoystickAxisX(jhat->which, 0);
+		input.SetJoystickAxisY(jhat->which, 0);
+	}
+
+	if (jhat->value == SDL_HAT_LEFT)
+	{
+		input.SetJoystickAxisX(jhat->which, SDL_JOYSTICK_AXIS_MIN);
+		input.SetJoystickAxisY(jhat->which, 0);
+	}
+
+	if (jhat->value == SDL_HAT_RIGHT)
+	{
+		input.SetJoystickAxisX(jhat->which, SDL_JOYSTICK_AXIS_MAX);
+		input.SetJoystickAxisY(jhat->which, 0);
+	}
+
+	if (jhat->value == SDL_HAT_UP)
+	{
+		input.SetJoystickAxisX(jhat->which, 0);
+		input.SetJoystickAxisY(jhat->which, SDL_JOYSTICK_AXIS_MIN);
+	}
+
+	if (jhat->value == SDL_HAT_DOWN)
+	{
+		input.SetJoystickAxisX(jhat->which, 0);
+		input.SetJoystickAxisY(jhat->which, SDL_JOYSTICK_AXIS_MAX);
+	}
+}
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************

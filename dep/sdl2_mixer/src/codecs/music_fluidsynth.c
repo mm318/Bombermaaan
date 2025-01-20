@@ -24,8 +24,8 @@
 
 #ifdef MUSIC_MID_FLUIDSYNTH
 
-#include "SDL_loadso.h"
-#include "SDL_rwops.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_rwops.h"
 
 #include "music_fluidsynth.h"
 

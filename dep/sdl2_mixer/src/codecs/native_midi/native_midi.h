@@ -22,7 +22,7 @@
 #ifndef NATIVE_MIDI_H_
 #define NATIVE_MIDI_H_
 
-#include "SDL_rwops.h"
+#include "SDL2/SDL_rwops.h"
 
 typedef struct _NativeMidiSong NativeMidiSong;
 

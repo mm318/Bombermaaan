@@ -21,7 +21,7 @@
 
 #ifdef MUSIC_MOD_XMP
 
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 
 #include "music_xmp.h"
 

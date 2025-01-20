@@ -12,7 +12,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
-    lib.addIncludePath(b.path("include"));
+    lib.addIncludePath(b.path("include/"));
     lib.addCSourceFiles(.{ .files = &generic_src_files, .flags = @alignCast(c_flags) });
     lib.defineCMacro("SDL_USE_BUILTIN_OPENGL_DEFINITIONS", "1");
     lib.linkLibC();
@@ -76,7 +76,7 @@ pub fn build(b: *std.Build) !void {
     var module = b.addModule("sdl", .{
         .root_source_file = b.path("sdl.zig"),
     });
-    module.addIncludePath(b.path("include"));
+    module.addIncludePath(b.path("include/"));
 }
 
 const generic_src_files = [_][]const u8{

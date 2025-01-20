@@ -23,8 +23,8 @@
 
 #ifdef MUSIC_MP3_MPG123
 
-#include "SDL_loadso.h"
-#include "SDL_assert.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_assert.h"
 
 #include "music_mpg123.h"
 #include "mp3utils.h"

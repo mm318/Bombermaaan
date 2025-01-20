@@ -25,8 +25,8 @@
 
 /* This file supports WavPack music streams */
 
-#include "SDL_loadso.h"
-#include "SDL_log.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_log.h"
 
 #include "music_wavpack.h"
 

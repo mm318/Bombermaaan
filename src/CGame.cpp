@@ -34,7 +34,7 @@
     #include "allegro.h"
     #include "winalleg.h"
 #else
-    #include "SDL.h"
+    #include "SDL/SDL.h"
 #endif
 
 #include "StdAfx.h"

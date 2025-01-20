@@ -27,13 +27,13 @@
  * written by V.Novichkov <admin@wohlnet.ru>, put into public domain.
  */
 
-#include "SDL_stdinc.h"
-#include "SDL_error.h"
-#include "SDL_rwops.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_error.h"
+#include "SDL2/SDL_rwops.h"
 
 #include "mp3utils.h"
 
-#include "SDL_log.h"
+#include "SDL2/SDL_log.h"
 
 #ifdef ENABLE_ID3V2_TAG
 /*********************** SDL_RW WITH BOOKKEEPING ************************/

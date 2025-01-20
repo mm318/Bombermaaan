@@ -19,20 +19,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 #if __MACOSX__
 
 /* Mac OS X 10.6+, using Core MIDI. */
 
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_stdinc.h"
 
 #include <AudioUnit/AudioUnit.h>
 #include <AudioToolbox/AudioToolbox.h>
 #include <AvailabilityMacros.h>
 
-#include "SDL_endian.h"
-#include "SDL_mixer.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_mixer.h"
 #include "../../mixer.h"
 #include "native_midi.h"
 

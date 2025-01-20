@@ -23,7 +23,7 @@
 
 /* This file supports Ogg Opus music streams */
 
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 
 #include "music_opus.h"
 #include "utils.h"

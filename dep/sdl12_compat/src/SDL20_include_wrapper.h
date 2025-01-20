@@ -913,8 +913,8 @@
 #endif
 
 #define __BUILDING_SDL12_COMPAT__ 1
-#include "SDL.h"
-#include "SDL_syswm.h"  /* includes windows.h or os2.h */
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_syswm.h"  /* includes windows.h or os2.h */
 
 /* Headers from SDL2 >= 2.0.7 needed for SDL_AudioStream. */
 #if !SDL_VERSION_ATLEAST(2,0,7)

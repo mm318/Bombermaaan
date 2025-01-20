@@ -919,8 +919,8 @@ typedef struct SDL12_AudioCVT
     int filter_index;
 } SDL12_AudioCVT;
 
-#include "SDL_opengl.h"
-#include "SDL_opengl_glext.h"
+#include "SDL2/SDL_opengl.h"
+#include "SDL2/SDL_opengl_glext.h"
 
 
 #define OPENGL_SYM(ext,rc,fn,params,args,ret) typedef rc (GLAPIENTRY *openglfn_##fn##_t) params;

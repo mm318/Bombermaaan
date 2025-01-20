@@ -25,7 +25,7 @@
 
 #include "music_ogg.h"
 #include "utils.h"
-#include "SDL_assert.h"
+#include "SDL2/SDL_assert.h"
 
 #define STB_VORBIS_SDL 1 /* for SDL_mixer-specific stuff. */
 #define STB_VORBIS_NO_STDIO 1

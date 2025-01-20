@@ -1,9 +1,9 @@
 .{
-    .name = "sdl12-compat",
-    .version = "1.2.68",
+    .name = "SDL2_mixer",
+    .version = "2.8.0",
     .dependencies = .{
         .sdl = .{
-            .path = "../sdl",
+            .path = "../sdl2",
         },
     },
     .paths = .{
@@ -11,10 +11,10 @@
         "src",
         "build.zig",
         "build.zig.zon",
-        "BUGS.md",
-        "COMPATIBILITY.md",
-        "HOW_TO_TEST_GAMES.md",
+        "CHANGES.txt",
         "LICENSE.txt",
-        "README.md",
+        "README.txt",
+        "README-versions.md",
+        "release_checklist.md",
     },
 }

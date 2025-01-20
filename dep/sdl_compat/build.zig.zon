@@ -1,0 +1,20 @@
+.{
+    .name = "sdl12-compat",
+    .version = "1.2.68",
+    .dependencies = .{
+        .sdl = .{
+            .path = "../sdl",
+        },
+    },
+    .paths = .{
+        "include",
+        "src",
+        "build.zig",
+        "build.zig.zon",
+        "BUGS.md",
+        "COMPATIBILITY.md",
+        "HOW_TO_TEST_GAMES.md",
+        "LICENSE.txt",
+        "README.md",
+    },
+}

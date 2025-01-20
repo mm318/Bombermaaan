@@ -1,6 +1,2 @@
-/build
-/trunk/tools/BomberMaanLevel/*.suo
-/trunk/tools/BomberMaaanLevel/BomberMaaanLevel/obj
-/trunk/tools/BomberMaaanLevel/BomberMaaanLevel/bin
-/releases
-/installers/output
+.zig-cache/
+zig-out/

@@ -24,26 +24,8 @@
 #include "utils.h"
 #include <stddef.h>
 
-#if !defined(HAVE_SDL_STRTOKR)
-/*
- * Adapted from _PDCLIB_strtok() of PDClib library at
- * https://github.com/DevSolar/pdclib.git
- *
- * The code was under CC0 license:
- * https://creativecommons.org/publicdomain/zero/1.0/legalcode :
- *
- *                        No Copyright
- *
- * The person who associated a work with this deed has dedicated the
- * work to the public domain by waiving all of his or her rights to
- * the work worldwide under copyright law, including all related and
- * neighboring rights, to the extent allowed by law.
- *
- * You can copy, modify, distribute and perform the work, even for
- * commercial purposes, all without asking permission. See Other
- * Information below.
- */
-char *SDL_strtokr(char *s1, const char *s2, char **ptr)
+
+char *_MIX_strtokr(char *s1, const char *s2, char **ptr)
 {
     const char *p = s2;
 
@@ -92,7 +74,6 @@ char *SDL_strtokr(char *s1, const char *s2, char **ptr)
     /* parsed to end of string */
     return s1;
 }
-#endif /* HAVE_SDL_STRTOKR */
 
 /* Is given tag a loop tag? */
 SDL_bool _Mix_IsLoopTag(const char *tag)

@@ -44,6 +44,7 @@
 #include "native_midi/native_midi.h"
 
 #include "utils.h"
+#include <string.h>
 
 /* Check to make sure we are building with a new enough SDL */
 #if SDL_COMPILEDVERSION < SDL_VERSIONNUM(2, 0, 7)
@@ -1544,6 +1545,7 @@ const char* Mix_GetSoundFonts(void)
     return NULL;
 }
 
+
 int Mix_EachSoundFont(int (SDLCALL *function)(const char*, void*), void *data)
 {
     char *context, *path, *paths;
@@ -1565,8 +1567,8 @@ int Mix_EachSoundFont(int (SDLCALL *function)(const char*, void*), void *data)
 #else
 #define PATHSEP ":;"
 #endif
-    for (path = SDL_strtokr(paths, PATHSEP, &context); path;
-         path = SDL_strtokr(NULL,  PATHSEP, &context)) {
+    for (path = _MIX_strtokr(paths, PATHSEP, &context); path;
+         path = _MIX_strtokr(NULL,  PATHSEP, &context)) {
         if (!function(path, data)) {
             continue;
         }

@@ -33,8 +33,10 @@
     #include "allegro.h"
     #include "winalleg.h"
 #else
-    #include "SDL/SDL.h"
-    #include "SDL_mixer.h"
+    // hack to avoid including both SDL1.2 and SDL2 headers at the same time
+    struct Mix_Chunk;
+    struct _Mix_Music;
+    typedef struct _Mix_Music Mix_Music;
 #endif
 
 //******************************************************************************************************************************
@@ -118,8 +120,8 @@ private:
     HMODULE m_hModule;                          //!< Connection to the resources
     bool m_GlobalPause;                         //!< Is the sound paused?
     bool m_SoundOK;                             //!< Could SDL_mixer be initialized? This may be false if there is no sound card
-    sdl2::Mix_Chunk *m_Samples[NUM_SAMPLES];    //!< The available samples
-    sdl2::Mix_Music *m_CurrentSong;             //!< The current song
+    Mix_Chunk *m_Samples[NUM_SAMPLES];    //!< The available samples
+    Mix_Music *m_CurrentSong;             //!< The current song
     ESong m_ESong;                              //!< current song number
 
     bool GetSoundResource(int ResourceID, LPVOID &pData, DWORD &DataSize);

@@ -19,20 +19,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+/* misc helper routines */
 #ifndef UTILS_H_
 #define UTILS_H_
-
-/* misc helper routines */
 
 #include "SDL2/SDL_stdinc.h"
 #include "SDL2/SDL_version.h"
 
-#if SDL_VERSION_ATLEAST(2,0,12)
-#define HAVE_SDL_STRTOKR
-#else
-#define SDL_strtokr _MIX_strtokr
-extern char *SDL_strtokr(char *s1, const char *s2, char **saveptr);
-#endif
+extern char *_MIX_strtokr(char *s1, const char *s2, char **saveptr);
 
 /* Parse time string of the form HH:MM:SS.mmm and return equivalent sample
  * position */

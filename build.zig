@@ -63,6 +63,7 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "StdAfx.cpp",
     "WinMain.cpp",
+    "WinReplace.cpp",
     // "Bombermaaan.rc",
 };
 

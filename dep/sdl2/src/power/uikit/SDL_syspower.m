@@ -25,8 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
-#include "SDL_power.h"
-#include "SDL_timer.h"
+#include "SDL2/SDL_power.h"
+#include "SDL2/SDL_timer.h"
 #include "SDL_syspower.h"
 
 #if !TARGET_OS_TV

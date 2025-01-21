@@ -20,7 +20,7 @@
 */
 #include "../SDL_internal.h"
 
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_stdinc.h"
 
 
 /* Public domain CRC implementation adapted from:

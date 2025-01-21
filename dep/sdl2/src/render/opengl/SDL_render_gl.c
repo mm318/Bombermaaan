@@ -21,11 +21,11 @@
 #include "../../SDL_internal.h"
 
 #if SDL_VIDEO_RENDER_OGL && !SDL_RENDER_DISABLED
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../../video/SDL_sysvideo.h" /* For SDL_GL_SwapWindowWithResult */
-#include "SDL_opengl.h"
+#include "SDL2/SDL_opengl.h"
 #include "../SDL_sysrender.h"
-#include "SDL_shaders_gl.h"
+#include "SDL2/SDL_shaders_gl.h"
 #include "../../SDL_utils_c.h"
 
 #ifdef __MACOSX__
@@ -106,7 +106,7 @@ typedef struct
 
     /* OpenGL functions */
 #define SDL_PROC(ret,func,params) ret (APIENTRY *func) params;
-#include "SDL_glfuncs.h"
+#include "SDL2/SDL_glfuncs.h"
 #undef SDL_PROC
 
     /* Multitexture support */
@@ -254,7 +254,7 @@ GL_LoadFunctions(GL_RenderData * data)
     } while ( 0 );
 #endif /* __SDL_NOGETPROCADDR__ */
 
-#include "SDL_glfuncs.h"
+#include "SDL2/SDL_glfuncs.h"
 #undef SDL_PROC
     return retval;
 }

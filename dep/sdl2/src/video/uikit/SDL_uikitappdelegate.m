@@ -23,9 +23,9 @@
 #if SDL_VIDEO_DRIVER_UIKIT
 
 #include "../SDL_sysvideo.h"
-#include "SDL_hints.h"
-#include "SDL_system.h"
-#include "SDL_main.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/SDL_main.h"
 
 #import "SDL_uikitappdelegate.h"
 #import "SDL_uikitmodes.h"

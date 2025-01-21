@@ -23,7 +23,7 @@
 #ifndef SDL_hid_h_
 #define SDL_hid_h_
 
-#include "SDL_windows.h"
+#include "SDL2/SDL_windows.h"
 
 #ifndef __WINRT__
 

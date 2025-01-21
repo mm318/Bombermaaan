@@ -22,16 +22,16 @@
 
 #include <unistd.h>
 
-#include "SDL_fcitx.h"
-#include "SDL_keycode.h"
-#include "SDL_keyboard.h"
+#include "SDL2/SDL_fcitx.h"
+#include "SDL2/SDL_keycode.h"
+#include "SDL2/SDL_keyboard.h"
 #include "../../events/SDL_keyboard_c.h"
-#include "SDL_dbus.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_dbus.h"
+#include "SDL2/SDL_syswm.h"
 #if SDL_VIDEO_DRIVER_X11
 #  include "../../video/x11/SDL_x11video.h"
 #endif
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 #define FCITX_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
 

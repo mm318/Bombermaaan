@@ -26,20 +26,20 @@
 # error SDL for Mac OS X must be built with a 10.7 SDK or above.
 #endif /* MAC_OS_X_VERSION_MAX_ALLOWED < 1070 */
 
-#include "SDL_syswm.h"
-#include "SDL_timer.h"  /* For SDL_GetTicks() */
-#include "SDL_hints.h"
+#include "SDL2/SDL_syswm.h"
+#include "SDL2/SDL_timer.h"  /* For SDL_GetTicks() */
+#include "SDL2/SDL_hints.h"
 #include "../SDL_sysvideo.h"
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_touch_c.h"
 #include "../../events/SDL_windowevents_c.h"
 #include "../../events/SDL_dropevents_c.h"
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoashape.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoaopengles.h"
+#include "SDL2/SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoashape.h"
+#include "SDL2/SDL_cocoamouse.h"
+#include "SDL2/SDL_cocoaopengl.h"
+#include "SDL2/SDL_cocoaopengles.h"
 
 /* #define DEBUG_COCOAWINDOW */
 

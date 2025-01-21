@@ -23,7 +23,7 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #include <stdlib.h> /* fgets */
 #include <stdio.h> /* FILE, STDOUT_FILENO, fdopen, fclose */
 #include <unistd.h> /* pid_t, pipe, fork, close, dup2, execvp, _exit */
@@ -31,7 +31,7 @@
 #include <string.h> /* strerr */
 #include <errno.h>
 
-#include "SDL_waylandmessagebox.h"
+#include "SDL2/SDL_waylandmessagebox.h"
 
 #define MAX_BUTTONS             8       /* Maximum number of buttons supported */
 

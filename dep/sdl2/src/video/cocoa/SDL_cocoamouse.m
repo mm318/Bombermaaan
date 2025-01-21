@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_events.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoavideo.h"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_cocoamouse.h"
+#include "SDL2/SDL_cocoavideo.h"
 
 #include "../../events/SDL_mouse_c.h"
 

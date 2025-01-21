@@ -22,10 +22,10 @@
 
 #ifdef SDL_JOYSTICK_WGI
 
-#include "SDL_assert.h"
-#include "SDL_atomic.h"
-#include "SDL_endian.h"
-#include "SDL_events.h"
+#include "SDL2/SDL_assert.h"
+#include "SDL2/SDL_atomic.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_events.h"
 #include "../SDL_sysjoystick.h"
 #include "../hidapi/SDL_hidapijoystick_c.h"
 #include "SDL_rawinputjoystick_c.h"

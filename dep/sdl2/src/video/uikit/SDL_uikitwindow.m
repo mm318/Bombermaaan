@@ -22,19 +22,19 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_hints.h"
-#include "SDL_mouse.h"
-#include "SDL_system.h"
-#include "SDL_syswm.h"
-#include "SDL_video.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_mouse.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/SDL_syswm.h"
+#include "SDL2/SDL_video.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitevents.h"
+#include "SDL2/SDL_uikitmodes.h"
+#include "SDL2/SDL_uikitwindow.h"
 #import "SDL_uikitappdelegate.h"
 
 #import "SDL_uikitview.h"

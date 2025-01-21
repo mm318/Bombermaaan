@@ -24,8 +24,8 @@
 
 #include "../../SDL_internal.h"
 
-#include "SDL_stdinc.h"
-#include "SDL_rect.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_rect.h"
 
 extern SDL_bool SDL_Fcitx_Init(void);
 extern void SDL_Fcitx_Quit(void);

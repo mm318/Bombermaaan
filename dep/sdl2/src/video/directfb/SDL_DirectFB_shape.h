@@ -25,7 +25,7 @@
 #include <directfb.h>
 
 #include "../SDL_sysvideo.h"
-#include "SDL_shape.h"
+#include "SDL2/SDL_shape.h"
 
 typedef struct {
     IDirectFBSurface *surface;

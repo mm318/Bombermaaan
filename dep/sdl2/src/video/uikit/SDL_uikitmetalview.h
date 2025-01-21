@@ -30,7 +30,7 @@
 #define SDL_uikitmetalview_h_
 
 #include "../SDL_sysvideo.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitwindow.h"
 
 #if SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 

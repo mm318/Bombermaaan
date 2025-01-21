@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_COCOA && SDL_VIDEO_OPENGL_EGL
 
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoaopengles.h"
-#include "SDL_cocoaopengl.h"
+#include "SDL2/SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoaopengles.h"
+#include "SDL2/SDL_cocoaopengl.h"
 
 /* EGL implementation of SDL OpenGL support */
 

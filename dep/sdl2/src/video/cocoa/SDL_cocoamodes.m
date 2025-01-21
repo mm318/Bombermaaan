@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoavideo.h"
 
 /* We need this for IODisplayCreateInfoDictionary and kIODisplayOnlyPreferredName */
 #include <IOKit/graphics/IOGraphicsLib.h>

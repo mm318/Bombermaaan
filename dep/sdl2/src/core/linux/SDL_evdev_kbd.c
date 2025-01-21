@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_evdev_kbd.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_evdev_kbd.h"
+#include "SDL2/SDL_hints.h"
 
 #ifdef SDL_INPUT_LINUXKD
 
@@ -38,8 +38,8 @@
 #include <signal.h>
 
 #include "../../events/SDL_events_c.h"
-#include "SDL_evdev_kbd_default_accents.h"
-#include "SDL_evdev_kbd_default_keymap.h"
+#include "SDL2/SDL_evdev_kbd_default_accents.h"
+#include "SDL2/SDL_evdev_kbd_default_keymap.h"
 
 /* These are not defined in older Linux kernel headers */
 #ifndef K_UNICODE

@@ -20,7 +20,7 @@
 */
 
 #include "../../SDL_internal.h"
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_stdinc.h"
 
 #ifndef SDL_waylandvideo_h_
 #define SDL_waylandvideo_h_
@@ -117,7 +117,7 @@ struct SDL_WaylandOutputData {
 };
 
 /* Needed here to get wl_surface declaration, fixes GitHub#4594 */
-#include "SDL_waylanddyn.h"
+#include "SDL2/SDL_waylanddyn.h"
 
 extern void SDL_WAYLAND_register_surface(struct wl_surface *surface);
 extern void SDL_WAYLAND_register_output(struct wl_output *output);

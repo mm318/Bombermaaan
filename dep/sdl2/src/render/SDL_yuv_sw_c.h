@@ -24,7 +24,7 @@
 
 #include "../SDL_internal.h"
 
-#include "SDL_video.h"
+#include "SDL2/SDL_video.h"
 
 /* This is the software implementation of the YUV texture support */
 

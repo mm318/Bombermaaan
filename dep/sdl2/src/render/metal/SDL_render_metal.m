@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_RENDER_METAL && !SDL_RENDER_DISABLED
 
-#include "SDL_hints.h"
-#include "SDL_syswm.h"
-#include "SDL_metal.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_syswm.h"
+#include "SDL2/SDL_metal.h"
 #include "../SDL_sysrender.h"
 
 #include <Availability.h>
@@ -38,18 +38,18 @@
 
 /* Regenerate these with build-metal-shaders.sh */
 #ifdef __MACOSX__
-#include "SDL_shaders_metal_osx.h"
+#include "SDL2/SDL_shaders_metal_osx.h"
 #elif defined(__TVOS__)
 #if TARGET_OS_SIMULATOR
-#include "SDL_shaders_metal_tvsimulator.h"
+#include "SDL2/SDL_shaders_metal_tvsimulator.h"
 #else
-#include "SDL_shaders_metal_tvos.h"
+#include "SDL2/SDL_shaders_metal_tvos.h"
 #endif
 #else
 #if TARGET_OS_SIMULATOR
-#include "SDL_shaders_metal_iphonesimulator.h"
+#include "SDL2/SDL_shaders_metal_iphonesimulator.h"
 #else
-#include "SDL_shaders_metal_ios.h"
+#include "SDL2/SDL_shaders_metal_ios.h"
 #endif
 #endif
 

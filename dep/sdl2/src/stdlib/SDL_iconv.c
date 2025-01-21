@@ -27,8 +27,8 @@
 
 /* This file contains portable iconv functions for SDL */
 
-#include "SDL_stdinc.h"
-#include "SDL_endian.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_endian.h"
 
 #if defined(HAVE_ICONV) && defined(HAVE_ICONV_H)
 #ifdef __FreeBSD__

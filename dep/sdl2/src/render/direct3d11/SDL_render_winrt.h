@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_RENDER_D3D11 && !SDL_RENDER_DISABLED
 
-#include "SDL_render.h"
+#include "SDL2/SDL_render.h"
 
 #ifdef __cplusplus
 extern "C" {

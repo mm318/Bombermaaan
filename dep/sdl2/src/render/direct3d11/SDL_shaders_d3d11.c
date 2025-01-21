@@ -22,13 +22,13 @@
 
 #if SDL_VIDEO_RENDER_D3D11 && !SDL_RENDER_DISABLED
 
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_stdinc.h"
 
 #define COBJMACROS
 #include "../../core/windows/SDL_windows.h"
 #include <d3d11_1.h>
 
-#include "SDL_shaders_d3d11.h"
+#include "SDL2/SDL_shaders_d3d11.h"
 
 #define SDL_COMPOSE_ERROR(str) SDL_STRINGIFY_ARG(__FUNCTION__) ", " str
 

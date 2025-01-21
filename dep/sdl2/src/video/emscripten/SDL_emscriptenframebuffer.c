@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenframebuffer.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenframebuffer.h"
+#include "SDL2/SDL_hints.h"
 
 #include <emscripten/threading.h>
 

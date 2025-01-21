@@ -25,7 +25,7 @@
 
 /* Include all of the DirectX 8.0 headers and adds any necessary tweaks */
 
-#include "SDL_windows.h"
+#include "SDL2/SDL_windows.h"
 #include <mmsystem.h>
 #ifndef WIN32
 #define WIN32

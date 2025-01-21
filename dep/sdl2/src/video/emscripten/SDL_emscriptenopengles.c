@@ -25,9 +25,9 @@
 #include <emscripten/emscripten.h>
 #include <GLES2/gl2.h>
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenopengles.h"
+#include "SDL2/SDL_hints.h"
 
 #define LOAD_FUNC(NAME) _this->egl_data->NAME = NAME;
 

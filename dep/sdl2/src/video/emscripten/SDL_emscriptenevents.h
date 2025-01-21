@@ -23,7 +23,7 @@
 #ifndef SDL_emscriptenevents_h_
 #define SDL_emscriptenevents_h_
 
-#include "SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenvideo.h"
 
 extern void
 Emscripten_RegisterEventHandlers(SDL_WindowData *data);

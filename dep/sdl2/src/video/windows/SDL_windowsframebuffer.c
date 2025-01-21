@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
-#include "SDL_windowsvideo.h"
+#include "SDL2/SDL_windowsvideo.h"
 
 int WIN_CreateWindowFramebuffer(_THIS, SDL_Window * window, Uint32 * format, void ** pixels, int *pitch)
 {

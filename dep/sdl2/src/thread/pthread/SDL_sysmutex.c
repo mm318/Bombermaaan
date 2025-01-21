@@ -23,7 +23,7 @@
 #include <errno.h>
 #include <pthread.h>
 
-#include "SDL_thread.h"
+#include "SDL2/SDL_thread.h"
 
 #if !SDL_THREAD_PTHREAD_RECURSIVE_MUTEX && \
     !SDL_THREAD_PTHREAD_RECURSIVE_MUTEX_NP

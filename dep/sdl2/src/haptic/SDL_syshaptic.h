@@ -24,7 +24,7 @@
 #ifndef SDL_syshaptic_h_
 #define SDL_syshaptic_h_
 
-#include "SDL_haptic.h"
+#include "SDL2/SDL_haptic.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus

@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_RENDER_OGL_ES && !SDL_RENDER_DISABLED
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../../video/SDL_sysvideo.h" /* For SDL_GL_SwapWindowWithResult */
-#include "SDL_opengles.h"
+#include "SDL2/SDL_opengles.h"
 #include "../SDL_sysrender.h"
 #include "../../SDL_utils_c.h"
 
@@ -87,7 +87,7 @@ typedef struct
 
 #define SDL_PROC(ret,func,params) ret (APIENTRY *func) params;
 #define SDL_PROC_OES SDL_PROC
-#include "SDL_glesfuncs.h"
+#include "SDL2/SDL_glesfuncs.h"
 #undef SDL_PROC
 #undef SDL_PROC_OES
     SDL_bool GL_OES_framebuffer_object_supported;
@@ -175,7 +175,7 @@ static int GLES_LoadFunctions(GLES_RenderData * data)
     } while ( 0 );
 #endif /* __SDL_NOGETPROCADDR__ */
 
-#include "SDL_glesfuncs.h"
+#include "SDL2/SDL_glesfuncs.h"
 #undef SDL_PROC
 #undef SDL_PROC_OES
     return 0;

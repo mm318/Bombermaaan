@@ -31,16 +31,16 @@
 
 #include "../SDL_sysvideo.h"
 
-#include "SDL_mouse.h"
+#include "SDL2/SDL_mouse.h"
 #include "../../events/SDL_mouse_c.h"
-#include "SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandvideo.h"
 #include "../SDL_pixels_c.h"
 #include "SDL_waylandevents_c.h"
 
 #include "wayland-cursor.h"
-#include "SDL_waylandmouse.h"
+#include "SDL2/SDL_waylandmouse.h"
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../../SDL_hints_c.h"
 
 static int

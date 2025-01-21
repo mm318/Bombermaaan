@@ -22,7 +22,7 @@
 
 #ifndef __WINRT__
 
-#include "SDL_hid.h"
+#include "SDL2/SDL_hid.h"
 
 
 HidD_GetString_t SDL_HidD_GetManufacturerString;

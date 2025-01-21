@@ -27,7 +27,7 @@
 #include <IOKit/ps/IOPowerSources.h>
 #include <IOKit/ps/IOPSKeys.h>
 
-#include "SDL_power.h"
+#include "SDL2/SDL_power.h"
 
 /* CoreFoundation is so verbose... */
 #define STRMATCH(a,b) (CFStringCompare(a, b, 0) == kCFCompareEqualTo)

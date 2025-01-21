@@ -27,8 +27,8 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-#include "SDL_error.h"
-#include "SDL_filesystem.h"
+#include "SDL2/SDL_error.h"
+#include "SDL2/SDL_filesystem.h"
 
 #include <emscripten/emscripten.h>
 

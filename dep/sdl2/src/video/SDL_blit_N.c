@@ -22,9 +22,9 @@
 
 #if SDL_HAVE_BLIT_N
 
-#include "SDL_video.h"
-#include "SDL_endian.h"
-#include "SDL_cpuinfo.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_cpuinfo.h"
 #include "SDL_blit.h"
 #include "SDL_blit_copy.h"
 

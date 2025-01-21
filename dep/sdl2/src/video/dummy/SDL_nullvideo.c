@@ -37,8 +37,8 @@
  *  SDL video driver.  Renamed to "DUMMY" by Sam Lantinga.
  */
 
-#include "SDL_video.h"
-#include "SDL_mouse.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_mouse.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_events_c.h"
@@ -46,7 +46,7 @@
 #include "SDL_nullvideo.h"
 #include "SDL_nullevents_c.h"
 #include "SDL_nullframebuffer_c.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 #define DUMMYVID_DRIVER_NAME "dummy"
 #define DUMMYVID_DRIVER_EVDEV_NAME "evdev"

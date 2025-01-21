@@ -23,10 +23,10 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL.h"
-#include "SDL_x11video.h"
-#include "SDL_x11dyn.h"
-#include "SDL_x11messagebox.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_x11dyn.h"
+#include "SDL2/SDL_x11messagebox.h"
 
 #include <X11/keysym.h>
 #include <locale.h>

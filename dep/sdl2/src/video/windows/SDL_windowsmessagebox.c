@@ -31,7 +31,7 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "SDL_windowsvideo.h"
+#include "SDL2/SDL_windowsvideo.h"
 
 #ifndef SS_EDITCONTROL
 #define SS_EDITCONTROL  0x2000

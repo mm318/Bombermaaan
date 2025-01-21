@@ -23,18 +23,18 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_stdinc.h"
-#include "SDL_timer.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_hints.h"
 
 #include "../../core/unix/SDL_poll.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_scancode_tables_c.h"
 #include "../SDL_sysvideo.h"
 
-#include "SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandvideo.h"
 #include "SDL_waylandevents_c.h"
-#include "SDL_waylandwindow.h"
+#include "SDL2/SDL_waylandwindow.h"
 
 #include "pointer-constraints-unstable-v1-client-protocol.h"
 #include "relative-pointer-unstable-v1-client-protocol.h"

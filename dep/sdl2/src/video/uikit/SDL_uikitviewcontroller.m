@@ -22,18 +22,18 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_video.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_hints.h"
 #include "../SDL_sysvideo.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_uikitviewcontroller.h"
-#include "SDL_uikitmessagebox.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#include "SDL_uikitopengles.h"
+#include "SDL2/SDL_uikitviewcontroller.h"
+#include "SDL2/SDL_uikitmessagebox.h"
+#include "SDL2/SDL_uikitevents.h"
+#include "SDL2/SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitmodes.h"
+#include "SDL2/SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitopengles.h"
 
 #if TARGET_OS_TV
 static void SDLCALL

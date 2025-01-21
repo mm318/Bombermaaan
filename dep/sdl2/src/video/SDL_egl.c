@@ -35,8 +35,8 @@
 
 #include "SDL_sysvideo.h"
 #include "SDL_egl_c.h"
-#include "SDL_loadso.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_hints.h"
 
 #ifdef EGL_KHR_create_context
 /* EGL_OPENGL_ES3_BIT_KHR was added in version 13 of the extension. */
@@ -106,7 +106,7 @@
 #endif /* SDL_VIDEO_DRIVER_RPI */
 
 #if SDL_VIDEO_OPENGL && !SDL_VIDEO_VITA_PVR_OGL
-#include "SDL_opengl.h"
+#include "SDL2/SDL_opengl.h"
 #endif
 
 /** If we happen to not have this defined because of an older EGL version, just define it 0x0

@@ -21,7 +21,7 @@
 
 #include "../SDL_internal.h"
 #include "SDL_syslocale.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 static SDL_Locale *
 build_locales_from_csv_string(char *csv)

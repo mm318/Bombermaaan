@@ -19,8 +19,8 @@
 */
 #include "../SDL_internal.h"
 
-#include "SDL_hints.h"
-#include "SDL_gamecontroller.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_gamecontroller.h"
 
 #include "controller_type.h"
 

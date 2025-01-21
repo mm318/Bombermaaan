@@ -26,8 +26,8 @@
 #include <emscripten/html5.h>
 #include <emscripten/threading.h>
 
-#include "SDL_emscriptenmouse.h"
-#include "SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenmouse.h"
+#include "SDL2/SDL_emscriptenvideo.h"
 
 #include "../../events/SDL_mouse_c.h"
 

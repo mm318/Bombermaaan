@@ -26,8 +26,8 @@
 #include <sys/time.h>
 #include <time.h>
 
-#include "SDL_thread.h"
-#include "SDL_timer.h"
+#include "SDL2/SDL_thread.h"
+#include "SDL2/SDL_timer.h"
 
 /* Wrapper around POSIX 1003.1b semaphores */
 

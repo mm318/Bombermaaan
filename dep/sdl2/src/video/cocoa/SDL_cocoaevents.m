@@ -22,11 +22,11 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_timer.h"
+#include "SDL2/SDL_timer.h"
 
-#include "SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoavideo.h"
 #include "../../events/SDL_events_c.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 /* This define was added in the 10.9 SDK. */
 #ifndef kIOPMAssertPreventUserIdleDisplaySleep

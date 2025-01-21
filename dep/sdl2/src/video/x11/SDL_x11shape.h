@@ -23,8 +23,8 @@
 #ifndef SDL_x11shape_h_
 #define SDL_x11shape_h_
 
-#include "SDL_video.h"
-#include "SDL_shape.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_shape.h"
 #include "../SDL_sysvideo.h"
 
 typedef struct {

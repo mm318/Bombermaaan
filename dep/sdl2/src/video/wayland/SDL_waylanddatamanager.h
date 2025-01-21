@@ -24,8 +24,8 @@
 #ifndef SDL_waylanddatamanager_h_
 #define SDL_waylanddatamanager_h_
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#include "SDL2/SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandwindow.h"
 
 #define TEXT_MIME "text/plain;charset=utf-8"
 #define FILE_MIME "text/uri-list"

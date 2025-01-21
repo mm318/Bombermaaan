@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoavideo.h"
 #include "../../events/SDL_clipboardevents_c.h"
 
 int

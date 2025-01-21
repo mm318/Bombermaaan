@@ -59,14 +59,7 @@ pub fn build(b: *std.Build) !void {
             // const include_path = b.pathJoin(&.{ emsdk_sysroot, "include" });
             // lib.addSystemIncludePath(.{ .path = include_path });
         },
-        else => {
-            const config_header = b.addConfigHeader(.{
-                .style = .{ .cmake = b.path("include/SDL_config.h.cmake") },
-                .include_path = "SDL2/SDL_config.h",
-            }, .{});
-            lib.addConfigHeader(config_header);
-            lib.installConfigHeader(config_header);
-        },
+        else => {},
     }
     // note(jae): 2024-04-13
     // Experimenting with just importing SDL from this dependency

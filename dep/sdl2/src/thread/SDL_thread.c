@@ -22,10 +22,10 @@
 
 /* System independent thread management routines for SDL */
 
-#include "SDL_thread.h"
+#include "SDL2/SDL_thread.h"
 #include "SDL_thread_c.h"
 #include "SDL_systhread.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../SDL_error_c.h"
 
 

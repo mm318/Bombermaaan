@@ -22,7 +22,7 @@
 
 #if !SDL_HIDAPI_DISABLED
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 #define hid_init                        PLATFORM_hid_init
 #define hid_exit                        PLATFORM_hid_exit

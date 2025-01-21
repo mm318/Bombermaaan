@@ -21,11 +21,11 @@
 #include "../../SDL_internal.h"
 
 #ifdef HAVE_IBUS_IBUS_H
-#include "SDL.h"
-#include "SDL_hints.h"
-#include "SDL_syswm.h"
-#include "SDL_ibus.h"
-#include "SDL_dbus.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_syswm.h"
+#include "SDL2/SDL_ibus.h"
+#include "SDL2/SDL_dbus.h"
 #include "../../video/SDL_sysvideo.h"
 #include "../../events/SDL_keyboard_c.h"
 

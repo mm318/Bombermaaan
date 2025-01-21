@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 #ifdef SDL_SENSOR_COREMOTION
 
 /* This is the system specific header for the SDL sensor API */
 #include <CoreMotion/CoreMotion.h>
 
-#include "SDL_error.h"
-#include "SDL_sensor.h"
-#include "SDL_coremotionsensor.h"
+#include "SDL2/SDL_error.h"
+#include "SDL2/SDL_sensor.h"
+#include "SDL2/SDL_coremotionsensor.h"
 #include "../SDL_syssensor.h"
 #include "../SDL_sensor_c.h"
 

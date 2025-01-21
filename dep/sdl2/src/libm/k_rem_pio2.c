@@ -128,7 +128,7 @@
 #include "math_libm.h"
 #include "math_private.h"
 
-#include "SDL_assert.h"
+#include "SDL2/SDL_assert.h"
 
 static const int init_jk[] = {2,3,4,6}; /* initial value for jk */
 

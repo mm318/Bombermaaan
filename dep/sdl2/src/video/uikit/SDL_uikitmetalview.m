@@ -30,7 +30,7 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#include "SDL_syswm.h"
+#include "SDL2/SDL_syswm.h"
 #include "../SDL_sysvideo.h"
 
 #import "SDL_uikitwindow.h"

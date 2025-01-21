@@ -20,12 +20,12 @@
 */
 #include "../SDL_internal.h"
 
-#include "SDL.h"
-#include "SDL_video.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_video.h"
 #include "SDL_sysvideo.h"
-#include "SDL_pixels.h"
-#include "SDL_surface.h"
-#include "SDL_shape.h"
+#include "SDL2/SDL_pixels.h"
+#include "SDL2/SDL_surface.h"
+#include "SDL2/SDL_shape.h"
 #include "SDL_shape_internals.h"
 
 SDL_Window*

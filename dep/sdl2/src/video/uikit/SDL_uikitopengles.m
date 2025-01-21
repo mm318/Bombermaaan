@@ -22,16 +22,16 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2)
 
-#include "SDL_uikitopengles.h"
+#include "SDL2/SDL_uikitopengles.h"
 #import "SDL_uikitopenglview.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#include "SDL_uikitevents.h"
+#include "SDL2/SDL_uikitmodes.h"
+#include "SDL2/SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitevents.h"
 #include "../SDL_sysvideo.h"
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../power/uikit/SDL_syspower.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include <dlfcn.h>
 
 @interface SDLEAGLContext : EAGLContext

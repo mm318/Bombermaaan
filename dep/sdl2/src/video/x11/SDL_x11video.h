@@ -23,7 +23,7 @@
 #ifndef SDL_x11video_h_
 #define SDL_x11video_h_
 
-#include "SDL_keycode.h"
+#include "SDL2/SDL_keycode.h"
 
 #include "../SDL_sysvideo.h"
 
@@ -53,16 +53,16 @@
 #include "../../core/linux/SDL_dbus.h"
 #include "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#include "SDL2/SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#include "SDL2/SDL_x11clipboard.h"
+#include "SDL2/SDL_x11events.h"
+#include "SDL2/SDL_x11keyboard.h"
+#include "SDL2/SDL_x11modes.h"
+#include "SDL2/SDL_x11mouse.h"
+#include "SDL2/SDL_x11opengl.h"
+#include "SDL2/SDL_x11window.h"
+#include "SDL2/SDL_x11vulkan.h"
 
 /* Private display data */
 

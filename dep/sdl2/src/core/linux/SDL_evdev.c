@@ -29,8 +29,8 @@
  *             The evtest application is also useful to debug the protocol
  */
 
-#include "SDL_evdev.h"
-#include "SDL_evdev_kbd.h"
+#include "SDL2/SDL_evdev.h"
+#include "SDL2/SDL_evdev_kbd.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -38,9 +38,9 @@
 #include <sys/ioctl.h>
 #include <linux/input.h>
 
-#include "SDL.h"
-#include "SDL_endian.h"
-#include "SDL_scancode.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_scancode.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_scancode_tables_c.h"
 #include "../../core/linux/SDL_evdev_capabilities.h"

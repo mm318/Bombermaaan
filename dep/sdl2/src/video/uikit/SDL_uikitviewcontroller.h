@@ -24,7 +24,7 @@
 
 #include "../SDL_sysvideo.h"
 
-#include "SDL_touch.h"
+#include "SDL2/SDL_touch.h"
 
 #if TARGET_OS_TV
 #import <GameController/GameController.h>

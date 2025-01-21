@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#include "SDL2/SDL_x11video.h"
 
-#include "SDL_loadso.h"
-#include "SDL_x11vulkan.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_x11vulkan.h"
 
 #include <X11/Xlib.h>
 /*#include <xcb/xcb.h>*/

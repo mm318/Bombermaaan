@@ -22,13 +22,13 @@
 
 /* Functions for audio drivers to perform runtime conversion of audio format */
 
-#include "SDL.h"
-#include "SDL_audio.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_audio.h"
 #include "SDL_audio_c.h"
 
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "../SDL_dataqueue.h"
-#include "SDL_cpuinfo.h"
+#include "SDL2/SDL_cpuinfo.h"
 
 #define DEBUG_AUDIOSTREAM 0
 

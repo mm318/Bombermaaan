@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_events.h"
-#include "SDL_timer.h"
-#include "SDL_messagebox.h"
-#include "SDL_cocoavideo.h"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_messagebox.h"
+#include "SDL2/SDL_cocoavideo.h"
 
 @interface SDLMessageBoxPresenter : NSObject {
 @public

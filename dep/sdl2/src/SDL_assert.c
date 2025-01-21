@@ -24,11 +24,11 @@
 #include "core/windows/SDL_windows.h"
 #endif
 
-#include "SDL.h"
-#include "SDL_atomic.h"
-#include "SDL_messagebox.h"
-#include "SDL_video.h"
-#include "SDL_assert.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_atomic.h"
+#include "SDL2/SDL_messagebox.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_assert.h"
 #include "SDL_assert_c.h"
 #include "video/SDL_sysvideo.h"
 

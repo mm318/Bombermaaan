@@ -21,7 +21,7 @@
 #include "../SDL_internal.h"
 
 #include "SDL_vulkan_internal.h"
-#include "SDL_error.h"
+#include "SDL2/SDL_error.h"
 
 #if SDL_VIDEO_VULKAN
 

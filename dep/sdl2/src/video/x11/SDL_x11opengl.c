@@ -23,14 +23,14 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_hints.h"
 
 /* GLX implementation of SDL OpenGL support */
 
 #if SDL_VIDEO_OPENGL_GLX
-#include "SDL_loadso.h"
-#include "SDL_x11opengles.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_x11opengles.h"
 
 #if defined(__IRIX__) || defined(__NetBSD__) || defined(__OpenBSD__)
 /*

@@ -22,7 +22,7 @@
 
 #if SDL_POWER_UIKIT
 
-#include "SDL_power.h"
+#include "SDL2/SDL_power.h"
 
 void SDL_UIKit_UpdateBatteryMonitoring(void);
 SDL_bool SDL_GetPowerInfo_UIKit(SDL_PowerState * state, int *seconds, int *percent);

@@ -22,8 +22,8 @@
 
 /* The high-level video driver subsystem */
 
-#include "SDL.h"
-#include "SDL_video.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_video.h"
 #include "SDL_sysvideo.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"
@@ -31,19 +31,19 @@
 #include "../events/SDL_events_c.h"
 #include "../timer/SDL_timer_c.h"
 
-#include "SDL_syswm.h"
+#include "SDL2/SDL_syswm.h"
 
 #if SDL_VIDEO_OPENGL
-#include "SDL_opengl.h"
+#include "SDL2/SDL_opengl.h"
 #endif /* SDL_VIDEO_OPENGL */
 
 #if SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
-#include "SDL_opengles.h"
+#include "SDL2/SDL_opengles.h"
 #endif /* SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL */
 
 /* GL and GLES2 headers conflict on Linux 32 bits */
 #if SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
-#include "SDL_opengles2.h"
+#include "SDL2/SDL_opengles2.h"
 #endif /* SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL */
 
 #if !SDL_VIDEO_OPENGL

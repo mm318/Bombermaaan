@@ -26,17 +26,17 @@
  * udevadm info --query=all -n input/event3 (for a keyboard, mouse, etc)
  * udevadm info --query=property -n input/event2
  */
-#include "SDL_udev.h"
+#include "SDL2/SDL_udev.h"
 
 #ifdef SDL_USE_LIBUDEV
 
 #include <linux/input.h>
 
-#include "SDL_assert.h"
-#include "SDL_evdev_capabilities.h"
-#include "SDL_loadso.h"
-#include "SDL_timer.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_assert.h"
+#include "SDL2/SDL_evdev_capabilities.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_hints.h"
 #include "../unix/SDL_poll.h"
 
 static const char *SDL_UDEV_LIBS[] = { "libudev.so.1", "libudev.so.0" };

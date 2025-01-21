@@ -22,12 +22,12 @@
 #ifndef SDL_sensor_c_h_
 #define SDL_sensor_c_h_
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 struct _SDL_SensorDriver;
 
 /* Useful functions and variables from SDL_sensor.c */
-#include "SDL_sensor.h"
+#include "SDL2/SDL_sensor.h"
 
 /* Function to get the next available sensor instance ID */
 extern SDL_SensorID SDL_GetNextSensorInstanceID(void);

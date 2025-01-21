@@ -28,13 +28,13 @@
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitwindow.h"
 
-#include "SDL_loadso.h"
-#include "SDL_uikitvulkan.h"
-#include "SDL_uikitmetalview.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_uikitvulkan.h"
+#include "SDL2/SDL_uikitmetalview.h"
+#include "SDL2/SDL_syswm.h"
 
 #include <dlfcn.h>
 

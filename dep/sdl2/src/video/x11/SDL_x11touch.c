@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11xinput2.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_x11touch.h"
+#include "SDL2/SDL_x11xinput2.h"
 #include "../../events/SDL_touch_c.h"
 
 

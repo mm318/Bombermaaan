@@ -20,14 +20,14 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 #if defined(SDL_SENSOR_WINDOWS)
 
-#include "SDL_error.h"
-#include "SDL_mutex.h"
-#include "SDL_sensor.h"
-#include "SDL_windowssensor.h"
+#include "SDL2/SDL_error.h"
+#include "SDL2/SDL_mutex.h"
+#include "SDL2/SDL_sensor.h"
+#include "SDL2/SDL_windowssensor.h"
 #include "../SDL_syssensor.h"
 #include "../../core/windows/SDL_windows.h"
 

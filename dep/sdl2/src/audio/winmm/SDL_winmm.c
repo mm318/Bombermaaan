@@ -27,10 +27,10 @@
 #include "../../core/windows/SDL_windows.h"
 #include <mmsystem.h>
 
-#include "SDL_timer.h"
-#include "SDL_audio.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_audio.h"
 #include "../SDL_audio_c.h"
-#include "SDL_winmm.h"
+#include "SDL2/SDL_winmm.h"
 
 /* MinGW32 mmsystem.h doesn't include these structures */
 #if defined(__MINGW32__) && defined(_MMSYSTEM_H)

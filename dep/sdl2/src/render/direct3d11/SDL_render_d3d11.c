@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_render.h"
-#include "SDL_system.h"
+#include "SDL2/SDL_render.h"
+#include "SDL2/SDL_system.h"
 
 #if SDL_VIDEO_RENDER_D3D11 && !SDL_RENDER_DISABLED
 
@@ -30,15 +30,15 @@
 #if !defined(__WINRT__)
 #include "../../video/windows/SDL_windowswindow.h"
 #endif
-#include "SDL_hints.h"
-#include "SDL_loadso.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_syswm.h"
 #include "../SDL_sysrender.h"
 #include "../SDL_d3dmath.h"
 
 #include <d3d11_1.h>
 
-#include "SDL_shaders_d3d11.h"
+#include "SDL2/SDL_shaders_d3d11.h"
 
 #ifdef __WINRT__
 
@@ -46,7 +46,7 @@
 #include <DXGI1_3.h>
 #endif
 
-#include "SDL_render_winrt.h"
+#include "SDL2/SDL_render_winrt.h"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_APP
 #include <windows.ui.xaml.media.dxinterop.h>

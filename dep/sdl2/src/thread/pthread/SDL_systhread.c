@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_system.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/SDL_hints.h"
 
 #include <pthread.h>
 
@@ -48,7 +48,7 @@
 #endif
 #endif
 
-#include "SDL_thread.h"
+#include "SDL2/SDL_thread.h"
 #include "../SDL_thread_c.h"
 #include "../SDL_systhread.h"
 #ifdef __ANDROID__

@@ -24,9 +24,9 @@
 #ifndef SDL_cocoashape_h_
 #define SDL_cocoashape_h_
 
-#include "SDL_stdinc.h"
-#include "SDL_video.h"
-#include "SDL_shape.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_shape.h"
 #include "../SDL_shape_internals.h"
 
 @interface SDL_ShapeData : NSObject

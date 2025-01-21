@@ -24,11 +24,11 @@
 
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_system.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitopengles.h"
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/SDL_uikitevents.h"
+#include "SDL2/SDL_uikitopengles.h"
+#include "SDL2/SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitwindow.h"
 
 #import <Foundation/Foundation.h>
 

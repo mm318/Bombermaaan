@@ -22,8 +22,8 @@
 
 /* General (mostly internal) pixel/color manipulation routines for SDL */
 
-#include "SDL_endian.h"
-#include "SDL_video.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_video.h"
 #include "SDL_sysvideo.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"

@@ -22,11 +22,11 @@
 #ifndef SDL_syssensor_c_h_
 #define SDL_syssensor_c_h_
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 /* This is the system specific header for the SDL sensor API */
 
-#include "SDL_sensor.h"
+#include "SDL2/SDL_sensor.h"
 #include "SDL_sensor_c.h"
 
 /* The SDL sensor structure */

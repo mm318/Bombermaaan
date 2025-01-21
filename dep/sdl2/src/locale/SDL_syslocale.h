@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 /* This is the system specific header for the SDL locale API */
 
-#include "SDL_locale.h"
+#include "SDL2/SDL_locale.h"
 
 #ifdef __cplusplus
 extern "C" {

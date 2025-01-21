@@ -21,7 +21,7 @@
 #include "SDL_internal.h"
 
 
-#include "SDL_guid.h"
+#include "SDL2/SDL_guid.h"
 
 /* convert the guid to a printable string */
 void SDL_GUIDToString(SDL_GUID guid, char *pszGUID, int cbGUID)

@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_RENDER_OGL && !SDL_RENDER_DISABLED
 
-#include "SDL_stdinc.h"
-#include "SDL_opengl.h"
-#include "SDL_video.h"
-#include "SDL_shaders_gl.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_opengl.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_shaders_gl.h"
 
 /* OpenGL shader implementation */
 

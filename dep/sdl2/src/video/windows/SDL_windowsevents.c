@@ -22,19 +22,19 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsshape.h"
-#include "SDL_system.h"
-#include "SDL_syswm.h"
-#include "SDL_timer.h"
-#include "SDL_vkeys.h"
-#include "SDL_hints.h"
-#include "SDL_main.h"
+#include "SDL2/SDL_windowsvideo.h"
+#include "SDL2/SDL_windowsshape.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/SDL_syswm.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_vkeys.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_main.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_touch_c.h"
 #include "../../events/scancodes_windows.h"
-#include "SDL_hints.h"
-#include "SDL_log.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_log.h"
 
 /* Dropfile support */
 #include <shellapi.h>

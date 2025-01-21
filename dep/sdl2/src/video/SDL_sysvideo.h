@@ -23,10 +23,10 @@
 #ifndef SDL_sysvideo_h_
 #define SDL_sysvideo_h_
 
-#include "SDL_messagebox.h"
-#include "SDL_shape.h"
-#include "SDL_thread.h"
-#include "SDL_metal.h"
+#include "SDL2/SDL_messagebox.h"
+#include "SDL2/SDL_shape.h"
+#include "SDL2/SDL_thread.h"
+#include "SDL2/SDL_metal.h"
 
 #include "SDL_vulkan_internal.h"
 

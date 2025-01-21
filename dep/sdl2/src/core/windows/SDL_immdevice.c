@@ -22,8 +22,8 @@
 
 #if (defined(__WIN32__) || defined(__GDK__)) && HAVE_MMDEVICEAPI_H
 
-#include "SDL_windows.h"
-#include "SDL_immdevice.h"
+#include "SDL2/SDL_windows.h"
+#include "SDL2/SDL_immdevice.h"
 #include "../../audio/SDL_sysaudio.h"
 #include <objbase.h> /* For CLSIDFromString */
 

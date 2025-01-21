@@ -20,7 +20,7 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_xinput.h"
+#include "SDL2/SDL_xinput.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus

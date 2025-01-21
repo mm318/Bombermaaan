@@ -20,8 +20,8 @@
 */
 #include "./SDL_internal.h"
 
-#include "SDL_hints.h"
-#include "SDL_error.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_error.h"
 #include "SDL_hints_c.h"
 
 

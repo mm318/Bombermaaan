@@ -24,21 +24,21 @@
 
 #import <UIKit/UIKit.h>
 
-#include "SDL_video.h"
-#include "SDL_mouse.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_mouse.h"
+#include "SDL2/SDL_hints.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#include "SDL_uikitopengles.h"
-#include "SDL_uikitclipboard.h"
-#include "SDL_uikitvulkan.h"
-#include "SDL_uikitmetalview.h"
+#include "SDL2/SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitevents.h"
+#include "SDL2/SDL_uikitmodes.h"
+#include "SDL2/SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitopengles.h"
+#include "SDL2/SDL_uikitclipboard.h"
+#include "SDL2/SDL_uikitvulkan.h"
+#include "SDL2/SDL_uikitmetalview.h"
 
 #define UIKITVID_DRIVER_NAME "uikit"
 

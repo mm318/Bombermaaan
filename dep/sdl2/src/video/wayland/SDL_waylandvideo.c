@@ -23,21 +23,21 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_video.h"
-#include "SDL_mouse.h"
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_mouse.h"
+#include "SDL2/SDL_stdinc.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandvideo.h"
 #include "SDL_waylandevents_c.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylandopengles.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandkeyboard.h"
-#include "SDL_waylandtouch.h"
-#include "SDL_waylandclipboard.h"
-#include "SDL_waylandvulkan.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_waylandwindow.h"
+#include "SDL2/SDL_waylandopengles.h"
+#include "SDL2/SDL_waylandmouse.h"
+#include "SDL2/SDL_waylandkeyboard.h"
+#include "SDL2/SDL_waylandtouch.h"
+#include "SDL2/SDL_waylandclipboard.h"
+#include "SDL2/SDL_waylandvulkan.h"
+#include "SDL2/SDL_hints.h"
 
 #include <sys/types.h>
 #include <unistd.h>

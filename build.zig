@@ -87,23 +87,23 @@ pub fn build(b: *Build) void {
 
     const sdl_dep = b.dependency("sdl", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = optimize,
     });
     const sdl_compat_dep = b.dependency("sdl_compat", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = optimize,
     });
     const sdl_mixer_dep = b.dependency("sdl_mixer", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = optimize,
     });
     const tinyxml_dep = b.dependency("tinyxml", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = optimize,
     });
     const simpleini_dep = b.dependency("simpleini", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = optimize,
     });
 
     const exe = b.addExecutable(.{
@@ -112,9 +112,9 @@ pub fn build(b: *Build) void {
         .optimize = optimize,
     });
     exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
-    // exe.root_module.addIncludePath(sdl_dep.path("include/"));
     exe.root_module.addIncludePath(sdl_compat_dep.path("include/"));
     exe.root_module.addIncludePath(sdl_mixer_dep.path("include/"));
+    exe.root_module.addIncludePath(sdl_dep.path("include/"));
     exe.root_module.addIncludePath(tinyxml_dep.path("src/"));
     exe.root_module.addIncludePath(simpleini_dep.path(""));
 
@@ -122,7 +122,8 @@ pub fn build(b: *Build) void {
     exe.linkLibrary(tinyxml_dep.artifact("tinyxml"));
     exe.linkLibrary(sdl_compat_dep.artifact("sdl12-compat"));
     exe.linkLibrary(sdl_mixer_dep.artifact("SDL2_mixer"));
-    if (target.query.isNativeOs() and target.result.os.tag == .linux) {
+    exe.linkLibrary(sdl_dep.artifact("SDL2"));
+    if (false and target.query.isNativeOs() and target.result.os.tag == .linux) {
         exe.linkSystemLibrary("SDL2"); // The SDL package doesn't work for Linux yet, so we rely on system packages for now.
     } else {
         exe.linkLibrary(sdl_dep.artifact("SDL2"));

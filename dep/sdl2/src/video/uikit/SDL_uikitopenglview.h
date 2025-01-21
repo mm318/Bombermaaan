@@ -26,7 +26,7 @@
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 

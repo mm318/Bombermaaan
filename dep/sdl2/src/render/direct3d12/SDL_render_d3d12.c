@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_render.h"
-#include "SDL_system.h"
+#include "SDL2/SDL_render.h"
+#include "SDL2/SDL_system.h"
 
 #if SDL_VIDEO_RENDER_D3D12 && !SDL_RENDER_DISABLED
 
@@ -32,14 +32,14 @@
 
 #include "../../core/windows/SDL_windows.h"
 #include "../../video/windows/SDL_windowswindow.h"
-#include "SDL_hints.h"
-#include "SDL_loadso.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_syswm.h"
 #include "../SDL_sysrender.h"
 #include "../SDL_d3dmath.h"
 
 #if defined(__XBOXONE__) || defined(__XBOXSERIES__)
-#include "SDL_render_d3d12_xbox.h"
+#include "SDL2/SDL_render_d3d12_xbox.h"
 #ifndef D3D12_TEXTURE_DATA_PITCH_ALIGNMENT
 #define D3D12_TEXTURE_DATA_PITCH_ALIGNMENT 256
 #endif
@@ -50,7 +50,7 @@
 #include <d3d12sdklayers.h>
 #endif
 
-#include "SDL_shaders_d3d12.h"
+#include "SDL2/SDL_shaders_d3d12.h"
 
 #if defined(_MSC_VER) && !defined(__clang__)
 #define SDL_COMPOSE_ERROR(str) __FUNCTION__ ", " str

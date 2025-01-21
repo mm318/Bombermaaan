@@ -29,9 +29,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "SDL_error.h"
-#include "SDL_stdinc.h"
-#include "SDL_filesystem.h"
+#include "SDL2/SDL_error.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_filesystem.h"
 
 char *
 SDL_GetBasePath(void)

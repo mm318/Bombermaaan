@@ -22,17 +22,17 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_uikitview.h"
+#include "SDL2/SDL_uikitview.h"
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_touch_c.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_uikitappdelegate.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitappdelegate.h"
+#include "SDL2/SDL_uikitevents.h"
+#include "SDL2/SDL_uikitmodes.h"
+#include "SDL2/SDL_uikitwindow.h"
 
 /* The maximum number of mouse buttons we support */
 #define MAX_MOUSE_BUTTONS    5

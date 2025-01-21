@@ -22,8 +22,8 @@
 #ifndef SDL_directfb_window_h_
 #define SDL_directfb_window_h_
 
-#include "SDL_DirectFB_video.h"
-#include "SDL_DirectFB_WM.h"
+#include "SDL2/SDL_DirectFB_video.h"
+#include "SDL2/SDL_DirectFB_WM.h"
 
 #define SDL_DFB_WINDOWDATA(win)  DFB_WindowData *windata = ((win) ? (DFB_WindowData *) ((win)->driverdata) : NULL)
 

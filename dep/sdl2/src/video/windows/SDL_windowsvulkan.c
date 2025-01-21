@@ -28,12 +28,12 @@
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
+#include "SDL2/SDL_windowsvideo.h"
+#include "SDL2/SDL_windowswindow.h"
 
-#include "SDL_loadso.h"
-#include "SDL_windowsvulkan.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_windowsvulkan.h"
+#include "SDL2/SDL_syswm.h"
 
 int WIN_Vulkan_LoadLibrary(_THIS, const char *path)
 {

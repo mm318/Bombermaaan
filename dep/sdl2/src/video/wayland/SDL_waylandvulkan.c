@@ -28,12 +28,12 @@
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#include "SDL2/SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandwindow.h"
 
-#include "SDL_loadso.h"
-#include "SDL_waylandvulkan.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_waylandvulkan.h"
+#include "SDL2/SDL_syswm.h"
 
 #if defined(__OpenBSD__)
 #define DEFAULT_VULKAN  "libvulkan.so"

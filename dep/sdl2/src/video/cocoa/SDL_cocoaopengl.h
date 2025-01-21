@@ -25,7 +25,7 @@
 
 #if SDL_VIDEO_OPENGL_CGL
 
-#include "SDL_atomic.h"
+#include "SDL2/SDL_atomic.h"
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 

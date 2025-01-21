@@ -26,13 +26,13 @@
 #error SDL must be built with Objective-C ARC (automatic reference counting) enabled
 #endif
 
-#include "SDL.h"
-#include "SDL_endian.h"
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoashape.h"
-#include "SDL_cocoavulkan.h"
-#include "SDL_cocoametalview.h"
-#include "SDL_cocoaopengles.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_endian.h"
+#include "SDL2/SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoashape.h"
+#include "SDL2/SDL_cocoavulkan.h"
+#include "SDL2/SDL_cocoametalview.h"
+#include "SDL2/SDL_cocoaopengles.h"
 
 @implementation SDL_VideoData
 

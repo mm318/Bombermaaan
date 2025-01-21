@@ -23,7 +23,7 @@
 #ifndef SDL_uikitmodes_h_
 #define SDL_uikitmodes_h_
 
-#include "SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitvideo.h"
 
 @interface SDL_DisplayData : NSObject
 

@@ -85,7 +85,7 @@ void SDL_X11_UnloadSymbols(void);
 #define SDL_X11_SYM(rc,fn,params,args,ret) \
     typedef rc (*SDL_DYNX11FN_##fn) params; \
     extern SDL_DYNX11FN_##fn X11_##fn;
-#include "SDL_x11sym.h"
+#include "SDL2/SDL_x11sym.h"
 
 /* Annoying varargs entry point... */
 #ifdef X_HAVE_UTF8_STRING
@@ -97,7 +97,7 @@ extern SDL_DYNX11FN_XGetICValues X11_XGetICValues;
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
 #define SDL_X11_MODULE(modname) extern int SDL_X11_HAVE_##modname;
-#include "SDL_x11sym.h"
+#include "SDL2/SDL_x11sym.h"
 
 #ifdef __cplusplus
 }

@@ -23,11 +23,11 @@
 #ifndef SDL_shape_internals_h_
 #define SDL_shape_internals_h_
 
-#include "SDL_rect.h"
-#include "SDL_shape.h"
-#include "SDL_surface.h"
+#include "SDL2/SDL_rect.h"
+#include "SDL2/SDL_shape.h"
+#include "SDL2/SDL_surface.h"
 
-#include "begin_code.h"
+#include "SDL2/begin_code.h"
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
 /* *INDENT-OFF* */
@@ -66,6 +66,7 @@ extern void SDL_FreeShapeTree(SDL_ShapeTree** shape_tree);
 }
 /* *INDENT-ON* */
 #endif
-#include "close_code.h"
+
+#include "SDL2/close_code.h"
 
 #endif

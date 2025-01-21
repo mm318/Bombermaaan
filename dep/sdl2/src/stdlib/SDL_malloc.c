@@ -26,9 +26,9 @@
 #include "../SDL_internal.h"
 
 /* This file contains portable memory management functions for SDL */
-#include "SDL_stdinc.h"
-#include "SDL_atomic.h"
-#include "SDL_error.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_atomic.h"
+#include "SDL2/SDL_error.h"
 
 #ifndef HAVE_MALLOC
 #define LACKS_SYS_TYPES_H

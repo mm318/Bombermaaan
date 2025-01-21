@@ -20,9 +20,9 @@
 */
 #include "../SDL_internal.h"
 
-#include "SDL_video.h"
+#include "SDL2/SDL_video.h"
 #include "SDL_blit.h"
-#include "SDL_cpuinfo.h"
+#include "SDL2/SDL_cpuinfo.h"
 
 
 #ifdef __SSE__

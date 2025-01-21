@@ -30,7 +30,7 @@
 #if defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 #include <msctf.h>
 #else
-#include "SDL_msctf.h"
+#include "SDL2/SDL_msctf.h"
 #endif
 
 #include <imm.h>
@@ -39,20 +39,20 @@
 #define MAX_CANDLENGTH  256
 #define MAX_CANDSIZE    (sizeof(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
 
-#include "SDL_windowsclipboard.h"
-#include "SDL_windowsevents.h"
+#include "SDL2/SDL_windowsclipboard.h"
+#include "SDL2/SDL_windowsevents.h"
 
 #if !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowsmodes.h"
-#include "SDL_windowsmouse.h"
-#include "SDL_windowsopengl.h"
-#include "SDL_windowsopengles.h"
+#include "SDL2/SDL_windowskeyboard.h"
+#include "SDL2/SDL_windowsmodes.h"
+#include "SDL2/SDL_windowsmouse.h"
+#include "SDL2/SDL_windowsopengl.h"
+#include "SDL2/SDL_windowsopengles.h"
 #endif
 
-#include "SDL_windowswindow.h"
-#include "SDL_events.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_windowswindow.h"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_loadso.h"
 
 
 #if WINVER < 0x0601

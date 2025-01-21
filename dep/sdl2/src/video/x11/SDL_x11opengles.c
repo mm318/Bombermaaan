@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_OPENGL_EGL
 
-#include "SDL_hints.h"
-#include "SDL_x11video.h"
-#include "SDL_x11opengles.h"
-#include "SDL_x11opengl.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_x11opengles.h"
+#include "SDL2/SDL_x11opengl.h"
 
 /* EGL implementation of SDL OpenGL support */
 

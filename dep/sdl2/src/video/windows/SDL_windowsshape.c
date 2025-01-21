@@ -22,8 +22,8 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
-#include "SDL_windowsshape.h"
-#include "SDL_windowsvideo.h"
+#include "SDL2/SDL_windowsshape.h"
+#include "SDL2/SDL_windowsvideo.h"
 
 SDL_WindowShaper*
 Win32_CreateShaper(SDL_Window * window) {

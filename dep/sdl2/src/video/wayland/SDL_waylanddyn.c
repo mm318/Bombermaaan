@@ -24,13 +24,13 @@
 
 #define DEBUG_DYNAMIC_WAYLAND 0
 
-#include "SDL_waylanddyn.h"
+#include "SDL2/SDL_waylanddyn.h"
 
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#include "SDL_name.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_name.h"
+#include "SDL2/SDL_loadso.h"
 
 typedef struct
 {
@@ -95,7 +95,7 @@ WAYLAND_GetSym(const char *fnname, int *pHasModule)
 #define SDL_WAYLAND_MODULE(modname) int SDL_WAYLAND_HAVE_##modname = 0;
 #define SDL_WAYLAND_SYM(rc,fn,params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
 #define SDL_WAYLAND_INTERFACE(iface) const struct wl_interface *WAYLAND_##iface = NULL;
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
 static int wayland_load_refcount = 0;
 
@@ -113,7 +113,7 @@ SDL_WAYLAND_UnloadSymbols(void)
 #define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 0;
 #define SDL_WAYLAND_SYM(rc,fn,params) WAYLAND_##fn = NULL;
 #define SDL_WAYLAND_INTERFACE(iface) WAYLAND_##iface = NULL;
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
@@ -146,12 +146,12 @@ SDL_WAYLAND_LoadSymbols(void)
         }
 
 #define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; /* default yes */
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
 #define SDL_WAYLAND_MODULE(modname) thismod = &SDL_WAYLAND_HAVE_##modname;
 #define SDL_WAYLAND_SYM(rc,fn,params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn) WAYLAND_GetSym(#fn,thismod);
 #define SDL_WAYLAND_INTERFACE(iface) WAYLAND_##iface = (struct wl_interface *) WAYLAND_GetSym(#iface,thismod);
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
         if (SDL_WAYLAND_HAVE_WAYLAND_CLIENT) {
             /* all required symbols loaded. */
@@ -167,7 +167,7 @@ SDL_WAYLAND_LoadSymbols(void)
 #define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; /* default yes */
 #define SDL_WAYLAND_SYM(rc,fn,params) WAYLAND_##fn = fn;
 #define SDL_WAYLAND_INTERFACE(iface) WAYLAND_##iface = &iface;
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
 #endif
     }

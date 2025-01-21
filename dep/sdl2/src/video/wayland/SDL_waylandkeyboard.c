@@ -23,7 +23,7 @@
 #if SDL_VIDEO_DRIVER_WAYLAND
 
 #include "../SDL_sysvideo.h"
-#include "SDL_waylandvideo.h"
+#include "SDL2/SDL_waylandvideo.h"
 #include "SDL_waylandevents_c.h"
 #include "text-input-unstable-v3-client-protocol.h"
 

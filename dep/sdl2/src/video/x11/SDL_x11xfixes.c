@@ -23,8 +23,8 @@
 
 #if SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES
 
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_x11xfixes.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_touch_c.h"
 

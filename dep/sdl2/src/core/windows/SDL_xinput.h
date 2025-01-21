@@ -23,7 +23,7 @@
 #ifndef SDL_xinput_h_
 #define SDL_xinput_h_
 
-#include "SDL_windows.h"
+#include "SDL2/SDL_windows.h"
 
 #ifdef HAVE_XINPUT_H
 #if defined(__XBOXONE__) || defined(__XBOXSERIES__)

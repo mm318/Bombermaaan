@@ -22,7 +22,7 @@
 #ifndef SDL_directfb_wm_h_
 #define SDL_directfb_wm_h_
 
-#include "SDL_DirectFB_video.h"
+#include "SDL2/SDL_DirectFB_video.h"
 
 typedef struct _DFB_Theme DFB_Theme;
 struct _DFB_Theme

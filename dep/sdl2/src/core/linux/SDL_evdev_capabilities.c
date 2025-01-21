@@ -21,7 +21,7 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_evdev_capabilities.h"
+#include "SDL2/SDL_evdev_capabilities.h"
 
 
 #if HAVE_LINUX_INPUT_H

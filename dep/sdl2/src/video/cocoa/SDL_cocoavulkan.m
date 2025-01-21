@@ -27,13 +27,13 @@
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoawindow.h"
+#include "SDL2/SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoawindow.h"
 
-#include "SDL_loadso.h"
-#include "SDL_cocoametalview.h"
-#include "SDL_cocoavulkan.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_cocoametalview.h"
+#include "SDL2/SDL_cocoavulkan.h"
+#include "SDL2/SDL_syswm.h"
 
 #include <dlfcn.h>
 

@@ -28,11 +28,11 @@
 #include <limits.h>
 #include <signal.h>
 
-#include "SDL_stdinc.h"
+#include "SDL2/SDL_stdinc.h"
 #include "../../core/unix/SDL_poll.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylanddatamanager.h"
+#include "SDL2/SDL_waylandvideo.h"
+#include "SDL2/SDL_waylanddatamanager.h"
 #include "primary-selection-unstable-v1-client-protocol.h"
 
 /* FIXME: This is arbitrary, but we want this to be less than a frame because

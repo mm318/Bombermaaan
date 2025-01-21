@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylanddatamanager.h"
+#include "SDL2/SDL_waylanddatamanager.h"
 #include "SDL_waylandevents_c.h"
-#include "SDL_waylandclipboard.h"
+#include "SDL2/SDL_waylandclipboard.h"
 
 int
 Wayland_SetClipboardText(_THIS, const char *text)

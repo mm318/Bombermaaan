@@ -22,9 +22,9 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL_hints.h"
-#include "SDL_misc.h"
-#include "SDL_x11video.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_misc.h"
+#include "SDL2/SDL_x11video.h"
 
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_scancode_tables_c.h"

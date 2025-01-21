@@ -20,8 +20,8 @@
 */
 
 #include "../../SDL_internal.h"
-#include "SDL_mouse.h"
-#include "SDL_waylandvideo.h"
+#include "SDL2/SDL_mouse.h"
+#include "SDL2/SDL_waylandvideo.h"
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 

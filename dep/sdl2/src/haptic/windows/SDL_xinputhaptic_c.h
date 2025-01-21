@@ -20,7 +20,7 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_haptic.h"
+#include "SDL2/SDL_haptic.h"
 #include "SDL_windowshaptic_c.h"
 
 /* Set up for C function definitions, even when using C++ */

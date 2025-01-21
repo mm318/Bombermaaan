@@ -22,10 +22,10 @@
 
 #ifdef SDL_HAPTIC_IOKIT
 
-#include "SDL_stdinc.h"
-#include "SDL_haptic.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_haptic.h"
 #include "../SDL_syshaptic.h"
-#include "SDL_joystick.h"
+#include "SDL2/SDL_joystick.h"
 #include "../../joystick/SDL_sysjoystick.h"     /* For the real SDL_Joystick */
 #include "../../joystick/darwin/SDL_iokitjoystick_c.h"    /* For joystick hwdata */
 #include "SDL_syshaptic_c.h"

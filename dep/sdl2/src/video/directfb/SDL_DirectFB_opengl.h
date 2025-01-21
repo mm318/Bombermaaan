@@ -23,11 +23,11 @@
 #ifndef SDL_directfb_opengl_h_
 #define SDL_directfb_opengl_h_
 
-#include "SDL_DirectFB_video.h"
+#include "SDL2/SDL_DirectFB_video.h"
 
 #if SDL_DIRECTFB_OPENGL
 
-#include "SDL_opengl.h"
+#include "SDL2/SDL_opengl.h"
 
 typedef struct _DirectFB_GLContext DirectFB_GLContext;
 struct _DirectFB_GLContext

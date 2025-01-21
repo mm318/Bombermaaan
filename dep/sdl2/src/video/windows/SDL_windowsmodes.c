@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
-#include "SDL_windowsvideo.h"
+#include "SDL2/SDL_windowsvideo.h"
 #include "../../events/SDL_displayevents_c.h"
 
 /* Windows CE compatibility */

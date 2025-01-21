@@ -31,7 +31,7 @@
  */
 
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 #include "SDL_sysmutex_c.h"
 

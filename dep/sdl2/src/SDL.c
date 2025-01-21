@@ -43,9 +43,9 @@
 
 /* Initialization code for SDL */
 
-#include "SDL.h"
-#include "SDL_bits.h"
-#include "SDL_revision.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_bits.h"
+#include "SDL2/SDL_revision.h"
 #include "SDL_assert_c.h"
 #include "SDL_log_c.h"
 #include "events/SDL_events_c.h"

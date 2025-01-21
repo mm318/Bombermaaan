@@ -22,25 +22,25 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_x11video.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11shape.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xfixes.h"
+#include "SDL2/SDL_x11video.h"
+#include "SDL2/SDL_x11mouse.h"
+#include "SDL2/SDL_x11shape.h"
+#include "SDL2/SDL_x11xinput2.h"
+#include "SDL2/SDL_x11xfixes.h"
 
 #if SDL_VIDEO_OPENGL_EGL
-#include "SDL_x11opengles.h"
+#include "SDL2/SDL_x11opengles.h"
 #endif
 
-#include "SDL_timer.h"
-#include "SDL_syswm.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_syswm.h"
 
 #define _NET_WM_STATE_REMOVE    0l
 #define _NET_WM_STATE_ADD       1l

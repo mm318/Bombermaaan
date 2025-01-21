@@ -23,17 +23,17 @@
 /* NSOpenGL implementation of SDL OpenGL support */
 
 #if SDL_VIDEO_OPENGL_CGL
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoaopengles.h"
+#include "SDL2/SDL_cocoavideo.h"
+#include "SDL2/SDL_cocoaopengl.h"
+#include "SDL2/SDL_cocoaopengles.h"
 
 #include <OpenGL/CGLTypes.h>
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/CGLRenderers.h>
 
-#include "SDL_hints.h"
-#include "SDL_loadso.h"
-#include "SDL_opengl.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_loadso.h"
+#include "SDL2/SDL_opengl.h"
 #include "../../SDL_hints_c.h"
 
 #define DEFAULT_OPENGL  "/System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib"

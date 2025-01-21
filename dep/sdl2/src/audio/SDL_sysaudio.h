@@ -23,8 +23,8 @@
 #ifndef SDL_sysaudio_h_
 #define SDL_sysaudio_h_
 
-#include "SDL_mutex.h"
-#include "SDL_thread.h"
+#include "SDL2/SDL_mutex.h"
+#include "SDL2/SDL_thread.h"
 #include "../SDL_dataqueue.h"
 #include "./SDL_audio_c.h"
 

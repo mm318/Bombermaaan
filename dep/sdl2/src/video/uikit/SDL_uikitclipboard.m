@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_uikitvideo.h"
+#include "SDL2/SDL_uikitvideo.h"
 #include "../../events/SDL_clipboardevents_c.h"
 
 #import <UIKit/UIPasteboard.h>

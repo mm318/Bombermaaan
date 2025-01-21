@@ -22,7 +22,7 @@
 
 /* Display event handling code for SDL */
 
-#include "SDL_events.h"
+#include "SDL2/SDL_events.h"
 #include "SDL_events_c.h"
 
 

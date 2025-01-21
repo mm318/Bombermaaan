@@ -31,10 +31,10 @@
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_touch_c.h"
 
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenevents.h"
+#include "SDL2/SDL_emscriptenvideo.h"
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 
 #define FULLSCREEN_MASK ( SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_FULLSCREEN )
 

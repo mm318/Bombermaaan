@@ -22,8 +22,8 @@
 #ifndef SDL_IMMDEVICE_H
 #define SDL_IMMDEVICE_H
 
-#include "SDL_atomic.h"
-#include "SDL_audio.h"
+#include "SDL2/SDL_atomic.h"
+#include "SDL2/SDL_audio.h"
 
 #define COBJMACROS
 #include <mmdeviceapi.h>

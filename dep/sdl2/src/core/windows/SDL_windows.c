@@ -22,8 +22,8 @@
 
 #if defined(__WIN32__) || defined(__WINRT__) || defined(__GDK__)
 
-#include "SDL_windows.h"
-#include "SDL_error.h"
+#include "SDL2/SDL_windows.h"
+#include "SDL2/SDL_error.h"
 
 #include <objbase.h>    /* for CoInitialize/CoUninitialize (Win32 only) */
 #if defined(HAVE_ROAPI_H)

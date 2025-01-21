@@ -22,10 +22,10 @@
 
 #ifdef SDL_JOYSTICK_HIDAPI
 
-#include "SDL_events.h"
-#include "SDL_timer.h"
-#include "SDL_joystick.h"
-#include "SDL_gamecontroller.h"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_joystick.h"
+#include "SDL2/SDL_gamecontroller.h"
 #include "../SDL_sysjoystick.h"
 #include "SDL_hidapijoystick_c.h"
 

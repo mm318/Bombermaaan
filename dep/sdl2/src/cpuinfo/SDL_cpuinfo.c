@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 #ifdef TEST_MAIN
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 #else
 #include "../SDL_internal.h"
 #endif
@@ -38,8 +38,8 @@
 
 /* CPU feature detection for SDL */
 
-#include "SDL_cpuinfo.h"
-#include "SDL_assert.h"
+#include "SDL2/SDL_cpuinfo.h"
+#include "SDL2/SDL_assert.h"
 
 #ifdef HAVE_SYSCONF
 #include <unistd.h>

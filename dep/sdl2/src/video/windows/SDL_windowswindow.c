@@ -24,7 +24,7 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "SDL_log.h"
+#include "SDL2/SDL_log.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_keyboard_c.h"
@@ -32,17 +32,17 @@
 #include "../../events/SDL_windowevents_c.h"
 #include "../../SDL_hints_c.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
-#include "SDL_windowsshape.h"
-#include "SDL_hints.h"
-#include "SDL_timer.h"
+#include "SDL2/SDL_windowsvideo.h"
+#include "SDL2/SDL_windowswindow.h"
+#include "SDL2/SDL_windowsshape.h"
+#include "SDL2/SDL_hints.h"
+#include "SDL2/SDL_timer.h"
 
 /* Dropfile support */
 #include <shellapi.h>
 
 /* This is included after SDL_windowsvideo.h, which includes windows.h */
-#include "SDL_syswm.h"
+#include "SDL2/SDL_syswm.h"
 
 /* Windows CE compatibility */
 #ifndef SWP_NOCOPYBITS

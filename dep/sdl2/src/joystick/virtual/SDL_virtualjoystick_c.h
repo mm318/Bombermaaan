@@ -25,7 +25,7 @@
 
 #if SDL_JOYSTICK_VIRTUAL
 
-#include "SDL_joystick.h"
+#include "SDL2/SDL_joystick.h"
 
 /**
  * Data for a virtual, software-only joystick.

@@ -22,8 +22,8 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
+#include "SDL2/SDL_windowsvideo.h"
+#include "SDL2/SDL_windowswindow.h"
 #include "../../events/SDL_clipboardevents_c.h"
 
 

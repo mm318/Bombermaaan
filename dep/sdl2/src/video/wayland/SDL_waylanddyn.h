@@ -73,7 +73,7 @@ void SDL_WAYLAND_UnloadSymbols(void);
     typedef rc (*SDL_DYNWAYLANDFN_##fn) params; \
     extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
 #define SDL_WAYLAND_INTERFACE(iface) extern const struct wl_interface *WAYLAND_##iface;
-#include "SDL_waylandsym.h"
+#include "SDL2/SDL_waylandsym.h"
 
 #ifdef __cplusplus
 }

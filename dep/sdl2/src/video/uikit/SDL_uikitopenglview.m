@@ -25,7 +25,7 @@
 #include <OpenGLES/EAGLDrawable.h>
 #include <OpenGLES/ES2/glext.h>
 #import "SDL_uikitopenglview.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/SDL_uikitwindow.h"
 
 @implementation SDL_uikitopenglview {
     /* The renderbuffer and framebuffer used to render to this layer. */

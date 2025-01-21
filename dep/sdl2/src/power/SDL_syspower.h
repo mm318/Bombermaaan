@@ -25,7 +25,7 @@
 #ifndef SDL_syspower_h_
 #define SDL_syspower_h_
 
-#include "SDL_power.h"
+#include "SDL2/SDL_power.h"
 
 /* Not all of these are available in a given build. Use #ifdefs, etc. */
 SDL_bool SDL_GetPowerInfo_Linux_org_freedesktop_upower(SDL_PowerState *, int *, int *);

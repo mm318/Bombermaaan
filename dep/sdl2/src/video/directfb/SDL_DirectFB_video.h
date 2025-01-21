@@ -28,8 +28,8 @@
 #include <directfb_version.h>
 
 #include "../SDL_sysvideo.h"
-#include "SDL_scancode.h"
-#include "SDL_render.h"
+#include "SDL2/SDL_scancode.h"
+#include "SDL2/SDL_render.h"
 
 
 #define DFB_VERSIONNUM(X, Y, Z)                     \

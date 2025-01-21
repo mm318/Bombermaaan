@@ -22,19 +22,19 @@
 
 #if SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "SDL_video.h"
-#include "SDL_mouse.h"
-#include "SDL_hints.h"
+#include "SDL2/SDL_video.h"
+#include "SDL2/SDL_mouse.h"
+#include "SDL2/SDL_hints.h"
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../SDL_egl_c.h"
 #include "../../events/SDL_events_c.h"
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "SDL_emscriptenframebuffer.h"
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenmouse.h"
+#include "SDL2/SDL_emscriptenvideo.h"
+#include "SDL2/SDL_emscriptenopengles.h"
+#include "SDL2/SDL_emscriptenframebuffer.h"
+#include "SDL2/SDL_emscriptenevents.h"
+#include "SDL2/SDL_emscriptenmouse.h"
 
 #define EMSCRIPTENVID_DRIVER_NAME "emscripten"
 

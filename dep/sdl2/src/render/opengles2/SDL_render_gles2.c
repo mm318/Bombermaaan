@@ -22,12 +22,12 @@
 
 #if SDL_VIDEO_RENDER_OGL_ES2 && !SDL_RENDER_DISABLED
 
-#include "SDL_hints.h"
+#include "SDL2/SDL_hints.h"
 #include "../../video/SDL_sysvideo.h" /* For SDL_GL_SwapWindowWithResult */
-#include "SDL_opengles2.h"
+#include "SDL2/SDL_opengles2.h"
 #include "../SDL_sysrender.h"
 #include "../../video/SDL_blit.h"
-#include "SDL_shaders_gles2.h"
+#include "SDL2/SDL_shaders_gles2.h"
 
 /* WebGL doesn't offer client-side arrays, so use Vertex Buffer Objects
    on Emscripten, which converts GLES2 into WebGL calls.
@@ -153,7 +153,7 @@ typedef struct GLES2_RenderData
     SDL_bool debug_enabled;
 
 #define SDL_PROC(ret,func,params) ret (APIENTRY *func) params;
-#include "SDL_gles2funcs.h"
+#include "SDL2/SDL_gles2funcs.h"
 #undef SDL_PROC
     GLES2_FBOList *framebuffers;
     GLuint window_framebuffer;
@@ -265,7 +265,7 @@ static int GLES2_LoadFunctions(GLES2_RenderData * data)
     } while ( 0 );
 #endif /* __SDL_NOGETPROCADDR__ */
 
-#include "SDL_gles2funcs.h"
+#include "SDL2/SDL_gles2funcs.h"
 #undef SDL_PROC
     return 0;
 }

@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_render.h"
-#include "SDL_system.h"
+#include "SDL2/SDL_render.h"
+#include "SDL2/SDL_system.h"
 
 #if SDL_VIDEO_RENDER_D3D && !SDL_RENDER_DISABLED
 
@@ -29,7 +29,7 @@
 
 #include <d3d9.h>
 
-#include "SDL_shaders_d3d.h"
+#include "SDL2/SDL_shaders_d3d.h"
 
 /* The shaders here were compiled with:
 

@@ -22,7 +22,7 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "SDL_mutex.h"
+#include "SDL2/SDL_mutex.h"
 
 typedef SDL_mutex * (*pfnSDL_CreateMutex)(void);
 typedef int (*pfnSDL_LockMutex)(SDL_mutex *);

@@ -6,7 +6,7 @@
             .path = "dep/sdl2",
         },
         .sdl_compat = .{
-            .path = "dep/sdl12_compat",
+            .path = "dep/sdl12_compat_static",
         },
         .sdl_mixer = .{
             .path = "dep/sdl2_mixer",

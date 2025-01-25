@@ -1,4 +1,4 @@
-# Simple DirectMedia Layer (SDL) sdl12-compat
+# Simple DirectMedia Layer (SDL) sdl12-compat-static
 
 https://www.libsdl.org/
 
@@ -6,10 +6,10 @@ This is the Simple DirectMedia Layer, a general API that provides low
 level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL,
 and 2D framebuffer across multiple platforms.
 
-This code is a compatibility layer; it provides a binary and source
-compatible API for programs written against SDL 1.2, but it uses SDL 2.0
-behind the scenes. If you are writing new code, please target SDL 2.0
-directly and do not use this layer.
+This code is a compatibility layer; it provides an almost source-compatible
+API for programs written against SDL 1.2, but it uses SDL 2.0 behind the
+scenes. If you are writing new code, please target SDL 2.0 directly
+and do not use this layer.
 
 If you absolutely must have the real SDL 1.2 ("SDL 1.2 Classic"), please use
 the source tree at https://github.com/libsdl-org/SDL-1.2, which occasionally
@@ -18,123 +18,41 @@ that.
 
 # How to use:
 
-- Build the library. This will need access to SDL2's headers (v2.0.7 or newer),
-[CMake](https://cmake.org/) and the build tools of your choice. Once built, you
-will have a drop-in replacement that can be used with any existing binary
-that relies on SDL 1.2. You can copy this library over the existing 1.2 build,
-or force it to take priority over a system copy with LD_LIBRARY_PATH, etc.
-At runtime, sdl12-compat needs to be able to find a copy of SDL2 (v2.0.7 or
-newer -- v2.0.12 or newer for Windows), so plan to include it with the library
-if necessary.
+- Build the library. This will need access to SDL2's headers (v2.0.7 or newer)
+and zig.
 
-- If you want to build an SDL 1.2 program from source code, we have included
-compatibility headers, so that sdl12-compat can completely replace SDL 1.2
-at all points. These headers are just the bare minimum needed for source-level
-compatibility and don't have a lot of documentation or fanciness at all. The
-new headers are also under the zlib license. Note that sdl12-compat itself
-does not use these headers, so if you just want the library, you don't need
-them.
+- The SDL 1.2 program source code needs to modified so that all SDL_* function
+calls are renamed to SDL12_*. This is so that sdl12-compat-static and the
+SDL 2.0 library that is behind the scenes can be statically linked together.
+
+- Build the SDL 1.2 program from source code, sdl12-compat-static includes the
+compatibility headers, so that it can completely replace SDL 1.2 at all points.
+These headers are just the bare minimum needed for source-level compatibility
+and don't have a lot of documentation or fanciness at all. The new headers are
+also under the zlib license. Note that sdl12-compat-static itself does not use
+these headers.
+
 
 # Building the library:
 
-These are quick-start instructions; there isn't anything out of the ordinary
-here if you're used to using CMake. 
+You'll need a copy of SDL2 to build sdl12-compat-static, because we need
+the SDL2 headers.
 
-You'll need to use CMake to build sdl12-compat. Download at
-[cmake.org](https://cmake.org/) or install from your package manager
-(`sudo apt-get install cmake` on Ubuntu, etc).
-
-Please refer to the [CMake documentation](https://cmake.org/documentation/)
-for complete details, as platform and build tool details vary.
-
-You'll need a copy of SDL 2.0.x to build sdl12-compat, because we need the
-SDL2 headers. You can build this from source or install from a package
-manager. Windows and Mac users can download prebuilt binaries from
-[SDL's download page](https://libsdl.org/download-2.0.php); make sure you
-get the "development libraries" and not "runtime binaries" there.
-
-Linux users might need some packages from their Linux distribution. On Ubuntu,
-you might need to do:
+You'll also need to have zig installed. Then just go to sdl12-compat-static's
+directory and issue the build command. Here's a command-line example:
 
 ```bash
-sudo apt-get install build-essential cmake libsdl2-2.0-0 libsdl2-dev libgl-dev
+cd sdl12_compat_static
+zig build
 ```
 
-Now just point CMake at sdl12-compat's directory. Here's a command-line
-example:
-
-```bash
-cd sdl12-compat
-cmake -Bbuild -DCMAKE_BUILD_TYPE=Release .
-cmake --build build
-```
-
-On Windows or macOS, you might prefer to use CMake's GUI, but it's the same
-idea: give it the directory where sdl12-compat is located, click "Configure,"
-choose your favorite compiler, then click "Generate." Now you have project
-files! Click "Open Project" to launch your development environment. Then you
-can build however you like with Visual Studio, Xcode, etc.
-
-If necessary, you might have to fill in the location of the SDL2 headers
-when using CMake. sdl12-compat does not need SDL2's library to _build_,
-just its headers (although it may complain about the missing library,
-you can ignore that). From the command line, add
-`-DSDL2_INCLUDE_DIR=/path/to/SDL2/include`, or find this in the CMake
-GUI and set it appropriately, click "Configure" again, and then "Generate."
-
-When the build is complete, you'll have a shared library you can drop in
-as a replacement for an existing SDL 1.2 build. This will also build
-the original SDL 1.2 test apps, so you can verify the library is working.
-
-
-# Building for older CPU architectures on Linux:
-
-There are a lot of binaries from many years ago that used SDL 1.2, which is
-to say they are for CPU architectures that are likely not your current
-system's.
-
-If you want to build a 32-bit x86 library on an x86-64 Linux machine, for
-compatibility with older games, you should install some basic 32-bit
-development libraries for your distribution. On Ubuntu, this would be:
-
-
-```bash
-sudo apt-get install gcc-multilib libsdl2-dev:i386
-```
-
-...and then add `-m32` to your build options:
-
-
-```bash
-cd sdl12-compat
-cmake -Bbuild32 -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-m32
-cmake --build build32
-```
-
-
-# Building for older CPU architectures on macOS:
-
-macOS users can try adding `-DCMAKE_OSX_ARCHITECTURES='arm64;x86_64'` instead
-of `-DCMAKE_C_FLAGS=-m32` to make a Universal Binary for both 64-bit Intel and
-Apple Silicon machines. If you have an older (or much older!) version of Xcode,
-you can try to build with "i386" or maybe even "powerpc" for 32-bit Intel or
-PowerPC systems, but Xcode (and macOS itself) has not supported either of
-these for quite some time, and you will likely struggle to get SDL2 to compile
-here in small ways, as well...but with some effort, it's maybe _possible_ to
-run SDL2 and sdl12-compat on Apple's abandoned architectures.
-
-
-# Building for older CPU architectures on Windows:
-
-Windows users just select a 32-bit version of Visual Studio when running
-CMake, when it asks you what compiler to target in the CMake GUI.
-
+Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).
 
 # Configuration options:
 
-sdl12-compat has a number of configuration options which can be used to work
-around issues with individual applications, or to better fit your system or
-preferences.
+sdl12-compat-static has a number of configuration options which can be used
+to work around issues with individual applications, or to better fit your
+system or preferences.
 
 These options are all specified as environment variables, and can be set by
 running your application with them set on the command-line, for example:
@@ -145,8 +63,8 @@ will run `%command%` with high-dpi monitor support enabled, but OpenGL
 scaling support disabled.
 
 (While these environment variables are checked at various times throughout
-the lifetime of the app, sdl12-compat expects these to be set before the
-process starts and not change during the life of the process, and any
+the lifetime of the app, sdl12-compat-static expects these to be set before
+the process starts and not change during the life of the process, and any
 places where changing it later might affect operation is purely accidental
 and might change. That is to say: don't write an SDL 1.2-based app with
 plans to tweak these values on the fly!)
@@ -222,11 +140,11 @@ The available options are:
   to 2 to double the size of the window. Fractional values work, so "1.5"
   might be a more-pleasing value on your hardware. You can even shrink the
   window with values less than 1.0! When scaling a window like this,
-  sdl12-compat will use all the usual scaling options
-  (SDL12COMPAT_OPENGL_SCALING, SDL12COMPAT_SCALE_METHOD, etc). If sdl12-compat
-  can't scale the contents of the window for various technical reasons, it
-  will create the window at the originally-requested size. If this variable
-  isn't specified, it defaults to 1.0 (no scaling).
+  sdl12-compat-static will use all the usual scaling options
+  (SDL12COMPAT_OPENGL_SCALING, SDL12COMPAT_SCALE_METHOD, etc).
+  If sdl12-compat-static can't scale the contents of the window for various
+  technical reasons, it will create the window at the originally-requested
+  size. If this variable isn't specified, it defaults to 1.0 (no scaling).
 
 - SDL12COMPAT_MAX_VIDMODE: (checked during SDL_Init)
   This is a string in the form of `WxH`, where `W` is the maximum width
@@ -237,8 +155,8 @@ The available options are:
   accepted). If not specified, or set to `0x0`, no resolution clamping is done.
   This is for old software-rendered games that might always choose the largest
   resolution offered, but never conceived of 4K displays. In these cases, it
-  might be better for them to use a smaller resolution and let sdl12-compat
-  scale their output up with the GPU.
+  might be better for them to use a smaller resolution and let
+  sdl12-compat-static scale their output up with the GPU.
 
 - SDL_MOUSE_RELATIVE_SCALING: (checked during SDL_SetVideoMode)
   If enabled, relative mouse motion is scaled when the application is
@@ -264,24 +182,24 @@ The available options are:
   SDL_GetWMInfo() will fail; this is useful if you have a program that
   tries to access X11 directly through SDL's interfaces, but can survive
   without it, becoming compatible with, for example, Wayland, or perhaps
-  just avoiding a bug in target-specific code. Note that sdl12-compat already
-  disallows SysWM things unless SDL2 is using its "windows" or "x11" video
-  backends, because SDL 1.2 didn't have wide support for its SysWM APIs
+  just avoiding a bug in target-specific code. Note that sdl12-compat-static
+  already disallows SysWM things unless SDL2 is using its "windows" or "x11"
+  video backends, because SDL 1.2 didn't have wide support for its SysWM APIs
   outside of Windows and X11 anyhow.
 
 
 # Compatibility issues with OpenGL scaling
 
-The OpenGL scaling feature of sdl12-compat allows applications which wish to
-run at a non-native screen resolution to do so without changing the system
-resolution. It does this by redirecting OpenGL rendering calls to a "fake"
-backbuffer which is scaled when rendering.
+The OpenGL scaling feature of sdl12-compat-static allows applications which
+wish to run at a non-native screen resolution to do so without changing the
+system resolution. It does this by redirecting OpenGL rendering calls to a
+"fake" backbuffer which is scaled when rendering.
 
 This works well for simple applications, but for more complicated applications
-which use Frame Buffer Objects, sdl12-compat needs to intercept and redirect
-some OpenGL calls. Applications which access these functions without going
-though SDL (even if via a library) may not successfully render anything, or
-may render incorrectly if OpenGL scaling is enabled.
+which use Frame Buffer Objects, sdl12-compat-static needs to intercept and
+redirect some OpenGL calls. Applications which access these functions without
+going though SDL (even if via a library) may not successfully render anything,
+or may render incorrectly if OpenGL scaling is enabled.
 
 In these cases, you can disable OpenGL scaling by setting the environment
 variable:
@@ -294,7 +212,7 @@ SDL12COMPAT_OPENGL_SCALING=0
 Some applications combine the use of SDL with direct access to the underlying
 OS or window system. When running these applications on the same OS and SDL
 video driver (e.g. a program written for X11 on Linux is run on X11 on Linux),
-sdl12-compat is usually compatible.
+sdl12-compat-static is usually compatible.
 
 However, if you wish to run an application on a different video driver, the
 application will be unable to access the underlying API it is expecting, and

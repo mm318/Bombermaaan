@@ -110,6 +110,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
     if (modes == (SDL_Rect **)0) {
         // Log failure
         theLog.WriteLine("SDLVideo        => !!! Could not find any video modes.");
+        theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
 
         // Get out
         return false;

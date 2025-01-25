@@ -1889,7 +1889,7 @@ Init12VidModes(void)
     maxmodestr = SDL12Compat_GetHint("SDL12COMPAT_MAX_VIDMODE");
     if (maxmodestr) {
         unsigned int w = 0, h = 0;
-        SDL_sscanf(maxmodestr, "%ux%u", &w, &h);
+        SDL12_sscanf(maxmodestr, "%ux%u", &w, &h);
         if (w > 0xFFFF) w = 0xFFFF;
         if (h > 0xFFFF) h = 0xFFFF;
         maxw = w;
@@ -2234,7 +2234,7 @@ SDL12_InitSubSystem(Uint32 sdl12flags)
 DECLSPEC12 int SDLCALL
 SDL12_Init(Uint32 sdl12flags)
 {
-    return SDL_InitSubSystem(sdl12flags);   /* there's no difference betwee Init and InitSubSystem in SDL2. */
+    return SDL12_InitSubSystem(sdl12flags);   /* there's no difference betwee Init and InitSubSystem in SDL2. */
 }
 
 
@@ -2361,7 +2361,7 @@ SDL12_QuitSubSystem(Uint32 sdl12flags)
     }
 
     if (sdl12flags & SDL12_INIT_AUDIO) {
-        SDL_CloseAudio();
+        SDL12_CloseAudio();
     }
 
     if (sdl12flags & SDL12_INIT_VIDEO) {
@@ -2385,7 +2385,7 @@ SDL12_QuitSubSystem(Uint32 sdl12flags)
 DECLSPEC12 void SDLCALL
 SDL12_Quit(void)
 {
-    SDL_QuitSubSystem(SDL_WasInit(0) | SDL12_INIT_CDROM);
+    SDL12_QuitSubSystem(SDL12_WasInit(0) | SDL12_INIT_CDROM);
     SDL_assert((InitializedSubsystems20 == 0) || (SDL12Compat_GetHintBoolean("SDL12COMPAT_NO_QUIT_VIDEO", SDL_FALSE) && (InitializedSubsystems20 == SDL_INIT_VIDEO)));
 }
 
@@ -2481,7 +2481,7 @@ SDL_PollEvent_locked(SDL12_Event *event12)
 {
     EventQueueType *next;
 
-    SDL_PumpEvents();  /* this will run our filter and build our 1.2 queue. */
+    SDL12_PumpEvents();  /* this will run our filter and build our 1.2 queue. */
 
     if (EventQueueHead == NULL) {
         return 0;  /* no events at the moment. */
@@ -2576,7 +2576,7 @@ SDL_PeepEvents_locked(SDL12_Event *events12, int numevents, SDL_eventaction acti
      * for most things.
      */
     if (EventThreadEnabled) {
-        SDL_PumpEvents();
+        SDL12_PumpEvents();
     }
 
     if (action == SDL_ADDEVENT) {
@@ -4363,7 +4363,7 @@ EventFilter20to12(void *data, SDL_Event *event20)
                     /* not a supported control character
                        when CTRL is pressed, text events aren't sent so use fallback for unicode */
                     if (PendingKeydownEvent.key.keysym.mod & KMOD_CTRL) {
-                        const char *keyName = SDL_GetKeyName(PendingKeydownEvent.key.keysym.sym);
+                        const char *keyName = SDL12_GetKeyName(PendingKeydownEvent.key.keysym.sym);
                         /* use key name as unicode if it's a single character */
                         if (keyName[0] && !keyName[1])
                             FlushPendingKeydownEvent(keyName[0]);
@@ -6057,7 +6057,7 @@ SetVideoModeImpl(int width, int height, int bpp, Uint32 flags12)
         UnlockVideoRenderer();
     }
 
-    SDL_PumpEvents();  /* run this once at startup. */
+    SDL12_PumpEvents();  /* run this once at startup. */
 
     return VideoSurface12;
 }
@@ -6431,7 +6431,7 @@ PresentScreen(void)
      * for most things.
      */
     if (EventThreadEnabled) {
-        SDL_PumpEvents();
+        SDL12_PumpEvents();
     }
 
     SDL20_RenderClear(renderer);
@@ -9105,7 +9105,7 @@ SDL12_OpenAudio(SDL_AudioSpec *want, SDL_AudioSpec *obtained)
 
     /* SDL_OpenAudio() will init the subsystem for you if necessary, yuck. */
     if ((InitializedSubsystems20 & SDL_INIT_AUDIO) != SDL_INIT_AUDIO) {
-        if (SDL_InitSubSystem(SDL12_INIT_AUDIO) < 0) {
+        if (SDL12_InitSubSystem(SDL12_INIT_AUDIO) < 0) {
             return -1;
         }
     }
@@ -9249,7 +9249,7 @@ SDL12_MixAudio(Uint8 *dst, const Uint8 *src, Uint32 len, int volume)
     SDL20_UnlockAudio();
 
     if (fmt == 0) {
-        SDL_SetError("SDL_MixAudio(): unknown audio format");  /* this is the exact error 1.2 reports for this. */
+        SDL12_SetError("SDL_MixAudio(): unknown audio format");  /* this is the exact error 1.2 reports for this. */
     } else {
         SDL20_MixAudioFormat(dst, src, fmt, len, volume);
     }

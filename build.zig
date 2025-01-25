@@ -79,6 +79,8 @@ const c_flags: []const []const u8 = &.{
     "-DTIXML_USE_STL",
     "-DSDL",
     "-DLOAD_RESOURCES_FROM_FILES",
+    "-DENABLE_LOG",
+    "-DENABLE_DEBUG_LOG",
 };
 
 pub fn build(b: *Build) void {
@@ -122,7 +124,12 @@ pub fn build(b: *Build) void {
     exe.linkLibrary(tinyxml_dep.artifact("tinyxml"));
     exe.linkLibrary(sdl_compat_dep.artifact("sdl12-compat"));
     exe.linkLibrary(sdl_mixer_dep.artifact("SDL2_mixer"));
-    // exe.linkLibrary(sdl_dep.artifact("SDL2"));
 
     b.installArtifact(exe);
+
+    const run_cmd = b.addRunArtifact(exe);
+    run_cmd.step.dependOn(b.getInstallStep());
+
+    const run = b.step("run", "Run the game on desktop");
+    run.dependOn(&run_cmd.step);
 }

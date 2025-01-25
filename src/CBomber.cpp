@@ -295,7 +295,7 @@ CBomber::CBomber(void) : CElement()
     for (int i = 0; i < 5; i++)
         m_AnimationSprites[i] = BOMBERSPRITE_DOWN0;
 
-    for (int p = 0; p < m_pArena->MaxBombers(); p++)
+    for (int p = 0; p < MAX_PLAYERS; p++)
         m_Neighbours[p] = false;
 
     p_Team = NULL;

@@ -83,7 +83,7 @@ public:
 
 private:
 
-    std::ofstream        m_theLog;
+    std::ofstream   m_theLog;
     bool            m_bOpen;
 };
 

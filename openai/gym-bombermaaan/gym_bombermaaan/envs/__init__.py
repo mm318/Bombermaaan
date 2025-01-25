@@ -1,1 +1,0 @@
-from gym_bombermaaan.envs.bombermaaan_env import BombermaaanEnv

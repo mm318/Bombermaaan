@@ -1,0 +1,29 @@
+.{
+    .name = "bombermaaan",
+    .version = "1.9.3-2039",
+    .dependencies = .{
+        .sdl = .{
+            .path = "dep/sdl2",
+        },
+        .sdl_compat = .{
+            .path = "dep/sdl12_compat_static",
+        },
+        .sdl_mixer = .{
+            .path = "dep/sdl2_mixer",
+        },
+        .tinyxml = .{
+            .path = "dep/tinyxml",
+        },
+        .simpleini = .{
+            .path = "dep/simpleini",
+        },
+    },
+
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "README.md",
+        "LICENSE.txt",
+    },
+}

@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -23,11 +23,11 @@
 #ifndef SDL_shape_internals_h_
 #define SDL_shape_internals_h_
 
-#include "SDL2/SDL_rect.h"
-#include "SDL2/SDL_shape.h"
-#include "SDL2/SDL_surface.h"
+#include "SDL_rect.h"
+#include "SDL_shape.h"
+#include "SDL_surface.h"
 
-#include "SDL2/begin_code.h"
+#include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
 /* *INDENT-OFF* */
@@ -37,28 +37,36 @@ extern "C" {
 
 struct SDL_ShapeTree;
 
-typedef struct {
-    struct SDL_ShapeTree *upleft,*upright,*downleft,*downright;
+typedef struct
+{
+    struct SDL_ShapeTree *upleft, *upright, *downleft, *downright;
 } SDL_QuadTreeChildren;
 
-typedef union {
+typedef union
+{
     SDL_QuadTreeChildren children;
     SDL_Rect shape;
 } SDL_ShapeUnion;
 
-typedef enum { QuadShape,TransparentShape,OpaqueShape } SDL_ShapeKind;
+typedef enum
+{
+    QuadShape,
+    TransparentShape,
+    OpaqueShape
+} SDL_ShapeKind;
 
-typedef struct SDL_ShapeTree {
+typedef struct SDL_ShapeTree
+{
     SDL_ShapeKind kind;
     SDL_ShapeUnion data;
 } SDL_ShapeTree;
 
-typedef void(*SDL_TraversalFunction)(SDL_ShapeTree*,void*);
+typedef void (*SDL_TraversalFunction)(SDL_ShapeTree *, void *);
 
-extern void SDL_CalculateShapeBitmap(SDL_WindowShapeMode mode,SDL_Surface *shape,Uint8* bitmap,Uint8 ppb);
-extern SDL_ShapeTree* SDL_CalculateShapeTree(SDL_WindowShapeMode mode,SDL_Surface* shape);
-extern void SDL_TraverseShapeTree(SDL_ShapeTree *tree,SDL_TraversalFunction function,void* closure);
-extern void SDL_FreeShapeTree(SDL_ShapeTree** shape_tree);
+extern void SDL_CalculateShapeBitmap(SDL_WindowShapeMode mode, SDL_Surface *shape, Uint8 *bitmap, Uint8 ppb);
+extern SDL_ShapeTree *SDL_CalculateShapeTree(SDL_WindowShapeMode mode, SDL_Surface *shape);
+extern void SDL_TraverseShapeTree(SDL_ShapeTree *tree, SDL_TraversalFunction function, void *closure);
+extern void SDL_FreeShapeTree(SDL_ShapeTree **shape_tree);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
@@ -66,7 +74,6 @@ extern void SDL_FreeShapeTree(SDL_ShapeTree** shape_tree);
 }
 /* *INDENT-ON* */
 #endif
-
-#include "SDL2/close_code.h"
+#include "close_code.h"
 
 #endif

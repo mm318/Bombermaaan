@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -23,22 +23,22 @@
 #ifndef SDL_cocoavideo_h_
 #define SDL_cocoavideo_h_
 
-#include "SDL2/SDL_opengl.h"
+#include "SDL_opengl.h"
 
 #include <ApplicationServices/ApplicationServices.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #include <Cocoa/Cocoa.h>
 
-#include "SDL2/SDL_keycode.h"
+#include "SDL_keycode.h"
 #include "../SDL_sysvideo.h"
 
-#include "SDL2/SDL_cocoaclipboard.h"
-#include "SDL2/SDL_cocoaevents.h"
-#include "SDL2/SDL_cocoakeyboard.h"
-#include "SDL2/SDL_cocoamodes.h"
-#include "SDL2/SDL_cocoamouse.h"
-#include "SDL2/SDL_cocoaopengl.h"
-#include "SDL2/SDL_cocoawindow.h"
+#include "SDL_cocoaclipboard.h"
+#include "SDL_cocoaevents.h"
+#include "SDL_cocoakeyboard.h"
+#include "SDL_cocoamodes.h"
+#include "SDL_cocoamouse.h"
+#include "SDL_cocoaopengl.h"
+#include "SDL_cocoawindow.h"
 
 #ifndef MAC_OS_X_VERSION_10_12
 #define DECLARE_EVENT(name) static const NSEventType NSEventType##name = NS##name

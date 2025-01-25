@@ -20,11 +20,10 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
     lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files });
-    lib.addIncludePath(sdl_dep.path("include/"));
+    lib.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
 
     lib.linkLibC();
-    // cannot link here, because it poisons the include paths of the consumers of this module
-    // lib.linkLibrary(sdl_dep.artifact("SDL2"));
+    lib.linkLibrary(sdl_dep.artifact("SDL2"));
 
     b.installArtifact(lib);
 }

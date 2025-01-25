@@ -47,11 +47,10 @@ pub fn build(b: *std.Build) !void {
     lib.addIncludePath(b.path("include/"));
     lib.addIncludePath(b.path("src/"));
     lib.addIncludePath(b.path("src/codecs/"));
-    lib.addIncludePath(sdl_dep.path("include/"));
+    lib.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
 
     lib.linkLibC();
-    // cannot link here, because it poisons the include paths of the consumers of this module
-    // lib.linkLibrary(sdl_dep.artifact("SDL2"));
+    lib.linkLibrary(sdl_dep.artifact("SDL2"));
 
     b.installArtifact(lib);
 }

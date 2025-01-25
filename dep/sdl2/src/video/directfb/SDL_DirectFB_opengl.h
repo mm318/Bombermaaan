@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -23,11 +23,11 @@
 #ifndef SDL_directfb_opengl_h_
 #define SDL_directfb_opengl_h_
 
-#include "SDL2/SDL_DirectFB_video.h"
+#include "SDL_DirectFB_video.h"
 
-#if SDL_DIRECTFB_OPENGL
+#ifdef SDL_DIRECTFB_OPENGL
 
-#include "SDL2/SDL_opengl.h"
+#include "SDL_opengl.h"
 
 typedef struct _DirectFB_GLContext DirectFB_GLContext;
 struct _DirectFB_GLContext

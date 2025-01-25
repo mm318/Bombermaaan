@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -24,8 +24,8 @@
 
 #include "../../SDL_internal.h"
 
-#include "SDL2/SDL_stdinc.h"
-#include "SDL2/SDL_rect.h"
+#include "SDL_stdinc.h"
+#include "SDL_rect.h"
 
 extern SDL_bool SDL_IME_Init(void);
 extern void SDL_IME_Quit(void);

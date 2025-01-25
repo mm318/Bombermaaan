@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -28,8 +28,8 @@
 #include <directfb_version.h>
 
 #include "../SDL_sysvideo.h"
-#include "SDL2/SDL_scancode.h"
-#include "SDL2/SDL_render.h"
+#include "SDL_scancode.h"
+#include "SDL_render.h"
 
 
 #define DFB_VERSIONNUM(X, Y, Z)                     \

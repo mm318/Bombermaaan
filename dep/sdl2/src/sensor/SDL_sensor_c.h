@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -22,12 +22,12 @@
 #ifndef SDL_sensor_c_h_
 #define SDL_sensor_c_h_
 
-#include "SDL2/SDL_config.h"
+#include "SDL_config.h"
 
 struct _SDL_SensorDriver;
 
 /* Useful functions and variables from SDL_sensor.c */
-#include "SDL2/SDL_sensor.h"
+#include "SDL_sensor.h"
 
 /* Function to get the next available sensor instance ID */
 extern SDL_SensorID SDL_GetNextSensorInstanceID(void);

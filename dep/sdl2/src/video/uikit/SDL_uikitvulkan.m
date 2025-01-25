@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -26,15 +26,15 @@
 
 #include "../../SDL_internal.h"
 
-#if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_UIKIT
+#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_UIKIT)
 
-#include "SDL2/SDL_uikitvideo.h"
-#include "SDL2/SDL_uikitwindow.h"
+#include "SDL_uikitvideo.h"
+#include "SDL_uikitwindow.h"
 
-#include "SDL2/SDL_loadso.h"
-#include "SDL2/SDL_uikitvulkan.h"
-#include "SDL2/SDL_uikitmetalview.h"
-#include "SDL2/SDL_syswm.h"
+#include "SDL_loadso.h"
+#include "SDL_uikitvulkan.h"
+#include "SDL_uikitmetalview.h"
+#include "SDL_syswm.h"
 
 #include <dlfcn.h>
 

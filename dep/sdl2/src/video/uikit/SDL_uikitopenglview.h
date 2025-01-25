@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -19,14 +19,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL2/SDL_uikitvideo.h"
+#include "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 

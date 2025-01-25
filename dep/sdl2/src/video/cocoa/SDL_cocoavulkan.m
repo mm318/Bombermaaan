@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -25,15 +25,15 @@
  */
 #include "../../SDL_internal.h"
 
-#if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_COCOA
+#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
 
-#include "SDL2/SDL_cocoavideo.h"
-#include "SDL2/SDL_cocoawindow.h"
+#include "SDL_cocoavideo.h"
+#include "SDL_cocoawindow.h"
 
-#include "SDL2/SDL_loadso.h"
-#include "SDL2/SDL_cocoametalview.h"
-#include "SDL2/SDL_cocoavulkan.h"
-#include "SDL2/SDL_syswm.h"
+#include "SDL_loadso.h"
+#include "SDL_cocoametalview.h"
+#include "SDL_cocoavulkan.h"
+#include "SDL_syswm.h"
 
 #include <dlfcn.h>
 

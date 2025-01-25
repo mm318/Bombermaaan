@@ -114,7 +114,7 @@ pub fn build(b: *Build) void {
     exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
     exe.root_module.addIncludePath(sdl_compat_dep.path("include/"));
     exe.root_module.addIncludePath(sdl_mixer_dep.path("include/"));
-    exe.root_module.addIncludePath(sdl_dep.path("include/"));
+    exe.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
     exe.root_module.addIncludePath(tinyxml_dep.path("src/"));
     exe.root_module.addIncludePath(simpleini_dep.path(""));
 
@@ -122,12 +122,7 @@ pub fn build(b: *Build) void {
     exe.linkLibrary(tinyxml_dep.artifact("tinyxml"));
     exe.linkLibrary(sdl_compat_dep.artifact("sdl12-compat"));
     exe.linkLibrary(sdl_mixer_dep.artifact("SDL2_mixer"));
-    exe.linkLibrary(sdl_dep.artifact("SDL2"));
-    if (false and target.query.isNativeOs() and target.result.os.tag == .linux) {
-        exe.linkSystemLibrary("SDL2"); // The SDL package doesn't work for Linux yet, so we rely on system packages for now.
-    } else {
-        exe.linkLibrary(sdl_dep.artifact("SDL2"));
-    }
+    // exe.linkLibrary(sdl_dep.artifact("SDL2"));
 
     b.installArtifact(exe);
 }

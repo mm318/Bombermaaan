@@ -306,7 +306,7 @@ void CWindow::MessagePump()
 
     // Start main game loop here
     while (!quit) {
-        while (SDL_PollEvent(&event))
+        while (SDL12_PollEvent(&event))
         {
             switch (event.type)
             {
@@ -356,7 +356,7 @@ void CWindow::MessagePump()
         {
             // call the virtual activity method
             OnWindowActive();
-            SDL_Delay(1); // rest for the cpu
+            SDL12_Delay(1); // rest for the cpu
         }
     }
 #endif

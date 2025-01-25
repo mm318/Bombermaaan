@@ -164,63 +164,63 @@ typedef enum SDL_GrabMode
     SDL_GRAB_FULLSCREEN
 } SDL_GrabMode;
 
-extern DECLSPEC int SDLCALL SDL_VideoInit(const char *driver_name, Uint32 flags);
-extern DECLSPEC void SDLCALL SDL_VideoQuit(void);
-extern DECLSPEC char * SDLCALL SDL_VideoDriverName(char *namebuf, int maxlen);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_GetVideoSurface(void);
-extern DECLSPEC const SDL_VideoInfo * SDLCALL SDL_GetVideoInfo(void);
-extern DECLSPEC int SDLCALL SDL_VideoModeOK(int width, int height, int bpp, Uint32 flags);
-extern DECLSPEC SDL_Rect ** SDLCALL SDL_ListModes(SDL_PixelFormat *format, Uint32 flags);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_SetVideoMode(int width, int height, int bpp, Uint32 flags);
-extern DECLSPEC void SDLCALL SDL_UpdateRects(SDL_Surface *screen, int numrects, SDL_Rect *rects);
-extern DECLSPEC void SDLCALL SDL_UpdateRect(SDL_Surface *screen, Sint32 x, Sint32 y, Uint32 w, Uint32 h);
-extern DECLSPEC int SDLCALL SDL_Flip(SDL_Surface *screen);
-extern DECLSPEC int SDLCALL SDL_SetGamma(float red, float green, float blue);
-extern DECLSPEC int SDLCALL SDL_SetGammaRamp(const Uint16 *red, const Uint16 *green, const Uint16 *blue);
-extern DECLSPEC int SDLCALL SDL_GetGammaRamp(Uint16 *red, Uint16 *green, Uint16 *blue);
-extern DECLSPEC int SDLCALL SDL_SetColors(SDL_Surface *surface, SDL_Color *colors, int firstcolor, int ncolors);
-extern DECLSPEC int SDLCALL SDL_SetPalette(SDL_Surface *surface, int flags, SDL_Color *colors, int firstcolor, int ncolors);
-extern DECLSPEC Uint32 SDLCALL SDL_MapRGB(const SDL_PixelFormat * const format, const Uint8 r, const Uint8 g, const Uint8 b);
-extern DECLSPEC Uint32 SDLCALL SDL_MapRGBA(const SDL_PixelFormat * const format, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a);
-extern DECLSPEC void SDLCALL SDL_GetRGB(Uint32 pixel, const SDL_PixelFormat * const fmt, Uint8 *r, Uint8 *g, Uint8 *b);
-extern DECLSPEC void SDLCALL SDL_GetRGBA(Uint32 pixel, const SDL_PixelFormat * const fmt, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_CreateRGBSurface(Uint32 flags, int width, int height, int depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_CreateRGBSurfaceFrom(void *pixels, int width, int height, int depth, int pitch, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
-extern DECLSPEC void SDLCALL SDL_FreeSurface(SDL_Surface *surface);
-extern DECLSPEC int SDLCALL SDL_LockSurface(SDL_Surface *surface);
-extern DECLSPEC void SDLCALL SDL_UnlockSurface(SDL_Surface *surface);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_LoadBMP_RW(SDL_RWops *src, int freesrc);
-extern DECLSPEC int SDLCALL SDL_SaveBMP_RW(SDL_Surface *surface, SDL_RWops *dst, int freedst);
-extern DECLSPEC int SDLCALL SDL_SetColorKey(SDL_Surface *surface, Uint32 flag, Uint32 key);
-extern DECLSPEC int SDLCALL SDL_SetAlpha(SDL_Surface *surface, Uint32 flag, Uint8 alpha);
-extern DECLSPEC SDL_bool SDLCALL SDL_SetClipRect(SDL_Surface *surface, const SDL_Rect *rect);
-extern DECLSPEC void SDLCALL SDL_GetClipRect(SDL_Surface *surface, SDL_Rect *rect);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_ConvertSurface(SDL_Surface *src, SDL_PixelFormat *fmt, Uint32 flags);
-extern DECLSPEC int SDLCALL SDL_UpperBlit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
-extern DECLSPEC int SDLCALL SDL_LowerBlit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
-extern DECLSPEC int SDLCALL SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_DisplayFormat(SDL_Surface *surface);
-extern DECLSPEC SDL_Surface * SDLCALL SDL_DisplayFormatAlpha(SDL_Surface *surface);
-extern DECLSPEC SDL_Overlay * SDLCALL SDL_CreateYUVOverlay(int width, int height, Uint32 format, SDL_Surface *display);
-extern DECLSPEC int SDLCALL SDL_LockYUVOverlay(SDL_Overlay *overlay);
-extern DECLSPEC void SDLCALL SDL_UnlockYUVOverlay(SDL_Overlay *overlay);
-extern DECLSPEC int SDLCALL SDL_DisplayYUVOverlay(SDL_Overlay *overlay, SDL_Rect *dstrect);
-extern DECLSPEC void SDLCALL SDL_FreeYUVOverlay(SDL_Overlay *overlay);
-extern DECLSPEC int SDLCALL SDL_GL_LoadLibrary(const char *path);
-extern DECLSPEC void * SDLCALL SDL_GL_GetProcAddress(const char* proc);
-extern DECLSPEC int SDLCALL SDL_GL_SetAttribute(SDL_GLattr attr, int value);
-extern DECLSPEC int SDLCALL SDL_GL_GetAttribute(SDL_GLattr attr, int* value);
-extern DECLSPEC void SDLCALL SDL_GL_SwapBuffers(void);
-extern DECLSPEC void SDLCALL SDL_GL_UpdateRects(int numrects, SDL_Rect* rects);
-extern DECLSPEC void SDLCALL SDL_GL_Lock(void);
-extern DECLSPEC void SDLCALL SDL_GL_Unlock(void);
-extern DECLSPEC void SDLCALL SDL_WM_SetCaption(const char *title, const char *icon);
-extern DECLSPEC void SDLCALL SDL_WM_GetCaption(char **title, char **icon);
-extern DECLSPEC void SDLCALL SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask);
-extern DECLSPEC int SDLCALL SDL_WM_IconifyWindow(void);
-extern DECLSPEC int SDLCALL SDL_WM_ToggleFullScreen(SDL_Surface *surface);
-extern DECLSPEC SDL_GrabMode SDLCALL SDL_WM_GrabInput(SDL_GrabMode mode);
-extern DECLSPEC int SDLCALL SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
+extern DECLSPEC int SDLCALL SDL12_VideoInit(const char *driver_name, Uint32 flags);
+extern DECLSPEC void SDLCALL SDL12_VideoQuit(void);
+extern DECLSPEC char * SDLCALL SDL12_VideoDriverName(char *namebuf, int maxlen);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_GetVideoSurface(void);
+extern DECLSPEC const SDL_VideoInfo * SDLCALL SDL12_GetVideoInfo(void);
+extern DECLSPEC int SDLCALL SDL12_VideoModeOK(int width, int height, int bpp, Uint32 flags);
+extern DECLSPEC SDL_Rect ** SDLCALL SDL12_ListModes(SDL_PixelFormat *format, Uint32 flags);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_SetVideoMode(int width, int height, int bpp, Uint32 flags);
+extern DECLSPEC void SDLCALL SDL12_UpdateRects(SDL_Surface *screen, int numrects, SDL_Rect *rects);
+extern DECLSPEC void SDLCALL SDL12_UpdateRect(SDL_Surface *screen, Sint32 x, Sint32 y, Uint32 w, Uint32 h);
+extern DECLSPEC int SDLCALL SDL12_Flip(SDL_Surface *screen);
+extern DECLSPEC int SDLCALL SDL12_SetGamma(float red, float green, float blue);
+extern DECLSPEC int SDLCALL SDL12_SetGammaRamp(const Uint16 *red, const Uint16 *green, const Uint16 *blue);
+extern DECLSPEC int SDLCALL SDL12_GetGammaRamp(Uint16 *red, Uint16 *green, Uint16 *blue);
+extern DECLSPEC int SDLCALL SDL12_SetColors(SDL_Surface *surface, SDL_Color *colors, int firstcolor, int ncolors);
+extern DECLSPEC int SDLCALL SDL12_SetPalette(SDL_Surface *surface, int flags, SDL_Color *colors, int firstcolor, int ncolors);
+extern DECLSPEC Uint32 SDLCALL SDL12_MapRGB(const SDL_PixelFormat * const format, const Uint8 r, const Uint8 g, const Uint8 b);
+extern DECLSPEC Uint32 SDLCALL SDL12_MapRGBA(const SDL_PixelFormat * const format, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a);
+extern DECLSPEC void SDLCALL SDL12_GetRGB(Uint32 pixel, const SDL_PixelFormat * const fmt, Uint8 *r, Uint8 *g, Uint8 *b);
+extern DECLSPEC void SDLCALL SDL12_GetRGBA(Uint32 pixel, const SDL_PixelFormat * const fmt, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_CreateRGBSurface(Uint32 flags, int width, int height, int depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_CreateRGBSurfaceFrom(void *pixels, int width, int height, int depth, int pitch, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
+extern DECLSPEC void SDLCALL SDL12_FreeSurface(SDL_Surface *surface);
+extern DECLSPEC int SDLCALL SDL12_LockSurface(SDL_Surface *surface);
+extern DECLSPEC void SDLCALL SDL12_UnlockSurface(SDL_Surface *surface);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_LoadBMP_RW(SDL_RWops *src, int freesrc);
+extern DECLSPEC int SDLCALL SDL12_SaveBMP_RW(SDL_Surface *surface, SDL_RWops *dst, int freedst);
+extern DECLSPEC int SDLCALL SDL12_SetColorKey(SDL_Surface *surface, Uint32 flag, Uint32 key);
+extern DECLSPEC int SDLCALL SDL12_SetAlpha(SDL_Surface *surface, Uint32 flag, Uint8 alpha);
+extern DECLSPEC SDL_bool SDLCALL SDL12_SetClipRect(SDL_Surface *surface, const SDL_Rect *rect);
+extern DECLSPEC void SDLCALL SDL12_GetClipRect(SDL_Surface *surface, SDL_Rect *rect);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_ConvertSurface(SDL_Surface *src, SDL_PixelFormat *fmt, Uint32 flags);
+extern DECLSPEC int SDLCALL SDL12_UpperBlit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
+extern DECLSPEC int SDLCALL SDL12_LowerBlit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
+extern DECLSPEC int SDLCALL SDL12_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_DisplayFormat(SDL_Surface *surface);
+extern DECLSPEC SDL_Surface * SDLCALL SDL12_DisplayFormatAlpha(SDL_Surface *surface);
+extern DECLSPEC SDL_Overlay * SDLCALL SDL12_CreateYUVOverlay(int width, int height, Uint32 format, SDL_Surface *display);
+extern DECLSPEC int SDLCALL SDL12_LockYUVOverlay(SDL_Overlay *overlay);
+extern DECLSPEC void SDLCALL SDL12_UnlockYUVOverlay(SDL_Overlay *overlay);
+extern DECLSPEC int SDLCALL SDL12_DisplayYUVOverlay(SDL_Overlay *overlay, SDL_Rect *dstrect);
+extern DECLSPEC void SDLCALL SDL12_FreeYUVOverlay(SDL_Overlay *overlay);
+extern DECLSPEC int SDLCALL SDL12_GL_LoadLibrary(const char *path);
+extern DECLSPEC void * SDLCALL SDL12_GL_GetProcAddress(const char* proc);
+extern DECLSPEC int SDLCALL SDL12_GL_SetAttribute(SDL_GLattr attr, int value);
+extern DECLSPEC int SDLCALL SDL12_GL_GetAttribute(SDL_GLattr attr, int* value);
+extern DECLSPEC void SDLCALL SDL12_GL_SwapBuffers(void);
+extern DECLSPEC void SDLCALL SDL12_GL_UpdateRects(int numrects, SDL_Rect* rects);
+extern DECLSPEC void SDLCALL SDL12_GL_Lock(void);
+extern DECLSPEC void SDLCALL SDL12_GL_Unlock(void);
+extern DECLSPEC void SDLCALL SDL12_WM_SetCaption(const char *title, const char *icon);
+extern DECLSPEC void SDLCALL SDL12_WM_GetCaption(char **title, char **icon);
+extern DECLSPEC void SDLCALL SDL12_WM_SetIcon(SDL_Surface *icon, Uint8 *mask);
+extern DECLSPEC int SDLCALL SDL12_WM_IconifyWindow(void);
+extern DECLSPEC int SDLCALL SDL12_WM_ToggleFullScreen(SDL_Surface *surface);
+extern DECLSPEC SDL_GrabMode SDLCALL SDL12_WM_GrabInput(SDL_GrabMode mode);
+extern DECLSPEC int SDLCALL SDL12_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect);
 
 #define SDL_SWSURFACE 0x00000000
 #define SDL_HWSURFACE 0x00000001
@@ -254,11 +254,11 @@ extern DECLSPEC int SDLCALL SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect,
 #define SDL_LOGPAL 0x01
 #define SDL_PHYSPAL 0x02
 
-#define SDL_AllocSurface SDL_CreateRGBSurface
-#define SDL_BlitSurface SDL_UpperBlit
+#define SDL12_AllocSurface SDL12_CreateRGBSurface
+#define SDL12_BlitSurface SDL12_UpperBlit
 
-#define SDL_LoadBMP(file) SDL_LoadBMP_RW(SDL_RWFromFile(file, "rb"), 1)
-#define SDL_SaveBMP(surface, file) SDL_SaveBMP_RW(surface, SDL_RWFromFile(file, "wb"), 1)
+#define SDL12_LoadBMP(file) SDL12_LoadBMP_RW(SDL12_RWFromFile(file, "rb"), 1)
+#define SDL12_SaveBMP(surface, file) SDL12_SaveBMP_RW(surface, SDL12_RWFromFile(file, "wb"), 1)
 
 #include "close_code.h"
 

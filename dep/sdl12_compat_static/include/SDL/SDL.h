@@ -53,11 +53,11 @@ real SDL-1.2 available to you. */
 #define SDL_INIT_EVENTTHREAD 0x01000000
 #define SDL_INIT_EVERYTHING 0x0000FFFF
 
-extern DECLSPEC int SDLCALL SDL_Init(Uint32 flags);
-extern DECLSPEC int SDLCALL SDL_InitSubSystem(Uint32 flags);
-extern DECLSPEC void SDLCALL SDL_QuitSubSystem(Uint32 flags);
-extern DECLSPEC Uint32 SDLCALL SDL_WasInit(Uint32 flags);
-extern DECLSPEC void SDLCALL SDL_Quit(void);
+extern DECLSPEC int SDLCALL SDL12_Init(Uint32 flags);
+extern DECLSPEC int SDLCALL SDL12_InitSubSystem(Uint32 flags);
+extern DECLSPEC void SDLCALL SDL12_QuitSubSystem(Uint32 flags);
+extern DECLSPEC Uint32 SDLCALL SDL12_WasInit(Uint32 flags);
+extern DECLSPEC void SDLCALL SDL12_Quit(void);
 
 #include "close_code.h"
 

@@ -48,16 +48,16 @@ typedef struct SDL_Thread SDL_Thread;
 #ifdef __OS2__
 typedef int (*pfnSDL_CurrentBeginThread)(void (*func)(void *), void *, unsigned, void *arg);
 typedef void (*pfnSDL_CurrentEndThread)(void);
-extern DECLSPEC SDL_Thread * SDLCALL SDL_CreateThread(int (SDLCALL *fn)(void *), void *data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread);
+extern DECLSPEC SDL_Thread * SDLCALL SDL12_CreateThread(int (SDLCALL *fn)(void *), void *data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread);
 #define SDL_PASSED_BEGINTHREAD_ENDTHREAD
-#define SDL_CreateThread(fn, data) SDL_CreateThread(fn, data, _beginthread, _endthread)
+#define SDL12_CreateThread(fn, data) SDL_CreateThread(fn, data, _beginthread, _endthread)
 #else
-extern DECLSPEC SDL_Thread * SDLCALL SDL_CreateThread(int (SDLCALL *fn)(void *), void *data);
+extern DECLSPEC SDL_Thread * SDLCALL SDL12_CreateThread(int (SDLCALL *fn)(void *), void *data);
 #endif
-extern DECLSPEC Uint32 SDLCALL SDL_ThreadID(void);
-extern DECLSPEC Uint32 SDLCALL SDL_GetThreadID(SDL_Thread *thread);
-extern DECLSPEC void SDLCALL SDL_WaitThread(SDL_Thread *thread, int *status);
-extern DECLSPEC void SDLCALL SDL_KillThread(SDL_Thread *thread);
+extern DECLSPEC Uint32 SDLCALL SDL12_ThreadID(void);
+extern DECLSPEC Uint32 SDLCALL SDL12_GetThreadID(SDL_Thread *thread);
+extern DECLSPEC void SDLCALL SDL12_WaitThread(SDL_Thread *thread, int *status);
+extern DECLSPEC void SDLCALL SDL12_KillThread(SDL_Thread *thread);
 
 #include "close_code.h"
 

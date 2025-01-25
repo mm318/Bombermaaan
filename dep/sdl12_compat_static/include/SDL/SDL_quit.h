@@ -29,7 +29,7 @@ real SDL-1.2 available to you. */
 #include "SDL_stdinc.h"
 #include "SDL_error.h"
 
-#define SDL_QuitRequested() (SDL_PumpEvents(), SDL_PeepEvents(NULL,0,SDL_PEEKEVENT,SDL_QUITMASK))
+#define SDL12_QuitRequested() (SDL_PumpEvents(), SDL_PeepEvents(NULL,0,SDL_PEEKEVENT,SDL_QUITMASK))
 
 #endif
 

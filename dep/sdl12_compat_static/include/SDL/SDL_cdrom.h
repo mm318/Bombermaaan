@@ -77,17 +77,17 @@ typedef struct SDL_CD
 
 #define MSF_TO_FRAMES(M, S, F) ((M) * 60 * CD_FPS + (S) * CD_FPS + (F))
 
-extern DECLSPEC int SDLCALL SDL_CDNumDrives(void);
-extern DECLSPEC const char * SDLCALL SDL_CDName(int drive);
-extern DECLSPEC SDL_CD * SDLCALL SDL_CDOpen(int drive);
-extern DECLSPEC CDstatus SDLCALL SDL_CDStatus(SDL_CD *cdrom);
-extern DECLSPEC int SDLCALL SDL_CDPlayTracks(SDL_CD *cdrom, int start_track, int start_frame, int ntracks, int nframes);
-extern DECLSPEC int SDLCALL SDL_CDPlay(SDL_CD *cdrom, int start, int length);
-extern DECLSPEC int SDLCALL SDL_CDPause(SDL_CD *cdrom);
-extern DECLSPEC int SDLCALL SDL_CDResume(SDL_CD *cdrom);
-extern DECLSPEC int SDLCALL SDL_CDStop(SDL_CD *cdrom);
-extern DECLSPEC int SDLCALL SDL_CDEject(SDL_CD *cdrom);
-extern DECLSPEC void SDLCALL SDL_CDClose(SDL_CD *cdrom);
+extern DECLSPEC int SDLCALL SDL12_CDNumDrives(void);
+extern DECLSPEC const char * SDLCALL SDL12_CDName(int drive);
+extern DECLSPEC SDL_CD * SDLCALL SDL12_CDOpen(int drive);
+extern DECLSPEC CDstatus SDLCALL SDL12_CDStatus(SDL_CD *cdrom);
+extern DECLSPEC int SDLCALL SDL12_CDPlayTracks(SDL_CD *cdrom, int start_track, int start_frame, int ntracks, int nframes);
+extern DECLSPEC int SDLCALL SDL12_CDPlay(SDL_CD *cdrom, int start, int length);
+extern DECLSPEC int SDLCALL SDL12_CDPause(SDL_CD *cdrom);
+extern DECLSPEC int SDLCALL SDL12_CDResume(SDL_CD *cdrom);
+extern DECLSPEC int SDLCALL SDL12_CDStop(SDL_CD *cdrom);
+extern DECLSPEC int SDLCALL SDL12_CDEject(SDL_CD *cdrom);
+extern DECLSPEC void SDLCALL SDL12_CDClose(SDL_CD *cdrom);
 
 #include "close_code.h"
 

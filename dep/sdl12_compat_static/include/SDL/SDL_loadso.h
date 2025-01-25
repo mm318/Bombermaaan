@@ -31,9 +31,9 @@ real SDL-1.2 available to you. */
 
 #include "begin_code.h"
 
-extern DECLSPEC void * SDLCALL SDL_LoadObject(const char *sofile);
-extern DECLSPEC void * SDLCALL SDL_LoadFunction(void *handle, const char *name);
-extern DECLSPEC void SDLCALL SDL_UnloadObject(void *handle);
+extern DECLSPEC void * SDLCALL SDL12_LoadObject(const char *sofile);
+extern DECLSPEC void * SDLCALL SDL12_LoadFunction(void *handle, const char *name);
+extern DECLSPEC void SDLCALL SDL12_UnloadObject(void *handle);
 
 #include "close_code.h"
 

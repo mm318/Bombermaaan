@@ -43,14 +43,14 @@ typedef struct SDL_Cursor
     WMcursor *wm_cursor;
 } SDL_Cursor;
 
-extern DECLSPEC Uint8 SDLCALL SDL_GetMouseState(int *x, int *y);
-extern DECLSPEC Uint8 SDLCALL SDL_GetRelativeMouseState(int *x, int *y);
-extern DECLSPEC void SDLCALL SDL_WarpMouse(Uint16 x, Uint16 y);
-extern DECLSPEC SDL_Cursor * SDLCALL SDL_CreateCursor(Uint8 *data, Uint8 *mask, int w, int h, int hot_x, int hot_y);
-extern DECLSPEC void SDLCALL SDL_SetCursor(SDL_Cursor *cursor);
-extern DECLSPEC SDL_Cursor * SDLCALL SDL_GetCursor(void);
-extern DECLSPEC void SDLCALL SDL_FreeCursor(SDL_Cursor *cursor);
-extern DECLSPEC int SDLCALL SDL_ShowCursor(int toggle);
+extern DECLSPEC Uint8 SDLCALL SDL12_GetMouseState(int *x, int *y);
+extern DECLSPEC Uint8 SDLCALL SDL12_GetRelativeMouseState(int *x, int *y);
+extern DECLSPEC void SDLCALL SDL12_WarpMouse(Uint16 x, Uint16 y);
+extern DECLSPEC SDL_Cursor * SDLCALL SDL12_CreateCursor(Uint8 *data, Uint8 *mask, int w, int h, int hot_x, int hot_y);
+extern DECLSPEC void SDLCALL SDL12_SetCursor(SDL_Cursor *cursor);
+extern DECLSPEC SDL_Cursor * SDLCALL SDL12_GetCursor(void);
+extern DECLSPEC void SDLCALL SDL12_FreeCursor(SDL_Cursor *cursor);
+extern DECLSPEC int SDLCALL SDL12_ShowCursor(int toggle);
 
 #define SDL_BUTTON(X) (1 << ((X)-1))
 #define SDL_BUTTON_LEFT 1

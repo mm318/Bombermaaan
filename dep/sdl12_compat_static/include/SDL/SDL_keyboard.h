@@ -45,13 +45,13 @@ typedef struct SDL_keysym
 #define SDL_DEFAULT_REPEAT_DELAY 500
 #define SDL_DEFAULT_REPEAT_INTERVAL 30
 
-extern DECLSPEC Uint8 * SDLCALL SDL_GetKeyState(int *numkeys);
-extern DECLSPEC SDLMod SDLCALL SDL_GetModState(void);
-extern DECLSPEC void SDLCALL SDL_SetModState(SDLMod modstate);
-extern DECLSPEC char * SDLCALL SDL_GetKeyName(SDLKey key);
-extern DECLSPEC int SDLCALL SDL_EnableKeyRepeat(int delay, int interval);
-extern DECLSPEC void SDLCALL SDL_GetKeyRepeat(int *delay, int *interval);
-extern DECLSPEC int SDLCALL SDL_EnableUNICODE(int enable);
+extern DECLSPEC Uint8 * SDLCALL SDL12_GetKeyState(int *numkeys);
+extern DECLSPEC SDLMod SDLCALL SDL12_GetModState(void);
+extern DECLSPEC void SDLCALL SDL12_SetModState(SDLMod modstate);
+extern DECLSPEC char * SDLCALL SDL12_GetKeyName(SDLKey key);
+extern DECLSPEC int SDLCALL SDL12_EnableKeyRepeat(int delay, int interval);
+extern DECLSPEC void SDLCALL SDL12_GetKeyRepeat(int *delay, int *interval);
+extern DECLSPEC int SDLCALL SDL12_EnableUNICODE(int enable);
 
 #include "close_code.h"
 

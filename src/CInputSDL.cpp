@@ -94,13 +94,13 @@ bool CInputSDL::Create (void)
         // Reset the keyboard state
         memset (m_KeyState, 0, MAX_KEYS);
 
-        //SDL_EnableKeyRepeat(100, SDL_DEFAULT_REPEAT_INTERVAL);
+        //SDL12_EnableKeyRepeat(100, SDL_DEFAULT_REPEAT_INTERVAL);
 
         // Prepare the friendly name for each key
         MakeKeyFriendlyNames ();
 
         // Create all joysticks that are installed on the system
-        for(int i=0; i < SDL_NumJoysticks(); i++ )
+        for(int i=0; i < SDL12_NumJoysticks(); i++ )
         {
             SJoystick *pJoystick = new SJoystick;
 
@@ -131,7 +131,7 @@ bool CInputSDL::Create (void)
         m_Ready = true;
     }
 
-    SDL_JoystickEventState(SDL_ENABLE);
+    SDL12_JoystickEventState(SDL_ENABLE);
 
     // Everything went right
     return true;
@@ -149,7 +149,7 @@ void CInputSDL::Destroy (void)
         for (unsigned int Index = 0 ; Index < m_pJoysticks.size() ; Index++)
         {
             // Release the joystick SDLinput device
-            SDL_JoystickClose(m_pJoysticks[Index]->pDevice);
+            SDL12_JoystickClose(m_pJoysticks[Index]->pDevice);
             m_pJoysticks[Index]->pDevice = NULL;
 
             // Delete the joystick variable
@@ -183,7 +183,7 @@ bool CInputSDL::UpdateDevice (SDL_Joystick *pDevice, void *pState, int StateSize
 bool CInputSDL::UpdateDevice(void *pState, int StateSize)
 {
 
-    Uint8* keyState = SDL_GetKeyState(NULL);
+    Uint8* keyState = SDL12_GetKeyState(NULL);
 
     for (int i = 0; i < StateSize; i++)
         SetKey(i, keyState[i] == 1);

@@ -30,14 +30,14 @@ real SDL-1.2 available to you. */
 
 #include "begin_code.h"
 
-extern DECLSPEC SDL_bool SDLCALL SDL_HasRDTSC(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_HasMMX(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_HasMMXExt(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_Has3DNow(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_Has3DNowExt(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_HasSSE(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_HasSSE2(void);
-extern DECLSPEC SDL_bool SDLCALL SDL_HasAltiVec(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasRDTSC(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasMMX(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasMMXExt(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_Has3DNow(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_Has3DNowExt(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasSSE(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasSSE2(void);
+extern DECLSPEC SDL_bool SDLCALL SDL12_HasAltiVec(void);
 
 #include "close_code.h"
 

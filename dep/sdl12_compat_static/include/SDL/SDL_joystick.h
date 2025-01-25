@@ -43,22 +43,22 @@ real SDL-1.2 available to you. */
 
 typedef struct _SDL_Joystick SDL_Joystick;
 
-extern DECLSPEC int SDLCALL SDL_NumJoysticks(void);
-extern DECLSPEC const char * SDLCALL SDL_JoystickName(int device_index);
-extern DECLSPEC SDL_Joystick * SDLCALL SDL_JoystickOpen(int device_index);
-extern DECLSPEC int SDLCALL SDL_JoystickOpened(int device_index);
-extern DECLSPEC int SDLCALL SDL_JoystickIndex(SDL_Joystick *joystick);
-extern DECLSPEC int SDLCALL SDL_JoystickNumAxes(SDL_Joystick *joystick);
-extern DECLSPEC int SDLCALL SDL_JoystickNumBalls(SDL_Joystick *joystick);
-extern DECLSPEC int SDLCALL SDL_JoystickNumHats(SDL_Joystick *joystick);
-extern DECLSPEC int SDLCALL SDL_JoystickNumButtons(SDL_Joystick *joystick);
-extern DECLSPEC void SDLCALL SDL_JoystickUpdate(void);
-extern DECLSPEC int SDLCALL SDL_JoystickEventState(int state);
-extern DECLSPEC Sint16 SDLCALL SDL_JoystickGetAxis(SDL_Joystick *joystick, int axis);
-extern DECLSPEC Uint8 SDLCALL SDL_JoystickGetHat(SDL_Joystick *joystick, int hat);
-extern DECLSPEC int SDLCALL SDL_JoystickGetBall(SDL_Joystick *joystick, int ball, int *dx, int *dy);
-extern DECLSPEC Uint8 SDLCALL SDL_JoystickGetButton(SDL_Joystick *joystick, int button);
-extern DECLSPEC void SDLCALL SDL_JoystickClose(SDL_Joystick *joystick);
+extern DECLSPEC int SDLCALL SDL12_NumJoysticks(void);
+extern DECLSPEC const char * SDLCALL SDL12_JoystickName(int device_index);
+extern DECLSPEC SDL_Joystick * SDLCALL SDL12_JoystickOpen(int device_index);
+extern DECLSPEC int SDLCALL SDL12_JoystickOpened(int device_index);
+extern DECLSPEC int SDLCALL SDL12_JoystickIndex(SDL_Joystick *joystick);
+extern DECLSPEC int SDLCALL SDL12_JoystickNumAxes(SDL_Joystick *joystick);
+extern DECLSPEC int SDLCALL SDL12_JoystickNumBalls(SDL_Joystick *joystick);
+extern DECLSPEC int SDLCALL SDL12_JoystickNumHats(SDL_Joystick *joystick);
+extern DECLSPEC int SDLCALL SDL12_JoystickNumButtons(SDL_Joystick *joystick);
+extern DECLSPEC void SDLCALL SDL12_JoystickUpdate(void);
+extern DECLSPEC int SDLCALL SDL12_JoystickEventState(int state);
+extern DECLSPEC Sint16 SDLCALL SDL12_JoystickGetAxis(SDL_Joystick *joystick, int axis);
+extern DECLSPEC Uint8 SDLCALL SDL12_JoystickGetHat(SDL_Joystick *joystick, int hat);
+extern DECLSPEC int SDLCALL SDL12_JoystickGetBall(SDL_Joystick *joystick, int ball, int *dx, int *dy);
+extern DECLSPEC Uint8 SDLCALL SDL12_JoystickGetButton(SDL_Joystick *joystick, int button);
+extern DECLSPEC void SDLCALL SDL12_JoystickClose(SDL_Joystick *joystick);
 
 #include "close_code.h"
 

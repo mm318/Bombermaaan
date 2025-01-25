@@ -35,7 +35,7 @@ real SDL-1.2 available to you. */
 #define SDL_APPINPUTFOCUS 0x02
 #define SDL_APPACTIVE 0x04
 
-extern DECLSPEC Uint8 SDLCALL SDL_GetAppState(void);
+extern DECLSPEC Uint8 SDLCALL SDL12_GetAppState(void);
 
 #include "close_code.h"
 

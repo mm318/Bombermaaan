@@ -76,36 +76,36 @@ typedef struct SDL_RWops
 } SDL_RWops;
 
 
-extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromFP(FILE *fp, int autoclose);
-extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromFile(const char *file, const char *mode);
-extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromMem(void *mem, int size);
-extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromConstMem(const void *mem, int size);
-extern DECLSPEC SDL_RWops * SDLCALL SDL_AllocRW(void);
-extern DECLSPEC void SDLCALL SDL_FreeRW(SDL_RWops *area);
+extern DECLSPEC SDL_RWops * SDLCALL SDL12_RWFromFP(FILE *fp, int autoclose);
+extern DECLSPEC SDL_RWops * SDLCALL SDL12_RWFromFile(const char *file, const char *mode);
+extern DECLSPEC SDL_RWops * SDLCALL SDL12_RWFromMem(void *mem, int size);
+extern DECLSPEC SDL_RWops * SDLCALL SDL12_RWFromConstMem(const void *mem, int size);
+extern DECLSPEC SDL_RWops * SDLCALL SDL12_AllocRW(void);
+extern DECLSPEC void SDLCALL SDL12_FreeRW(SDL_RWops *area);
 
-extern DECLSPEC Uint16 SDLCALL SDL_ReadLE16(SDL_RWops *src);
-extern DECLSPEC Uint16 SDLCALL SDL_ReadBE16(SDL_RWops *src);
-extern DECLSPEC Uint32 SDLCALL SDL_ReadLE32(SDL_RWops *src);
-extern DECLSPEC Uint32 SDLCALL SDL_ReadBE32(SDL_RWops *src);
-extern DECLSPEC Uint64 SDLCALL SDL_ReadLE64(SDL_RWops *src);
-extern DECLSPEC Uint64 SDLCALL SDL_ReadBE64(SDL_RWops *src);
+extern DECLSPEC Uint16 SDLCALL SDL12_ReadLE16(SDL_RWops *src);
+extern DECLSPEC Uint16 SDLCALL SDL12_ReadBE16(SDL_RWops *src);
+extern DECLSPEC Uint32 SDLCALL SDL12_ReadLE32(SDL_RWops *src);
+extern DECLSPEC Uint32 SDLCALL SDL12_ReadBE32(SDL_RWops *src);
+extern DECLSPEC Uint64 SDLCALL SDL12_ReadLE64(SDL_RWops *src);
+extern DECLSPEC Uint64 SDLCALL SDL12_ReadBE64(SDL_RWops *src);
 
-extern DECLSPEC int SDLCALL SDL_WriteLE16(SDL_RWops *dst, Uint16 value);
-extern DECLSPEC int SDLCALL SDL_WriteBE16(SDL_RWops *dst, Uint16 value);
-extern DECLSPEC int SDLCALL SDL_WriteLE32(SDL_RWops *dst, Uint32 value);
-extern DECLSPEC int SDLCALL SDL_WriteBE32(SDL_RWops *dst, Uint32 value);
-extern DECLSPEC int SDLCALL SDL_WriteLE64(SDL_RWops *dst, Uint64 value);
-extern DECLSPEC int SDLCALL SDL_WriteBE64(SDL_RWops *dst, Uint64 value);
+extern DECLSPEC int SDLCALL SDL12_WriteLE16(SDL_RWops *dst, Uint16 value);
+extern DECLSPEC int SDLCALL SDL12_WriteBE16(SDL_RWops *dst, Uint16 value);
+extern DECLSPEC int SDLCALL SDL12_WriteLE32(SDL_RWops *dst, Uint32 value);
+extern DECLSPEC int SDLCALL SDL12_WriteBE32(SDL_RWops *dst, Uint32 value);
+extern DECLSPEC int SDLCALL SDL12_WriteLE64(SDL_RWops *dst, Uint64 value);
+extern DECLSPEC int SDLCALL SDL12_WriteBE64(SDL_RWops *dst, Uint64 value);
 
 #define RW_SEEK_SET 0
 #define RW_SEEK_CUR 1
 #define RW_SEEK_END 2
 
-#define SDL_RWseek(ctx, offset, whence) (ctx)->seek(ctx, offset, whence)
-#define SDL_RWtell(ctx) (ctx)->seek(ctx, 0, RW_SEEK_CUR)
-#define SDL_RWread(ctx, ptr, size, n) (ctx)->read(ctx, ptr, size, n)
-#define SDL_RWwrite(ctx, ptr, size, n) (ctx)->write(ctx, ptr, size, n)
-#define SDL_RWclose(ctx) (ctx)->close(ctx)
+#define SDL12_RWseek(ctx, offset, whence) (ctx)->seek(ctx, offset, whence)
+#define SDL12_RWtell(ctx) (ctx)->seek(ctx, 0, RW_SEEK_CUR)
+#define SDL12_RWread(ctx, ptr, size, n) (ctx)->read(ctx, ptr, size, n)
+#define SDL12_RWwrite(ctx, ptr, size, n) (ctx)->write(ctx, ptr, size, n)
+#define SDL12_RWclose(ctx) (ctx)->close(ctx)
 
 #include "close_code.h"
 

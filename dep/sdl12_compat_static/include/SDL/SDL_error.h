@@ -40,10 +40,10 @@ typedef enum SDL_errorcode
     SDL_LASTERROR
 } SDL_errorcode;
 
-extern DECLSPEC void SDLCALL SDL_SetError(const char *fmt, ...);
-extern DECLSPEC char * SDLCALL SDL_GetError(void);
-extern DECLSPEC void SDLCALL SDL_ClearError(void);
-extern DECLSPEC void SDLCALL SDL_Error(SDL_errorcode code);
+extern DECLSPEC void SDLCALL SDL12_SetError(const char *fmt, ...);
+extern DECLSPEC char * SDLCALL SDL12_GetError(void);
+extern DECLSPEC void SDLCALL SDL12_ClearError(void);
+extern DECLSPEC void SDLCALL SDL12_Error(SDL_errorcode code);
 
 #define SDL_OutOfMemory() SDL_Error(SDL_ENOMEM)
 #define SDL_Unsupported() SDL_Error(SDL_UNSUPPORTED)

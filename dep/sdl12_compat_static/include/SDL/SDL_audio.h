@@ -88,20 +88,20 @@ typedef enum SDL_audiostatus
 
 #define SDL_MIX_MAXVOLUME 128
 
-extern DECLSPEC int SDLCALL SDL_AudioInit(const char *driver_name);
-extern DECLSPEC void SDLCALL SDL_AudioQuit(void);
-extern DECLSPEC char * SDLCALL SDL_AudioDriverName(char *namebuf, int maxlen);
-extern DECLSPEC int SDLCALL SDL_OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained);
-extern DECLSPEC void SDLCALL SDL_PauseAudio(int pause_on);
-extern DECLSPEC void SDLCALL SDL_CloseAudio(void);
-extern DECLSPEC SDL_audiostatus SDLCALL SDL_GetAudioStatus(void);
-extern DECLSPEC void SDLCALL SDL_LockAudio(void);
-extern DECLSPEC void SDLCALL SDL_UnlockAudio(void);
-extern DECLSPEC SDL_AudioSpec * SDLCALL SDL_LoadWAV_RW(SDL_RWops *src, int freesrc, SDL_AudioSpec *spec, Uint8 **audio_buf, Uint32 *audio_len);
-extern DECLSPEC void SDLCALL SDL_FreeWAV(Uint8 *audio_buf);
-extern DECLSPEC int SDLCALL SDL_BuildAudioCVT(SDL_AudioCVT *cvt, Uint16 src_format, Uint8 src_channels, int src_rate, Uint16 dst_format, Uint8 dst_channels, int dst_rate);
-extern DECLSPEC int SDLCALL SDL_ConvertAudio(SDL_AudioCVT *cvt);
-extern DECLSPEC void SDLCALL SDL_MixAudio(Uint8 *dst, const Uint8 *src, Uint32 len, int volume);
+extern DECLSPEC int SDLCALL SDL12_AudioInit(const char *driver_name);
+extern DECLSPEC void SDLCALL SDL12_AudioQuit(void);
+extern DECLSPEC char * SDLCALL SDL12_AudioDriverName(char *namebuf, int maxlen);
+extern DECLSPEC int SDLCALL SDL12_OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained);
+extern DECLSPEC void SDLCALL SDL12_PauseAudio(int pause_on);
+extern DECLSPEC void SDLCALL SDL12_CloseAudio(void);
+extern DECLSPEC SDL_audiostatus SDLCALL SDL12_GetAudioStatus(void);
+extern DECLSPEC void SDLCALL SDL12_LockAudio(void);
+extern DECLSPEC void SDLCALL SDL12_UnlockAudio(void);
+extern DECLSPEC SDL_AudioSpec * SDLCALL SDL12_LoadWAV_RW(SDL_RWops *src, int freesrc, SDL_AudioSpec *spec, Uint8 **audio_buf, Uint32 *audio_len);
+extern DECLSPEC void SDLCALL SDL12_FreeWAV(Uint8 *audio_buf);
+extern DECLSPEC int SDLCALL SDL12_BuildAudioCVT(SDL_AudioCVT *cvt, Uint16 src_format, Uint8 src_channels, int src_rate, Uint16 dst_format, Uint8 dst_channels, int dst_rate);
+extern DECLSPEC int SDLCALL SDL12_ConvertAudio(SDL_AudioCVT *cvt);
+extern DECLSPEC void SDLCALL SDL12_MixAudio(Uint8 *dst, const Uint8 *src, Uint32 len, int volume);
 
 #define SDL_LoadWAV(file, spec, audio_buf, audio_len) SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"),1, spec,audio_buf,audio_len)
 

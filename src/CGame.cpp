@@ -522,7 +522,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 #endif
 
 #ifdef SDL
-    if ((SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1))
+    if ((SDL12_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1))
     {
         theLog.WriteLine("Game            => !!! Could not initialise SDL library");
         theLog.LogLastError();
@@ -538,7 +538,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 
     set_color_depth(32);
 #elif DIRECTX
-    if ((SDL_Init(SDL_INIT_AUDIO) == -1))
+    if ((SDL12_Init(SDL_INIT_AUDIO) == -1))
     {
         theLog.WriteLine("Game            => !!! Could not initialise SDL library");
         theLog.LogLastError();
@@ -570,7 +570,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 #endif // WIN32
 
 #ifdef SDL
-    SDL_WM_SetCaption(m_WindowTitle.c_str(), NULL);
+    SDL12_WM_SetCaption(m_WindowTitle.c_str(), NULL);
 #elif ALLEGRO
     set_window_title(m_WindowTitle.c_str());
 #endif
@@ -832,7 +832,7 @@ void CGame::Destroy(void)
     theDebug.Destroy();
 
 #ifdef SDL
-    SDL_Quit(); // shut down SDL library
+    SDL12_Quit(); // shut down SDL library
 #elif ALLEGRO
     allegro_exit();
 #endif
@@ -988,7 +988,7 @@ void CGame::StartGameMode(EGameMode GameMode)
         quitevent.type = SDL_QUIT;
         quitevent.quit.type = SDL_QUIT;
 
-        SDL_PushEvent(&quitevent);
+        SDL12_PushEvent(&quitevent);
     #elif ALLEGRO
         //set_close_button_callback();
     #elif DIRECTX

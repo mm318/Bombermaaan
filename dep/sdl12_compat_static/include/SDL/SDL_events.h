@@ -220,14 +220,14 @@ typedef enum SDL_eventaction
     SDL_GETEVENT
 } SDL_eventaction;
 
-extern DECLSPEC void SDLCALL SDL_PumpEvents(void);
-extern DECLSPEC int SDLCALL SDL_PeepEvents(SDL_Event *events, int numevents, SDL_eventaction action, Uint32 mask);
-extern DECLSPEC int SDLCALL SDL_PollEvent(SDL_Event *event);
-extern DECLSPEC int SDLCALL SDL_WaitEvent(SDL_Event *event);
-extern DECLSPEC int SDLCALL SDL_PushEvent(SDL_Event *event);
-extern DECLSPEC void SDLCALL SDL_SetEventFilter(SDL_EventFilter filter);
-extern DECLSPEC SDL_EventFilter SDLCALL SDL_GetEventFilter(void);
-extern DECLSPEC Uint8 SDLCALL SDL_EventState(Uint8 type, int state);
+extern DECLSPEC void SDLCALL SDL12_PumpEvents(void);
+extern DECLSPEC int SDLCALL SDL12_PeepEvents(SDL_Event *events, int numevents, SDL_eventaction action, Uint32 mask);
+extern DECLSPEC int SDLCALL SDL12_PollEvent(SDL_Event *event);
+extern DECLSPEC int SDLCALL SDL12_WaitEvent(SDL_Event *event);
+extern DECLSPEC int SDLCALL SDL12_PushEvent(SDL_Event *event);
+extern DECLSPEC void SDLCALL SDL12_SetEventFilter(SDL_EventFilter filter);
+extern DECLSPEC SDL_EventFilter SDLCALL SDL12_GetEventFilter(void);
+extern DECLSPEC Uint8 SDLCALL SDL12_EventState(Uint8 type, int state);
 
 #define SDL_RELEASED 0
 #define SDL_PRESSED 1

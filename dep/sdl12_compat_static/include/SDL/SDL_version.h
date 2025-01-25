@@ -52,7 +52,7 @@ typedef struct SDL_version
 #define SDL_COMPILEDVERSION SDL_VERSIONNUM(SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL)
 #define SDL_VERSION_ATLEAST(X, Y, Z) (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z))
 
-extern DECLSPEC const SDL_version * SDLCALL SDL_Linked_Version(void);
+extern DECLSPEC const SDL_version * SDLCALL SDL12_Linked_Version(void);
 
 #include "close_code.h"
 

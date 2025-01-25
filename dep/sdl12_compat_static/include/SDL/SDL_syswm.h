@@ -120,7 +120,7 @@ real SDL-1.2 available to you. */
 
 #include "begin_code.h"
 
-extern DECLSPEC int SDLCALL SDL_GetWMInfo(SDL_SysWMinfo *info);
+extern DECLSPEC int SDLCALL SDL12_GetWMInfo(SDL_SysWMinfo *info);
 
 typedef struct SDL_Window SDL_Window;
 extern DECLSPEC SDL_Window * SDLCALL SDL12COMPAT_GetWindow(void);

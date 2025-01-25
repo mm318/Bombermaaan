@@ -36,9 +36,9 @@ extern int SDL_main(int argc, char *argv[]);
 #endif
 
 #ifdef __WIN32__
-extern DECLSPEC void SDLCALL SDL_SetModuleHandle(void *hInst);
-extern DECLSPEC int SDLCALL SDL_RegisterApp(char *name, Uint32 style, void *hInst);
-extern DECLSPEC void SDLCALL SDL_UnregisterApp(void);
+extern DECLSPEC void SDLCALL SDL12_SetModuleHandle(void *hInst);
+extern DECLSPEC int SDLCALL SDL12_RegisterApp(char *name, Uint32 style, void *hInst);
+extern DECLSPEC void SDLCALL SDL12_UnregisterApp(void);
 #endif
 
 #include "close_code.h"

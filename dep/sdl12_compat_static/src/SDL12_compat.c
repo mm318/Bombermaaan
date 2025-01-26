@@ -21,7 +21,46 @@
 
 /* This file contains functions for backwards compatibility with SDL 1.2 */
 
-#include "SDL20_include_wrapper.h"
+#if defined(_WIN32) || defined(__OS2__)
+/* *** HACK HACK HACK:
+ * *** Avoid including SDL_thread.h: it defines SDL_CreateThread() as a macro */
+#define _SDL_thread_h
+#define SDL_thread_h_
+#define SDL_PASSED_BEGINTHREAD_ENDTHREAD
+#endif
+#ifdef __OS2__
+#define INCL_DOSMODULEMGR /* for Dos_LoadModule() & co. */
+#define INCL_DOSPROCESS
+#endif
+
+#define __BUILDING_SDL12_COMPAT__ 1
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_syswm.h"  /* includes windows.h or os2.h */
+
+/* Headers from SDL2 >= 2.0.7 needed for SDL_AudioStream. */
+#if !SDL_VERSION_ATLEAST(2,0,7)
+#error You need to compile against SDL >= 2.0.7 headers.
+#endif
+
+/* Missing SDL_thread.h stuff (see above) */
+#if defined(_WIN32) || defined(__OS2__)
+typedef struct SDL_Thread SDL_Thread;
+typedef int (SDLCALL *SDL_ThreadFunction) (void*);
+#endif
+#ifdef __OS2__
+typedef int (*pfnSDL_CurrentBeginThread) (void (*func)(void*), void*, unsigned, void*);
+typedef void (*pfnSDL_CurrentEndThread) (void);
+#endif
+#ifdef _WIN32
+typedef UINT_PTR (__cdecl *pfnSDL_CurrentBeginThread)
+                   (void*, unsigned, unsigned (__stdcall *func)(void*), void*, unsigned, unsigned*);
+typedef void (__cdecl *pfnSDL_CurrentEndThread) (unsigned);
+/* the following macros from Win32 SDK headers are harmful here. */
+#undef CreateWindow
+#undef CreateThread
+#undef CreateSemaphore
+#undef CreateMutex
+#endif /* _WIN32 */
 
 /*
  * We report the library version as 1.2.$(SDL12_COMPAT_VERSION). This number
@@ -78,6 +117,22 @@
 extern "C" {
 #endif
 
+/** Enable this to have warnings about wrong prototypes in SDL20_syms.h.
+ *  It won't compile but it helps to make sure it's sync'ed with SDL2 headers.
+ */
+#if 0
+#define SDL20_SYM(rc,fn,params,args,ret) \
+    typedef rc (SDLCALL *SDL20_##fn##_t) params; \
+    static SDL20_##fn##_t SDL20_##fn = IGNORE_THIS_VERSION_OF_SDL_##fn;
+#else
+#define SDL20_SYM(rc,fn,params,args,ret) \
+    typedef rc (SDLCALL *SDL20_##fn##_t) params; \
+    static SDL20_##fn##_t SDL20_##fn = SDL_##fn;
+#endif
+#include "SDL20_syms.h"
+
+#include "SDL20_include_wrapper.h"
+
 /* on x86 Linux builds, we have the public entry points force stack alignment to 16 bytes
    on entry. This won't be a massive performance hit, but it might help extremely old
    binaries that want to call into SDL to not crash in hard-to-diagnose ways. It's not a
@@ -97,20 +152,6 @@ extern "C" {
 
 #define DECLSPEC12 DECLSPEC FORCEALIGNATTR
 
-/** Enable this to have warnings about wrong prototypes in SDL20_syms.h.
- *  It won't compile but it helps to make sure it's sync'ed with SDL2 headers.
- */
-#if 0
-#define SDL20_SYM(rc,fn,params,args,ret) \
-    typedef rc (SDLCALL *SDL20_##fn##_t) params; \
-    static SDL20_##fn##_t SDL20_##fn = IGNORE_THIS_VERSION_OF_SDL_##fn;
-#else
-#define SDL20_SYM(rc,fn,params,args,ret) \
-    typedef rc (SDLCALL *SDL20_##fn##_t) params; \
-    static SDL20_##fn##_t SDL20_##fn = SDL_##fn;
-#endif
-#include "SDL20_syms.h"
-
 /* Things that _should_ be binary compatible pass right through... */
 #define SDL20_SYM_PASSTHROUGH(rc,fn,params,args,ret) \
     DECLSPEC12 rc SDLCALL SDL12_##fn params { ret SDL20_##fn args; }
@@ -124,22 +165,6 @@ extern "C" {
 #define SDL20_zero(x) SDL20_memset(&(x), 0, sizeof((x)))
 #define SDL20_zerop(x) SDL20_memset((x), 0, sizeof(*(x)))
 #define SDL20_zeroa(x) SDL20_memset((x), 0, sizeof((x)))
-#define SDL_ReportAssertion SDL20_ReportAssertion
-
-/* for SDL_assert() : */
-#define SDL_enabled_assert(condition) \
-do { \
-    while ( !(condition) ) { \
-        static struct SDL_AssertData sdl_assert_data = { 0, 0, #condition, 0, 0, 0, 0 }; \
-        const SDL_AssertState sdl_assert_state = SDL20_ReportAssertion(&sdl_assert_data, SDL_FUNCTION, SDL_FILE, SDL_LINE); \
-        if (sdl_assert_state == SDL_ASSERTION_RETRY) { \
-            continue; /* go again. */ \
-        } else if (sdl_assert_state == SDL_ASSERTION_BREAK) { \
-            SDL_TriggerBreakpoint(); \
-        } \
-        break; /* not retrying. */ \
-    } \
-} while (SDL_NULL_WHILE_LOOP_CONDITION)
 
 /* From SDL2.0's SDL_bits.h: a force-inlined function. */
 #if defined(__WATCOMC__) && defined(__386__)

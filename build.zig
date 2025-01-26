@@ -113,15 +113,15 @@ pub fn build(b: *Build) void {
         .optimize = optimize,
     });
     exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
-    exe.root_module.addIncludePath(sdl_compat_dep.path("include/"));
-    exe.root_module.addIncludePath(sdl_mixer_dep.path("include/"));
+    exe.root_module.addIncludePath(sdl_compat_dep.artifact("sdl12_compat_static").getEmittedIncludeTree());
+    exe.root_module.addIncludePath(sdl_mixer_dep.artifact("SDL2_mixer").getEmittedIncludeTree());
     exe.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
-    exe.root_module.addIncludePath(tinyxml_dep.path("src/"));
+    exe.root_module.addIncludePath(tinyxml_dep.artifact("tinyxml").getEmittedIncludeTree());
     exe.root_module.addIncludePath(simpleini_dep.path(""));
 
     exe.linkLibCpp();
     exe.linkLibrary(tinyxml_dep.artifact("tinyxml"));
-    exe.linkLibrary(sdl_compat_dep.artifact("sdl12-compat"));
+    exe.linkLibrary(sdl_compat_dep.artifact("sdl12_compat_static"));
     exe.linkLibrary(sdl_mixer_dep.artifact("SDL2_mixer"));
 
     b.installArtifact(exe);

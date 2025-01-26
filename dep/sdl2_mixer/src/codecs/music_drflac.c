@@ -25,7 +25,7 @@
 #include "mp3utils.h"
 #include "../utils.h"
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 #define DR_FLAC_IMPLEMENTATION
 #if defined(__GNUC__) && (__GNUC__ >= 4) && \

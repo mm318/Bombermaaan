@@ -26,5 +26,7 @@ pub fn build(b: *Build) void {
     lib.linkLibC();
     lib.linkLibCpp();
 
+    lib.installHeader(b.path("src/tinyxml.h"), "tinyxml.h");
+    lib.installHeader(b.path("src/tinystr.h"), "tinystr.h");
     b.installArtifact(lib);
 }

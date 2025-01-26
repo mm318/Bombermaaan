@@ -5,6 +5,9 @@
         .sdl = .{
             .path = "../sdl2",
         },
+        .libmodplug = .{
+            .path = "../libmodplug",
+        },
     },
     .paths = .{
         "include",

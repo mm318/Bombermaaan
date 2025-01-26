@@ -6,7 +6,7 @@
     it under the terms of the Perl Artistic License, available in COPYING.
 */
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #include "../../utils.h" /* for SDL_strtokr() */
 
 #include "timidity.h"

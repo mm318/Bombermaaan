@@ -47,10 +47,16 @@ private:
     int             m_ViewOriginY;
 
     bool            Create (int Width, int Height, bool FullScreen); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the resolution
-    bool            LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file); //!< Load a sprite table given its bitmap data and its properties.
+    const std::string& GetProgramFolder(void) const;
+    bool            LoadSprites(int SpriteTableWidth,
+                                int SpriteTableHeight,
+                                int SpriteWidth,
+                                int SpriteHeight,
+                                bool Transparent,
+                                int BMP_ID,
+                                const char *file);  //!< Load a sprite table given its bitmap data and its properties.
 
 public:
-
                     CDisplay(void);     //!< Initialize some members
                     ~CDisplay(void);    //!< Does nothing
     inline void     SetOptions(const COptions *pOptions);
@@ -58,15 +64,29 @@ public:
     inline void     SetModuleHandle(HMODULE hModule); //!< Set the handle of the module linked to the resources
     bool            Create(EDisplayMode DisplayMode); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
     void            Destroy (void);     //!< Destroy the DirectDraw/SDLVideo interface and the sprite tables
-    inline void     OnWindowMove (void); //!< Has to be called when the window moves (WM_MOVE)
-    inline void     OnPaint (void);     //!< Has to be called when the window has to be repainted (WM_PAINT)
-    inline void     Clear (void);       //!< Make the window's client area black
-    inline void     Update (void);      //!< Draw the sprites that DrawSprite recorded and update the window's client area
-    inline void     SetOrigin (int OriginX, int OriginY); //!< Set the origin to draw from the game view origin
-    inline void     DrawSprite (int PositionX, int PositionY, RECT *pZone, RECT *pClip, int SpriteTable, int Sprite, int SpriteLayer, int PriorityInLayer); //!< Record a drawing request that will be executed on next call to Update
-    inline void     DrawDebugRectangle (int PositionX, int PositionY, int w, int h, BYTE r, BYTE g, BYTE b, int SpriteLayer, int PriorityInLayer); //!< Record a drawing request for debug purposes
+    inline void     OnWindowMove (void);//!< Has to be called when the window moves (WM_MOVE)
+    inline void     OnPaint(void);      //!< Has to be called when the window has to be repainted (WM_PAINT)
+    inline void     Clear(void);        //!< Make the window's client area black
+    inline void     Update(void);       //!< Draw the sprites that DrawSprite recorded and update the window's client area
+    inline void     SetOrigin(int OriginX, int OriginY); //!< Set the origin to draw from the game view origin
+    inline void     DrawSprite(int PositionX,
+                               int PositionY,
+                               RECT *pZone,
+                               RECT *pClip,
+                               int SpriteTable,
+                               int Sprite,
+                               int SpriteLayer,
+                               int PriorityInLayer); //!< Record a drawing request that will be executed on next call to Update
+    inline void     DrawDebugRectangle(int PositionX,
+                                       int PositionY,
+                                       int w,
+                                       int h,
+                                       BYTE r,
+                                       BYTE g,
+                                       BYTE b,
+                                       int SpriteLayer,
+                                       int PriorityInLayer); //!< Record a drawing request for debug purposes
     inline void     RemoveAllDebugRectangles(void);
-    inline const std::string& GetProgramFolder(void) const;
     inline CVideoSDL& GetSDLVideo(void);
     bool            IsDisplayModeAvailable (EDisplayMode DisplayMode);
 };

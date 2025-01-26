@@ -227,7 +227,7 @@ bool CSound::LoadSample(ESample Sample, int ResourceID, const char *file)
     // Check if the sample slot is free
     ASSERT(m_Samples[Sample] == NULL);
 
-    std::string path(SOUND_FOLDER);
+    std::string path(GetProgramFolder() + '/' + SOUND_FOLDER);
 
 #ifdef WIN32
     path.append("\\");
@@ -236,6 +236,8 @@ bool CSound::LoadSample(ESample Sample, int ResourceID, const char *file)
 #endif
 
     path.append(file);
+
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading sound from %s", path.c_str());
 
     m_Samples[Sample] = Mix_LoadWAV(path.c_str());
 
@@ -308,7 +310,7 @@ bool CSound::LoadSong(ESong Song, int ResourceID, const char* file)
 
 #else
 
-    std::string path(SOUND_FOLDER);
+    std::string path(GetProgramFolder() + '/' + SOUND_FOLDER);
 
 #ifdef WIN32
     path.append("\\");
@@ -317,6 +319,8 @@ bool CSound::LoadSong(ESong Song, int ResourceID, const char* file)
 #endif
 
     path.append(file);
+
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading song from %s", path.c_str());
 
     // Open Sample
     m_CurrentSong = Mix_LoadMUS(path.c_str());

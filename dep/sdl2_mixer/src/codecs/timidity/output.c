@@ -10,7 +10,7 @@
     Audio output (to file / device) functions.
 */
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 #include "options.h"
 #include "output.h"

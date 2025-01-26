@@ -29,6 +29,8 @@
 #ifndef __CSOUND_H__
 #define __CSOUND_H__
 
+#include "COptions.h"
+
 #ifdef ALLEGRO
     #include "allegro.h"
     #include "winalleg.h"
@@ -117,13 +119,15 @@ class CSound
 {
 private:
 
-    HMODULE m_hModule;                          //!< Connection to the resources
-    bool m_GlobalPause;                         //!< Is the sound paused?
-    bool m_SoundOK;                             //!< Could SDL_mixer be initialized? This may be false if there is no sound card
-    Mix_Chunk *m_Samples[NUM_SAMPLES];    //!< The available samples
-    Mix_Music *m_CurrentSong;             //!< The current song
-    ESong m_ESong;                              //!< current song number
+    const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
+    HMODULE m_hModule;                  //!< Connection to the resources
+    bool m_GlobalPause;                 //!< Is the sound paused?
+    bool m_SoundOK;                     //!< Could SDL_mixer be initialized? This may be false if there is no sound card
+    Mix_Chunk *m_Samples[NUM_SAMPLES];  //!< The available samples
+    Mix_Music *m_CurrentSong;           //!< The current song
+    ESong m_ESong;                      //!< current song number
 
+    const std::string& GetProgramFolder(void) const;
     bool GetSoundResource(int ResourceID, LPVOID &pData, DWORD &DataSize);
     bool LoadSample(ESample Sample, int ResourceID, const char *file);
 
@@ -136,6 +140,7 @@ public:
     CSound(void);
     ~CSound(void);
 
+    inline void SetOptions(const COptions *pOptions);
     inline void SetModuleHandle(HMODULE hModule);             //!< Set the connection to the resources
     bool        Create(void);                                 //!< Initialize the object
     void        Destroy(void);                                //!< Uninitialize the object
@@ -153,6 +158,11 @@ public:
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
+inline void CSound::SetOptions(const COptions *pOptions)
+{
+    m_pOptions = pOptions;
+}
+
 inline void CSound::SetModuleHandle(HMODULE hModule)
 {
     m_hModule = hModule;
@@ -161,6 +171,10 @@ inline void CSound::SetModuleHandle(HMODULE hModule)
 inline bool CSound::IsPaused(void)
 {
     return m_GlobalPause;
+}
+
+inline const std::string& CSound::GetProgramFolder(void) const {
+    return m_pOptions->GetProgramFolder();
 }
 
 //******************************************************************************************************************************

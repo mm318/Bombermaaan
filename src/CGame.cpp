@@ -667,6 +667,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     m_MenuYesNo.SetSound(&m_Sound);
 
     // Set the objects the sound object has to communicate with
+    m_Sound.SetOptions(&m_Options);
 #ifdef WIN32
     m_Sound.SetModuleHandle(m_hModule);
 #else

@@ -18,6 +18,15 @@ const src_files = [_][]const u8{
     "codecs/music_ogg_stb.c",
     "codecs/music_opus.c",
     "codecs/music_timidity.c",
+    "codecs/timidity/common.c",
+    "codecs/timidity/instrum.c",
+    "codecs/timidity/mix.c",
+    "codecs/timidity/output.c",
+    "codecs/timidity/playmidi.c",
+    "codecs/timidity/readmidi.c",
+    "codecs/timidity/resample.c",
+    "codecs/timidity/tables.c",
+    "codecs/timidity/timidity.c",
     "codecs/music_wav.c",
     "codecs/music_wavpack.c",
     "codecs/music_xmp.c",
@@ -27,6 +36,16 @@ const src_files = [_][]const u8{
     "mixer.c",
     "music.c",
     "utils.c",
+};
+
+const c_flags: []const []const u8 = &.{
+    "-DMUSIC_CMD",
+    "-DMUSIC_WAV",
+    "-DMUSIC_FLAC_DRFLAC",
+    "-DMUSIC_OGG",
+    "-DOGG_USE_STB",
+    "-DMUSIC_MP3_MINIMP3",
+    "-DMUSIC_MID_TIMIDITY",
 };
 
 pub fn build(b: *std.Build) !void {
@@ -43,7 +62,7 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
-    lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files });
+    lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
     lib.addIncludePath(b.path("include/"));
     lib.addIncludePath(b.path("src/"));
     lib.addIncludePath(b.path("src/codecs/"));

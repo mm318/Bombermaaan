@@ -536,7 +536,13 @@ bool CVideoSDL::SetTransparentColor(int Red, int Green, int Blue)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CVideoSDL::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, HBITMAP hBitmap)
+bool CVideoSDL::LoadSprites(int SpriteTableWidth,
+                            int SpriteTableHeight,
+                            int SpriteWidth,
+                            int SpriteHeight,
+                            bool Transparent,
+                            int BMP_ID,
+                            HBITMAP hBitmap)
 {
 
     SSurface Surface;
@@ -577,7 +583,14 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spr
     amask = 0xff000000;
 #endif
 
-    SDL_Surface *surf = SDL12_CreateRGBSurface(SDL_SWSURFACE, Bitmap.bmWidth, Bitmap.bmHeight, Bitmap.bmBitsPixel, rmask, gmask, bmask, amask);
+    SDL_Surface *surf = SDL12_CreateRGBSurface(SDL_SWSURFACE,
+                                               Bitmap.bmWidth,
+                                               Bitmap.bmHeight,
+                                               Bitmap.bmBitsPixel,
+                                               rmask,
+                                               gmask,
+                                               bmask,
+                                               amask);
 
     BYTE* bits = new BYTE[Bitmap.bmWidthBytes * Bitmap.bmHeight];
     BYTE* temp = new BYTE[Bitmap.bmWidthBytes * Bitmap.bmHeight];
@@ -755,12 +768,19 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spr
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CVideoSDL::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char* file)
+bool CVideoSDL::LoadSprites(int SpriteTableWidth,
+                            int SpriteTableHeight,
+                            int SpriteWidth,
+                            int SpriteHeight,
+                            bool Transparent,
+                            int BMP_ID,
+                            const std::string& programFolder,
+                            const char* file)
 {
 
     SSurface Surface;
 
-    std::string path(IMAGE_FOLDER);
+    std::string path(programFolder + '/' + IMAGE_FOLDER);
 
 #ifdef WIN32
     path.append("\\");
@@ -770,6 +790,7 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spr
 
     path.append(file);
 
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading sprite from %s", path.c_str());
     SDL_Surface *ddsd = SDL12_LoadBMP(path.c_str());
 
     // If it failed

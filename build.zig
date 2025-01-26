@@ -56,7 +56,6 @@ const src_files = [_][]const u8{
     "CTitle.cpp",
     "CTeam.cpp",
     "CVictory.cpp",
-    "CVideo.cpp",
     "CVideoSDL.cpp",
     "CWall.cpp",
     "CWindow.cpp",

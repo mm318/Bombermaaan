@@ -58,7 +58,8 @@
 enum EDebugSection {
     DEBUGSECT_BOMBER,
     DEBUGSECT_BOMB,
-    DEBUGSECT_EXPLOSION
+    DEBUGSECT_EXPLOSION,
+    DEBUGSECT_OTHER
 };
 
 //******************************************************************************************************************************

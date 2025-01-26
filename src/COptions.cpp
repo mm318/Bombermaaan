@@ -160,27 +160,33 @@ COptions& COptions::operator = (const COptions& Copy)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool COptions::Create( bool useAppDataFolder, std::string dynamicDataFolder, std::string pgmFolder )
+bool COptions::Create(const std::string& dynamicDataFolder, const std::string& pgmFolder)
 {
+    m_programFolder = pgmFolder;
+
     // Set the file name of the configuration file including full path
-    configFileName = dynamicDataFolder.c_str();
-    configFileName.append( "config.xml" );
-    theLog.WriteLine( "Options         => Name of config file: '%s'.", configFileName.c_str() );
+    m_configFileName = dynamicDataFolder;
+    m_configFileName.append( "config.xml" );
+    theLog.WriteLine( "Options         => Name of config file: '%s'.", m_configFileName.c_str() );
 
     // Set the file name of the old configuration file
-    oldconfigFileName = dynamicDataFolder.c_str();
-    oldconfigFileName.append( "config.dat" );
+    m_oldconfigFileName = dynamicDataFolder;
+    m_oldconfigFileName.append( "config.dat" );
 
     // Set default configuration values before loading the configuration file and overwriting the default
     SetDefaultValues();
 
     // Load configuration file and overwrite the previously set defaults
     if (!LoadConfiguration())
+    {
         return false;
+    }
 
     // Load game levels data and names
-    if (!LoadLevels( useAppDataFolder ? dynamicDataFolder : "", pgmFolder ))
+    if (!LoadLevels(dynamicDataFolder, pgmFolder))
+    {
         return false;
+    }
     
     // Everything went ok.
     return true;
@@ -223,11 +229,7 @@ void COptions::SetDefaultValues(void)
     m_Level = 0;
 
     // Default display mode is windowed, not full-screen
-#ifdef _DEBUG
     m_DisplayMode = DISPLAYMODE_WINDOWED;
-#else
-    m_DisplayMode = DISPLAYMODE_FULL3;
-#endif
 
     // Set the bomber types
     m_BomberType[0] = BOMBERTYPE_MAN;
@@ -310,7 +312,7 @@ void COptions::SetDefaultValues(void)
 bool COptions::LoadConfiguration (void)
 {
     // Try to open the old configuration file
-    FILE* pConfigFile = fopen( oldconfigFileName.c_str(), "rb" );
+    FILE* pConfigFile = fopen( m_oldconfigFileName.c_str(), "rb" );
 
     // If the old configuration file exists
     if ( pConfigFile != NULL )
@@ -334,7 +336,7 @@ bool COptions::LoadConfiguration (void)
     }
 
 
-    TiXmlDocument configDoc( configFileName );
+    TiXmlDocument configDoc( m_configFileName );
     
     // Try to load XML file
     if ( configDoc.LoadFile() ) {
@@ -541,7 +543,7 @@ void COptions::WriteXMLData()
     //
     // Save file
     //
-    bool saveOkay = newConfig.SaveFile( configFileName );
+    bool saveOkay = newConfig.SaveFile( m_configFileName );
 
     // Log a message
     theLog.WriteLine( "Options         => Configuration file was %s written.", ( saveOkay ? "successfully" : "not" ) );

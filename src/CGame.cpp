@@ -546,7 +546,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     }
 #endif
 
-    if (!m_Options.Create(useAppDataFolder, dynamicDataFolder, pgmDirectory))
+    if (!m_Options.Create(dynamicDataFolder, pgmDirectory))
     {
         // Get out
         return false;
@@ -562,6 +562,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     m_Input.SetTimer(&m_Timer);
 
     // Set the objects the display object has to communicate with
+    m_Display.SetOptions(&m_Options);
 #ifdef WIN32
     m_Display.SetWindowHandle(m_hWnd);
     m_Display.SetModuleHandle(m_hModule);

@@ -31,11 +31,23 @@
 #ifndef __COPTIONS_H__
 #define __COPTIONS_H__
 
-#include "CDisplay.h"
 #include "CItem.h"
 #include "CLevel.h"
 #include "CTeam.h"
 #include "tinyxml.h"
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+enum EDisplayMode
+{
+    DISPLAYMODE_NONE,
+    DISPLAYMODE_FULL1,
+    DISPLAYMODE_FULL2,
+    DISPLAYMODE_FULL3,
+    DISPLAYMODE_WINDOWED
+};
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -119,8 +131,9 @@ private:
     int                 m_Control[MAX_PLAYER_INPUT][NUM_CONTROLS]; //!< Control number to use for each player input and for each control
     int                 m_Level;
     std::vector<CLevel> m_Levels;
-    std::string         configFileName;                 //!< Full name of the config file (including path)
-    std::string         oldconfigFileName;              //!< Full name of the old (binary) config file (including path)
+    std::string         m_programFolder;                //!< Full path of the directory that the program resides
+    std::string         m_configFileName;               //!< Full name of the config file (including path)
+    std::string         m_oldconfigFileName;            //!< Full name of the old (binary) config file (including path)
 
     void                SetDefaultValues();             //!< Set the default configuration values
     void                WriteXMLData();                 //!< Write the options to the XML based configuration file
@@ -134,9 +147,10 @@ public:
                         COptions(const COptions& another);
                         ~COptions (void);               //!< Destructor. Do nothing.
     COptions&           operator = (const COptions& Copy);    //!< Operator = used to copy an option object.
-    bool                Create( bool useAppDataFolder, std::string dynamicDataFolder, std::string pgmFolder );  //!< Load the options. Create the configuration file if it doesn't exist.
+    bool                Create(const std::string& dynamicDataFolder, const std::string& pgmFolder);  //!< Load the options. Create the configuration file if it doesn't exist.
     void                Destroy (void);                 //!< Free allocated memory.
     void                SaveBeforeExit (void);          //!< Write the options to the configuration file
+    inline const std::string& GetProgramFolder(void) const; //!< Get the full path of the directory that the program resides
     inline int          GetTimeStartMinutes (void);     //!< Get how many minutes in the time when a battle starts
     inline int          GetTimeStartSeconds (void);     //!< Get how many seconds in the time when a battle starts
     inline int          GetTimeUpMinutes (void);        //!< Get how many minutes in the time when the arena starts closing
@@ -173,6 +187,11 @@ public:
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
+
+inline const std::string& COptions::GetProgramFolder(void) const
+{
+    return m_programFolder;
+}
 
 inline int COptions::GetTimeStartMinutes (void)
 {

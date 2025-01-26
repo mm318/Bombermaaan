@@ -73,35 +73,17 @@ bool CDisplay::Create(int Width, int Height, bool FullScreen)
     int Depth = 32;
 
     // If no display mode has been set yet or the current display mode is not the right one
-#ifdef DIRECTX
-    if (!m_VideoDX.IsModeSet(Width, Height, Depth, FullScreen))
-#else
     if (!m_VideoSDL.IsModeSet(Width, Height, Depth, FullScreen))
-#endif
     {
-        // Destroy DirectDraw/SDLVideo interface and the sprite tables
+        // Destroy SDLVideo interface and the sprite tables
         Destroy();
 
-        // If DirectDraw/SDLVideo object creation failed
-#ifdef DIRECTX
-        if (!m_VideoDX.Create(Width, Height, Depth, FullScreen))
-#else
+        // If SDLVideo object creation failed
         if (!m_VideoSDL.Create(Width, Height, Depth, FullScreen))
-#endif
         {
             // Get out
             return false;
         }
-
-#ifdef DIRECTX
-        // Set the RGB color for transparent pixels in sprites
-        // If it failed
-        if (!m_VideoDX.SetTransparentColor (0, 255, 0))
-        {
-            // Get out, it failed
-            return false;
-        }
-#endif
 
         if (!LoadSprites(1, 1, 82, 41, false, BMP_GREEN_BACKGROUND_SOLID, "green_background_solid.bmp") ||
             !LoadSprites(1, 1, 82, 41, false, BMP_BLUE_BACKGROUND_SOLID, "blue_background_solid.bmp") ||
@@ -178,11 +160,7 @@ bool CDisplay::Create(int Width, int Height, bool FullScreen)
         m_ViewOriginX = (Width - VIEW_WIDTH) / 2;
         m_ViewOriginY = (Height - VIEW_HEIGHT) / 2;
 
-#ifdef DIRECTX
-        m_VideoDX.SetOrigin(m_ViewOriginX, m_ViewOriginY);
-#else
         m_VideoSDL.SetOrigin(m_ViewOriginX, m_ViewOriginY);
-#endif
     }
 
     // Everything went right
@@ -200,11 +178,11 @@ bool CDisplay::Create(EDisplayMode DisplayMode)
     // According to the new display mode to set
     switch (DisplayMode)
     {
-    case DISPLAYMODE_FULL1: return Create(320, 240, true);
-    case DISPLAYMODE_FULL2: return Create(512, 384, true);
-    case DISPLAYMODE_FULL3: return Create(640, 480, true);
-    case DISPLAYMODE_WINDOWED: return Create(VIEW_WIDTH, VIEW_HEIGHT, false);
-    default: return false; // Should never happen
+        case DISPLAYMODE_FULL1: return Create(320, 240, true);
+        case DISPLAYMODE_FULL2: return Create(512, 384, true);
+        case DISPLAYMODE_FULL3: return Create(640, 480, true);
+        case DISPLAYMODE_WINDOWED: return Create(VIEW_WIDTH, VIEW_HEIGHT, false);
+        default: return false; // Should never happen
     }
 }
 
@@ -214,12 +192,8 @@ bool CDisplay::Create(EDisplayMode DisplayMode)
 
 void CDisplay::Destroy(void)
 {
-    // Destroy DirectDraw/SDLVideo interface and the sprite tables
-#ifdef DIRECTX
-    m_VideoDX.Destroy();
-#else
+    // Destroy SDLVideo interface and the sprite tables
     m_VideoSDL.Destroy();
-#endif
 }
 
 //******************************************************************************************************************************
@@ -233,17 +207,11 @@ bool CDisplay::IsDisplayModeAvailable(EDisplayMode DisplayMode)
     // According to the display mode to test
     switch (DisplayMode)
     {
-#ifdef DIRECTX
-    case DISPLAYMODE_FULL1: return m_VideoDX.IsModeAvailable(320, 240, 32);
-    case DISPLAYMODE_FULL2: return m_VideoDX.IsModeAvailable(512, 384, 32);
-    case DISPLAYMODE_FULL3: return m_VideoDX.IsModeAvailable(640, 480, 32);
-#else
-    case DISPLAYMODE_FULL1: return m_VideoSDL.IsModeAvailable(320, 240, 32);
-    case DISPLAYMODE_FULL2: return m_VideoSDL.IsModeAvailable(512, 384, 32);
-    case DISPLAYMODE_FULL3: return m_VideoSDL.IsModeAvailable(640, 480, 32);
-#endif
-    case DISPLAYMODE_WINDOWED: return true;
-    default: return false; // Should never happen
+        case DISPLAYMODE_FULL1: return m_VideoSDL.IsModeAvailable(320, 240, 32);
+        case DISPLAYMODE_FULL2: return m_VideoSDL.IsModeAvailable(512, 384, 32);
+        case DISPLAYMODE_FULL3: return m_VideoSDL.IsModeAvailable(640, 480, 32);
+        case DISPLAYMODE_WINDOWED: return true;
+        default: return false; // Should never happen
     }
 }
 
@@ -251,11 +219,10 @@ bool CDisplay::IsDisplayModeAvailable(EDisplayMode DisplayMode)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file)
-{
-
 #ifndef LOAD_RESOURCES_FROM_FILES
 
+bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file)
+{
 #ifdef WIN32
     // Load the bitmap as a resource
     HBITMAP hBitmap = (HBITMAP)LoadImage(m_hModule, MAKEINTRESOURCE(BMP_ID), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
@@ -273,14 +240,10 @@ bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spri
 #endif
     // Create the sprites by giving the sprite table information and the handle to the bitmap.
     // If it fails
-#ifdef DIRECTX
-    if (!m_VideoDX.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID, hBitmap))
-#else
 #ifdef WIN32
     if (!m_VideoSDL.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID, hBitmap))
 #else
     if (!m_VideoSDL.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID))
-#endif
 #endif
     {
         // Get out, failure
@@ -300,24 +263,30 @@ bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spri
         return false;
     }
 #endif
+}
 
 #else
 
-#ifdef DIRECTX
-    if (!m_VideoDX.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID, file))
-#else
-    if (!m_VideoSDL.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID, file))
-#endif
+bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file)
+{
+    if (!m_VideoSDL.LoadSprites(SpriteTableWidth,
+                                SpriteTableHeight,
+                                SpriteWidth,
+                                SpriteHeight,
+                                Transparent,
+                                BMP_ID,
+                                GetProgramFolder(),
+                                file))
     {
         // Get out, failure
         return false;
     }
 
-#endif
-
     // Everything went right
     return true;
 }
+
+#endif
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************

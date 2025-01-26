@@ -33,7 +33,7 @@
  *
  *  Most of the code was taken in the
  *  Log.cpp/Log.h files of HaCKeR source,
- *  by Michaël Schoonbrood :
+ *  by Michael Schoonbrood :
  *      - MadButch@OneCoolDude.Com
  *      - http://play.as/madbutch
  */
@@ -47,8 +47,8 @@
 
 CLog::CLog()
 {
-    // Log file is not open yet
-    m_bOpen = false;
+    m_bOpen = false;    // Log file is not open yet
+    m_toStdout = false;
 }
 
 //******************************************************************************************************************************
@@ -71,9 +71,8 @@ CLog::~CLog()
 // Get an instance of CLog (singleton)
 CLog& CLog::GetLog()
 {
-   static CLog rLog;    // r = reference
-
-   return rLog;
+   static CLog sLog;
+   return sLog;
 }
 
 //******************************************************************************************************************************
@@ -83,9 +82,8 @@ CLog& CLog::GetLog()
 // Get an instance of CLog (singleton)
 CLog& CLog::GetDebugLog()
 {
-   static CLog rDebugLog;    // r = reference
-
-   return rDebugLog;
+   static CLog sDebugLog;
+   return sDebugLog;
 }
 
 //******************************************************************************************************************************
@@ -93,7 +91,7 @@ CLog& CLog::GetDebugLog()
 //******************************************************************************************************************************
 
 // Open the Log
-bool CLog::Open( const char *pFilename )
+bool CLog::Open(const char *pFilename, const bool tee)
 {
     // Check if there already is an opened file
     if( m_bOpen )
@@ -146,6 +144,8 @@ bool CLog::Open( const char *pFilename )
         // Set indicator bOpen to false
         m_bOpen = false;
     }
+
+    m_toStdout = tee;
 
     return m_bOpen;
 }
@@ -232,14 +232,77 @@ void CLog::LogLastError()
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-long CLog::Write( const char *pMessage, ... )
+long CLog::Write( const char *pMessage, ...)
+{
+    va_list argList;
+    va_start(argList, pMessage);
+    long result = WriteImpl(pMessage, argList);
+    va_end (argList);
+    return result;
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+// Write a line into the Log
+long CLog::WriteLine( const char *pMessage, ... )
+{
+    char msgFmt[1024];
+    sprintf(msgFmt, "%s\n", pMessage);
+
+    va_list argList;
+    va_start(argList, pMessage);
+    long result = WriteImpl(msgFmt, argList);
+    va_end (argList);
+
+    return result;
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+// Write a line into the Log
+long CLog::WriteDebugMsg( EDebugSection section, const char *pMessage, ... )
+{
+    char msgFmt[1024];
+    switch(section)
+    {
+        case DEBUGSECT_BOMBER:
+            sprintf(msgFmt, "BOMBER:     %s\n", pMessage);  // #3078839
+            break;
+          
+        case DEBUGSECT_BOMB:
+            sprintf(msgFmt, "BOMB:       %s\n", pMessage);  // #3078839
+            break;
+          
+        case DEBUGSECT_EXPLOSION:
+            sprintf(msgFmt, "EXPLOSION:  %s\n", pMessage);  // #3078839
+            break;
+
+        default:
+            sprintf(msgFmt, "UNKNOWN:    %s\n", pMessage);  // #3078839
+            break;
+    }
+
+    va_list argList;
+    va_start(argList, pMessage);
+    long result = WriteImpl(msgFmt, argList);
+    va_end (argList);
+
+    return result;
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+long CLog::WriteImpl(const char *pMessage, va_list args)
 {
     // Format the given string using the given arguments ("..." parameter)
-    char Message [2048];
-    va_list argList;
-    va_start( argList, pMessage );
-    vsprintf(Message, pMessage, argList);
-    va_end (argList);
+    char Message[2048];
+    vsprintf(Message, pMessage, args);
 
     // If the log is open
     if( m_bOpen )
@@ -298,180 +361,10 @@ long CLog::Write( const char *pMessage, ... )
         return 0;
     }
 
-    return 1;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-// Write a line into the Log
-long CLog::WriteLine( const char *pMessage, ... )
-{
-    // Format the given string using the given arguments ("..." parameter)
-    char Message [2048];
-    va_list argList;
-    va_start( argList, pMessage );
-    vsprintf(Message, pMessage, argList);
-    va_end (argList);
-
-    // If the log is open
-    if( m_bOpen )
+    if (m_toStdout)
     {
-        // If the message starts with a blank line
-        if( Message[0] != '\n' )
-        {
-            // Get current time
-#ifdef WIN32
-            SYSTEMTIME LocalTime;
-            GetLocalTime (&LocalTime);
-#else
-            struct tm *LocalTime;
-            time_t curTime = time(NULL);
-            LocalTime = localtime(&curTime);
-#endif
-    
-            // Store the time string
-            char Time [64];
-#ifdef WIN32
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d  ",   // Format
-                      LocalTime.wHour,      // Time numbers to use
-                      LocalTime.wMinute, 
-                      LocalTime.wSecond);
-#else
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d  ",   // Format (don't forget '\n' character!)
-                      LocalTime->tm_hour,   // Time numbers to use
-                      LocalTime->tm_min, 
-                      LocalTime->tm_sec);
-#endif
-            
-            // Write the time string
-            m_theLog.write( Time, strlen( Time ) );
-
-            // Write the message
-            m_theLog.write( Message, strlen( Message ) );
-        }
-        // If the message doesn't start with a blank line
-        else
-        {
-            // Write the message without the time
-            m_theLog.write( Message, strlen( Message ) );
-        }
-
-        // Write a blank line
-        m_theLog.write( "\n", strlen( "\n" ) );
-
-        m_theLog.flush();
-    }
-    // If the log is not open
-    else
-    {
-        // Couldn't write to Log!
-        return 0;
+        std::cout.write(Message, strlen(Message));
     }
 
     return 1;
 }
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-// Write a line into the Log
-long CLog::WriteDebugMsg( EDebugSection section, const char *pMessage, ... )
-{
-    // Format the given string using the given arguments ("..." parameter)
-    char Message [2048];
-    va_list argList;
-    va_start( argList, pMessage );
-    vsprintf(Message, pMessage, argList);
-    va_end (argList);
-
-    // If the log is open
-    if( m_bOpen )
-    {
-        // If the message starts with a blank line
-        if( Message[0] != '\n' )
-        {
-            // Get current time
-#ifdef WIN32
-            SYSTEMTIME LocalTime;
-            GetLocalTime (&LocalTime);
-#else
-            struct tm *LocalTime;
-            time_t curTime = time(NULL);
-            LocalTime = localtime(&curTime);
-#endif
-    
-            // Store the time string
-            char Time [64];
-#ifdef WIN32
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d  ",   // Format
-                      LocalTime.wHour,      // Time numbers to use
-                      LocalTime.wMinute, 
-                      LocalTime.wSecond);
-#else
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d  ",   // Format (don't forget '\n' character!)
-                      LocalTime->tm_hour,   // Time numbers to use
-                      LocalTime->tm_min, 
-                      LocalTime->tm_sec);
-#endif
-            
-            // Write the time string
-            m_theLog.write( Time, strlen( Time ) );
-
-            std::string sectionString; // #3078839
-
-            switch( section )
-            {
-                case DEBUGSECT_BOMBER:
-                  sectionString = "BOMBER:     "; // #3078839
-                  break;
-                  
-                case DEBUGSECT_BOMB:
-                  sectionString = "BOMB:       "; // #3078839
-                  break;
-                  
-                case DEBUGSECT_EXPLOSION:
-                  sectionString = "EXPLOSION:  "; // #3078839
-                  break;
-                  
-                default:
-                  sectionString = "UNKNOWN:    "; // #3078839
-                  break;
-            }
-
-            m_theLog << sectionString; // #3078839
-
-            // Write the message
-            m_theLog.write( Message, strlen( Message ) );
-        }
-        // If the message doesn't start with a blank line
-        else
-        {
-            // Write the message without the time
-            m_theLog.write( Message, strlen( Message ) );
-        }
-
-        // Write a blank line
-        m_theLog.write( "\n", strlen( "\n" ) );
-
-        m_theLog.flush();
-    }
-    // If the log is not open
-    else
-    {
-        // Couldn't write to Log!
-        return 0;
-    }
-
-    return 1;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************

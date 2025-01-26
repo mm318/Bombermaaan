@@ -71,20 +71,22 @@ class CLog
 public:
                     CLog();
     virtual         ~CLog();
-    static CLog&    GetLog();                               //!< Get an instance of CLog (singleton)
-    static CLog&    GetDebugLog();                          //!< Get an instance of CLog (singleton) for debug messages
-    bool            Open( const char *pFilename );          //!< Open the log
-    bool            Close();                                //!< Close the log
-    void            LogLastError();                         //!< Log the last occured error!
-    long            Write ( const char *pMessage, ... );
-    long            WriteLine( const char *pMessage, ... ); //!< Write a line to the log
-    inline bool     IsOpen();                               //!< Return whether the log is open or not
+    static CLog&    GetLog();                                             //!< Get an instance of CLog (singleton)
+    static CLog&    GetDebugLog();                                        //!< Get an instance of CLog (singleton) for debug messages
+    bool            Open(const char *pFilename, const bool tee = false);  //!< Open the log
+    bool            Close();                                              //!< Close the log
+    void            LogLastError();                                       //!< Log the last occured error!
+    long            Write( const char *pMessage, ... );
+    long            WriteLine( const char *pMessage, ... );               //!< Write a line to the log
+    inline bool     IsOpen();                                             //!< Return whether the log is open or not
     long            WriteDebugMsg( EDebugSection section, const char *pMessage, ... ); //!< Write a line to the log
 
 private:
+    long            WriteImpl(const char *pMessage, va_list args);
 
     std::ofstream   m_theLog;
     bool            m_bOpen;
+    bool            m_toStdout;
 };
 
 //******************************************************************************************************************************

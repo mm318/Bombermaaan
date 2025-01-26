@@ -461,7 +461,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     logFileName.append("log.txt");
 
     // Open the log file
-    theLog.Open(logFileName.c_str());
+    theLog.Open(logFileName.c_str(), true);
 
 #endif
 
@@ -474,7 +474,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     debugLogFileName.append( "debug.log" );
 
     // Open the log file
-    debugLog.Open( debugLogFileName.c_str() );
+    debugLog.Open(debugLogFileName.c_str());
 
 #endif
 

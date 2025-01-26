@@ -73,6 +73,7 @@ const c_flags: []const []const u8 = &.{
     "-Wextra",
     "-Wno-format-truncation",
     "-Wno-missing-field-initializers",
+    "-Wno-date-time",
     "-O2",
     "-DNDEBUG",
     "-DTIXML_USE_STL",

@@ -132,18 +132,18 @@ CGame::CGame (HINSTANCE hInstance, char** pCommandLine)
     if (__DATE__[0] == 'J') {
         if (__DATE__[1] == 'a')      { windowTitle.append("01"); }
         else if (__DATE__[2] == 'n') { windowTitle.append("06"); }
-        else                             { windowTitle.append("07"); }
+        else                         { windowTitle.append("07"); }
     }
     else if (__DATE__[0] == 'F') {
         windowTitle.append("02");
     }
     else if (__DATE__[0] == 'M') {
         if (__DATE__[2] == 'r')      { windowTitle.append("03"); }
-        else                             { windowTitle.append("05"); }
+        else                         { windowTitle.append("05"); }
     }
     else if (__DATE__[0] == 'A') {
         if (__DATE__[1] == 'p')      { windowTitle.append("04"); }
-        else                             { windowTitle.append("08"); }
+        else                         { windowTitle.append("08"); }
     }
     else if (__DATE__[0] == 'S') {
         windowTitle.append("09");

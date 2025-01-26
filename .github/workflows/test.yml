@@ -1,0 +1,38 @@
+name: Test Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: '0 16 * * *' # run at 4 PM UTC
+
+jobs:
+  build-all-targets:
+    strategy:
+      matrix:
+        include:
+          - target: 'native'
+            optimizaton: 'Debug'
+          - target: 'native'
+            optimizaton: 'ReleaseSafe'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libxext-dev libgles-dev libglx-dev libpulse-dev
+
+      - uses: actions/checkout@v4
+
+      - uses: mlugg/setup-zig@v1
+        with:
+          version: 0.14.0-dev.1911+3bf89f55c
+
+      - name: Build game
+        run: |
+          zig build -Doptimize=${{ matrix.optimizaton }} \
+            ${{ matrix.target == 'emscripten' && '-Dtarget=wasm32-emscripten' || '' }}

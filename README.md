@@ -1,11 +1,10 @@
 [![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://travis-ci.org/bjaraujo/Bombermaaan.svg?branch=master)](https://travis-ci.org/bjaraujo/Bombermaaan/build)
+![Build Status](https://github.com/mm318/Bombermaaan/actions/workflows/test.yml/badge.svg)
 
 # Bombermaaan
 
-![Main Screen](https://raw.githubusercontent.com/billyaraujo/bombermaaan/master/screenshots/ss01.png) 
-![Game Play 1](https://raw.githubusercontent.com/billyaraujo/bombermaaan/master/screenshots/ss02.png) 
-![Game Play 2](https://raw.githubusercontent.com/billyaraujo/bombermaaan/master/screenshots/ss03.png)
+![Main Screen](assets/ss01.png) 
+![Game Play 1](assets/ss02.png) 
 
 ## Copyright
 
@@ -28,7 +27,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Bombermaaan.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+along with Bombermaaan.  If not, see \<[http://www.gnu.org/licenses/](http://www.gnu.org/licenses/)\>.
 	
 ## Introduction
 
@@ -43,67 +42,36 @@ project he can show to be hired.
 
 This program is still, and will always be under 
 development. You can check the latest history of 
-this project by browsing <a href="http://bombermaaan.sourceforge.net/">its website</a>. You'll be 
+this project by browsing [its website](http://bombermaaan.sourceforge.net/). You'll be 
 informed of what was changed, fixed, added, and 
 removed in each version.
 
 ## System requirements
 
-This program has been tested under Windows 95 OSR2, 98 PE/SE, 2000 and XP.
-
-It requires DirectX 7.0 or later to run. It is
-recommended you set your display to at least
-16 bit color depth. A sound card is recommended.
-
-## Parameters and switches for Win32
-
-When Bombermaaan is called without a command line parameter (started with mouse click for example),
-the game fetches level files from the directory &lt;path-to-exe-file&gt;\Levels. The configuration
-file named config.xml and log file named log.txt are read and/or written in the same folder where
-the called exe file resides.
-
-Since some Windows systems (Vista for example) don't allow the creation of files in the program's
-directory, Bombermaaan was modified so the dynamic files (config.xml and log.txt) are handled
-in a subfolder of the user's application data folder.<br />
-You can use <kbd>echo %appdata%</kbd> in the command line to see where your application folder is
-placed. Bombermaaan creates a subfolder called &quot;Bombermaaan&quot;. You can browse to this folder by
-running <kbd>%appdata%\Bombermaaan</kbd> or typing <kbd>start &quot;%appdata%\Bombermaaan&quot;</kbd>
-in a command line window.<br />
-<strong>This behaviour is NOT enabled by default.</strong><br />
-To enable the use of your %appdata% folder, append <kbd>--use-appdata-dir</kbd> when calling the
-Bombermaaan exe file.<br />
-Users can store their own level files in the %appdata%\Bombermaaan\Levels directory. These files
-are also loaded as level files. So there is no need to touch the program files directory. Remember:
-this behaviour is enabled when the <kbd>--use-appdata-dir</kbd> parameter is used.
-
-You can call Bombermaaan with the <kbd>--help</kbd> switch to see a message box with copyright and license notice.
+This program has been tested under Ubuntu 20.04.
 
 ## Parameters and switches for Linux
 
 When Bombermaaan is called without a command line parameter (started with mouse click for example),
-the game fetches level files from the directory &lt;path-to-executable-file&gt;\Levels. The configuration
-file named config.xml and log file named log.txt are read and/or written in your home folder <code>~/.Bombermaaan</code>.
+the game fetches level files from the directory \<path-to-executable-file\>/levels. The configuration
+file named config.xml and log file named log.txt are read and/or written in the current working directory.
 
-Users can store their own level files in the ~\.Bombermaaan\Levels directory. These files
-are also loaded as level files. So there is no need to touch the folder where the executable files are stored.
+If you don't like the dynamic files (config.xml and log.txt) being in the current working directory,
+you can pass the `--use-appdata-dir` switch to the executable. **This behaviour is NOT enabled by default.**
+To enable the use of `~/.Bombermaaan`, append `--use-appdata-dir` when calling the Bombermaaan executable file.
 
-If you don't like this behavior you can pass the <kbd>--ignore-home-dir</kbd> switch to the executable.<br />
-<strong>This behaviour is NOT enabled by default.</strong><br />
-To enable the use of the local folder, append <kbd>--ignore-home-dir</kbd> when calling the
-Bombermaaan executable file.
-
-You can call Bombermaaan with the <kbd>--help</kbd> switch to see a message box with copyright and license notice.
+You can call Bombermaaan with the `--help` switch to see a message box with copyright and license notice.
 
 ## Controls
 
 During a match :
 - Here are the configurations :
-  Keyboard 1 (Default) : Up/Down/Left/Right + X/Z
-  Keyboard 2 (Default) : 8/5/4/6 + Y/T
-  Keyboard 3 (Default) : I/K/J/L + 8/7
-  Keyboard 4 (Default) : H/N/B/M + 5/4
-  Keyboard 5 (Default) : R/F/D/G + 1/2
-  Joystick X (Default) : Up/Down/Left/Right + Button1/Button2
+  - Keyboard 1 (Default) : Up/Down/Left/Right + X/Z
+  - Keyboard 2 (Default) : 8/5/4/6 + Y/T
+  - Keyboard 3 (Default) : I/K/J/L + 8/7
+  - Keyboard 4 (Default) : H/N/B/M + 5/4
+  - Keyboard 5 (Default) : R/F/D/G + 1/2
+  - Joystick X (Default) : Up/Down/Left/Right + Button1/Button2
 - On your configuration :
   - Up/Down/Left/Right : make your bomber move
   - Action 1 : drop a bomb if possible,
@@ -131,10 +99,8 @@ Anywhere in the game :
 - F3...... : set 640x480 display mode
 - F4...... : set windowed display mode
 
-Please note that the display mode you chose may
-be unavailable on your computer. The program will
-not change the display mode if this one is
-unavailable.
+Please note that the display mode you chose may be unavailable on your computer.
+The program will not change the display mode if this one is unavailable.
 
 ## Credits
 
@@ -144,11 +110,11 @@ unavailable.
 - 2008 Markus Drescher
 - 2016 Billy Araujo
 
-Bombermaaan is using TinyXML from <a href="https://sourceforge.net/projects/tinyxml">https://sourceforge.net/projects/tinyxml</a>.
+Bombermaaan is using TinyXML from [https://sourceforge.net/projects/tinyxml](https://sourceforge.net/projects/tinyxml).
 
-Bombermaaan is using <a href="http://www.doxygen.org/index.html">Doxygen</a> for <a href="http://bombermaaan.sourceforge.net/doxydoc/html/">documentation</a> purposes.
+Bombermaaan is using [Doxygen](http://www.doxygen.org/index.html) for [documentation](http://bombermaaan.sourceforge.net/doxydoc/html/) purposes.
 
-Bombermaaan is using SimpleIni from <a href="http://code.jellycan.com/simpleini/">http://code.jellycan.com/simpleini/</a>.
+Bombermaaan is using SimpleIni from [http://code.jellycan.com/simpleini/](http://code.jellycan.com/simpleini/).
 
 ## Project host
 
@@ -156,21 +122,9 @@ The original Bombermaaan project is hosted on SourceForge.net.
 
 ## Compiling
 
-Set SDLDIR, SDLNETDIR and SDLMIXERDIR environment variables and run cmake.
-
-To compile in Linux set LOAD_RESOURCES_FROM_FILES = TRUE and USE_DIRECTX = FALSE in CMake options.
-
 ```
-cmake . -DLOAD_RESOURCES_FROM_FILES:BOOL=ON
+zig build                           # for debug build
+zig build -Doptimize=ReleaseSafe    # for release build
 ```
 
-## Crash dumps
-
-Crashes dumps are stored in: 
-
-%AppData%\\..\Local\CrashRpt\UnsentCrashReports
-
-
-
-
-
+Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).

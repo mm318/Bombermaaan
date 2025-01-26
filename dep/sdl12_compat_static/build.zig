@@ -15,7 +15,7 @@ pub fn build(b: *std.Build) !void {
     });
 
     const lib = b.addStaticLibrary(.{
-        .name = "sdl12-compat",
+        .name = "sdl12_compat_static",
         .target = target,
         .optimize = optimize,
     });
@@ -25,5 +25,6 @@ pub fn build(b: *std.Build) !void {
     lib.linkLibC();
     lib.linkLibrary(sdl_dep.artifact("SDL2"));
 
+    lib.installHeadersDirectory(b.path("include"), "", .{});
     b.installArtifact(lib);
 }

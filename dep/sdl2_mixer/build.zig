@@ -7,16 +7,9 @@ const src_files = [_][]const u8{
     "codecs/mp3utils.c",
     "codecs/music_cmd.c",
     "codecs/music_drflac.c",
-    "codecs/music_flac.c",
-    "codecs/music_fluidsynth.c",
-    "codecs/music_gme.c",
     "codecs/music_minimp3.c",
     "codecs/music_modplug.c",
-    "codecs/music_mpg123.c",
-    "codecs/music_nativemidi.c",
-    "codecs/music_ogg.c",
     "codecs/music_ogg_stb.c",
-    "codecs/music_opus.c",
     "codecs/music_timidity.c",
     "codecs/timidity/common.c",
     "codecs/timidity/instrum.c",
@@ -28,8 +21,6 @@ const src_files = [_][]const u8{
     "codecs/timidity/tables.c",
     "codecs/timidity/timidity.c",
     "codecs/music_wav.c",
-    "codecs/music_wavpack.c",
-    "codecs/music_xmp.c",
     "effect_position.c",
     "effect_stereoreverse.c",
     "effects_internal.c",
@@ -45,6 +36,7 @@ const c_flags: []const []const u8 = &.{
     "-DMUSIC_OGG",
     "-DOGG_USE_STB",
     "-DMUSIC_MP3_MINIMP3",
+    // "-DMUSIC_MOD_MODPLUG",
     "-DMUSIC_MID_TIMIDITY",
 };
 
@@ -71,5 +63,6 @@ pub fn build(b: *std.Build) !void {
     lib.linkLibC();
     lib.linkLibrary(sdl_dep.artifact("SDL2"));
 
+    lib.installHeadersDirectory(b.path("include"), "", .{});
     b.installArtifact(lib);
 }

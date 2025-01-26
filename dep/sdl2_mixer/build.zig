@@ -36,7 +36,7 @@ const c_flags: []const []const u8 = &.{
     "-DMUSIC_OGG",
     "-DOGG_USE_STB",
     "-DMUSIC_MP3_MINIMP3",
-    // "-DMUSIC_MOD_MODPLUG",
+    "-DMUSIC_MOD_MODPLUG",
     "-DMUSIC_MID_TIMIDITY",
 };
 
@@ -47,6 +47,10 @@ pub fn build(b: *std.Build) !void {
     const sdl_dep = b.dependency("sdl", .{
         .target = target,
         .optimize = .ReleaseFast,
+    });
+    const modplug_dep = b.dependency("libmodplug", .{
+        .target = target,
+        .optimize = .ReleaseFast, // there are some unsound coding practices in this lib, don't compile with safe
     });
 
     const lib = b.addStaticLibrary(.{
@@ -59,9 +63,11 @@ pub fn build(b: *std.Build) !void {
     lib.addIncludePath(b.path("src/"));
     lib.addIncludePath(b.path("src/codecs/"));
     lib.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
+    lib.addIncludePath(modplug_dep.artifact("libmodplug").getEmittedIncludeTree());
 
     lib.linkLibC();
     lib.linkLibrary(sdl_dep.artifact("SDL2"));
+    lib.linkLibrary(modplug_dep.artifact("libmodplug"));
 
     lib.installHeadersDirectory(b.path("include"), "", .{});
     b.installArtifact(lib);

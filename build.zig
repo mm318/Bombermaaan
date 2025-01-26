@@ -127,8 +127,57 @@ pub fn build(b: *Build) void {
     b.installArtifact(exe);
 
     const run_cmd = b.addRunArtifact(exe);
+    const assets_cmd = ExtractAssetsStep.create(b, b.path("assets/game_assets.zip"), .bin, "");
+    run_cmd.step.dependOn(&assets_cmd.step);
     run_cmd.step.dependOn(b.getInstallStep());
 
     const run = b.step("run", "Run the game on desktop");
     run.dependOn(&run_cmd.step);
 }
+
+const ExtractAssetsStep = struct {
+    step: std.Build.Step,
+    source: std.Build.LazyPath,
+    dest_type: std.Build.InstallDir,
+    dest_subpath: []const u8,
+
+    pub fn create(
+        owner: *std.Build,
+        source: std.Build.LazyPath,
+        dest_type: std.Build.InstallDir,
+        dest_subpath: []const u8,
+    ) *ExtractAssetsStep {
+        const extract_step = owner.allocator.create(ExtractAssetsStep) catch @panic("OOM");
+        extract_step.* = .{
+            .step = std.Build.Step.init(.{
+                .id = .custom,
+                .name = owner.fmt("extract {s} assets to {s}", .{ @tagName(dest_type), dest_subpath }),
+                .owner = owner,
+                .makeFn = make,
+            }),
+            .source = source.dupe(owner),
+            .dest_type = dest_type.dupe(owner),
+            .dest_subpath = owner.dupePath(dest_subpath),
+        };
+        return extract_step;
+    }
+
+    fn make(step: *std.Build.Step, _: std.Build.Step.MakeOptions) !void {
+        const b = step.owner;
+        const extract_step: *ExtractAssetsStep = @fieldParentPtr("step", step);
+        try step.singleUnchangingWatchInput(extract_step.source);
+
+        const full_src_path = extract_step.source.getPath2(b, step);
+        const full_dest_path = b.getInstallPath(extract_step.dest_type, extract_step.dest_subpath);
+
+        const dest_dir = try std.fs.openDirAbsolute(full_dest_path, .{});
+        const src_file = try std.fs.openFileAbsolute(full_src_path, .{});
+        const src_stream = std.fs.File.seekableStream(src_file);
+        std.zip.extract(dest_dir, src_stream, .{}) catch |err| switch (err) {
+            error.PathAlreadyExists => {},
+            else => |e| return e,
+        };
+
+        step.result_cached = true;
+    }
+};

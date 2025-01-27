@@ -66,7 +66,7 @@ const src_files = [_][]const u8{
     // "Bombermaaan.rc",
 };
 
-const c_flags: []const []const u8 = &.{
+const c_flags_common = [_][]const u8{
     "-std=c++11",
     "-pedantic",
     "-Wall",
@@ -74,18 +74,26 @@ const c_flags: []const []const u8 = &.{
     "-Wno-format-truncation",
     "-Wno-missing-field-initializers",
     "-Wno-date-time",
-    "-O2",
-    "-DNDEBUG",
     "-DTIXML_USE_STL",
     "-DSDL",
     "-DLOAD_RESOURCES_FROM_FILES",
+};
+
+const c_flags_dbg = [_][]const u8{
     "-DENABLE_LOG",
     "-DENABLE_DEBUG_LOG",
+};
+
+const c_flags_rel = [_][]const u8{
+    "-O2",
+    "-DNDEBUG",
 };
 
 pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+
+    const c_flags = if (optimize == .Debug) c_flags_common ++ c_flags_dbg else c_flags_common ++ c_flags_rel;
 
     const sdl_dep = b.dependency("sdl", .{
         .target = target,
@@ -102,6 +110,7 @@ pub fn build(b: *Build) void {
     const tinyxml_dep = b.dependency("tinyxml", .{
         .target = target,
         .optimize = optimize,
+        .use_stl = true,
     });
     const simpleini_dep = b.dependency("simpleini", .{
         .target = target,
@@ -113,7 +122,7 @@ pub fn build(b: *Build) void {
         .target = target,
         .optimize = optimize,
     });
-    exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
+    exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = &c_flags });
     exe.root_module.addIncludePath(sdl_compat_dep.artifact("sdl12_compat_static").getEmittedIncludeTree());
     exe.root_module.addIncludePath(sdl_mixer_dep.artifact("SDL2_mixer").getEmittedIncludeTree());
     exe.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());

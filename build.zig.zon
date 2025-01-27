@@ -1,23 +1,17 @@
 .{
     .name = "bombermaaan",
     .version = "1.9.3-2039",
-    .dependencies = .{
-        .sdl = .{
-            .path = "dep/sdl2",
-        },
-        .sdl_compat = .{
-            .path = "dep/sdl12_compat_static",
-        },
-        .sdl_mixer = .{
-            .path = "dep/sdl2_mixer",
-        },
-        .tinyxml = .{
-            .path = "dep/tinyxml",
-        },
-        .simpleini = .{
-            .path = "dep/simpleini",
-        },
-    },
+    .dependencies = .{ .sdl = .{
+        .path = "dep/sdl2",
+    }, .sdl_compat = .{
+        .path = "dep/sdl12_compat_static",
+    }, .sdl_mixer = .{
+        .path = "dep/sdl2_mixer",
+    }, .tinyxml = .{
+        .path = "dep/tinyxml",
+    }, .simpleini = .{
+        .path = "dep/simpleini",
+    }, .assets = .{ .path = "assets" } },
 
     .paths = .{
         "build.zig",

@@ -70,7 +70,16 @@ CMosaic::~CMosaic (void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CMosaic::Create (int SpriteTable, int Sprite, int SpriteLayer, int PriorityInLayer, int SpriteWidth, int SpriteHeight, int TileCountX, int TileCountY, float SpeedX, float SpeedY)
+void CMosaic::Create(const void* SpriteTable,
+                     int Sprite,
+                     int SpriteLayer,
+                     int PriorityInLayer,
+                     int SpriteWidth,
+                     int SpriteHeight,
+                     int TileCountX,
+                     int TileCountY,
+                     float SpeedX,
+                     float SpeedY)
 {
     ASSERT (m_pDisplay != NULL);
     

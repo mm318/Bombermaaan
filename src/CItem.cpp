@@ -30,6 +30,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CItem.h"
 #include "CArena.h"
 #include "CBomber.h"

@@ -30,6 +30,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CVictory.h"
 #include "CGame.h"
 
@@ -785,9 +787,9 @@ void CVictory::Display (void)
             // Make the confetti move according to its speed
             m_Confettis[Confetti].PositionX += m_Confettis[Confetti].SpeedX * m_pTimer->GetDeltaTime ();
             m_Confettis[Confetti].PositionY += m_Confettis[Confetti].SpeedY * m_pTimer->GetDeltaTime ();
-        
-            int ConfettiSpriteTable = -1;
-                
+
+            const void* ConfettiSpriteTable = nullptr;
+
             // Save the sprite table to use according to the type of the confetti
             switch (m_Confettis[Confetti].Type)
             {
@@ -796,8 +798,8 @@ void CVictory::Display (void)
                 case CONFETTI_SMALL  : ConfettiSpriteTable = BMP_VICTORY_CONFETTIS_SMALL;  break;
             }
 
-            ASSERT (ConfettiSpriteTable != -1);
-            
+            ASSERT(ConfettiSpriteTable != nullptr);
+
             // Draw the confetti sprite
             m_pDisplay->DrawSprite ((int) m_Confettis[Confetti].PositionX,
                                     (int) m_Confettis[Confetti].PositionY,

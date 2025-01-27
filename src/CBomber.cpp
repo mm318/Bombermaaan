@@ -60,6 +60,8 @@
 
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CBomber.h"
 #include "CTeam.h"
 #include "CArena.h"
@@ -259,7 +261,7 @@ CBomber::CBomber(void) : CElement()
     m_LastBomberAction = BOMBERACTION_NONE;
     m_Sprite = 0;
     m_SpriteOverlay = 0;
-    m_Page = 0;
+    m_SpriteTableId = 0;
     m_Timer = 0;
     m_SickTimer = 0.0f;
     m_TotalBombs = 0;
@@ -351,7 +353,7 @@ void CBomber::Create(int BlockX, int BlockY, int Player, COptions* options)
     m_AnimationSprites[1] = BOMBERSPRITE_DOWN1;
     m_AnimationSprites[2] = BOMBERSPRITE_DOWN2;
 
-    m_Page = m_BomberSpriteTables[m_BomberState].SpriteTableNumber;
+    m_SpriteTableId = m_BomberSpriteTables[m_BomberState].SpriteTableId;
 
     Animate(0.0f);
 
@@ -458,7 +460,7 @@ void CBomber::Die(void)
             }
         }
 
-        // Call animate whenever bomber changes state to update m_Page and m_Sprite correctly
+        // Call animate whenever bomber changes state to update m_SpriteTableId and m_Sprite correctly
         Animate(0.0f);
 
     }
@@ -894,7 +896,7 @@ void CBomber::Action()
         // Remember bomber action
         m_LastBomberAction = m_BomberAction;
 
-        // Call animate whenever bomber changes state to update m_Page and m_Sprite correctly
+        // Call animate whenever bomber changes state to update m_SpriteTableId and m_Sprite correctly
         Animate(0.0f);
 
     }
@@ -1329,7 +1331,7 @@ void CBomber::Animate(float DeltaTime)
     }
 
     // Set the sprite table to use for the current state of the bomber
-    m_Page = m_BomberSpriteTables[m_BomberState].SpriteTableNumber;
+    m_SpriteTableId = m_BomberSpriteTables[m_BomberState].SpriteTableId;
 
     // If bomber is not sick or he is dying
     if (m_Sickness == SICK_NOTSICK || m_Dead != DEAD_ALIVE)
@@ -1542,7 +1544,7 @@ void CBomber::Display(void)
             m_BomberMove.GetY() + BOMBER_OFFSETY,
             NULL,                            // Draw entire sprite
             NULL,                            // No need to clip
-            m_Page,
+            m_SpriteTableId,
             m_Sprite,
             BOMBER_SPRITELAYER,
             m_BomberMove.GetY());
@@ -1554,7 +1556,7 @@ void CBomber::Display(void)
                 m_BomberMove.GetY() + BOMBER_OFFSETY,
                 NULL,                            // Draw entire sprite
                 NULL,                            // No need to clip
-                m_Page,
+                m_SpriteTableId,
                 m_SpriteOverlay,
                 BOMBER_SPRITELAYER,
                 m_BomberMove.GetY() + 1);
@@ -1582,7 +1584,7 @@ void CBomber::OnWriteSnapshot(CArenaSnapshot& Snapshot)
     for (i = 0; i < 5; i++)
         Snapshot.WriteInteger(m_AnimationSprites[i]);
 
-    Snapshot.WriteInteger(m_Page);
+    Snapshot.WritePointer(m_SpriteTableId);
     Snapshot.WriteFloat(m_Timer);
     Snapshot.WriteFloat(m_SickTimer);
     Snapshot.WriteInteger(m_TotalBombs);
@@ -1632,7 +1634,7 @@ void CBomber::OnReadSnapshot(CArenaSnapshot& Snapshot)
     for (i = 0; i < 5; i++)
         Snapshot.ReadInteger(&m_AnimationSprites[i]);
 
-    Snapshot.ReadInteger(&m_Page);
+    Snapshot.ReadPointer(&m_SpriteTableId);
     Snapshot.ReadFloat(&m_Timer);
     Snapshot.ReadFloat(&m_SickTimer);
     Snapshot.ReadInteger(&m_TotalBombs);
@@ -2074,7 +2076,7 @@ void CBomber::Stunt(void)
     // The bomber is now stunt
     m_BomberState = BOMBERSTATE_STUNT;
 
-    // Call animate whenever bomber changes state to update m_Page and m_Sprite correctly
+    // Call animate whenever bomber changes state to update m_SpriteTableId and m_Sprite correctly
     Animate(0.0f);
 
 }

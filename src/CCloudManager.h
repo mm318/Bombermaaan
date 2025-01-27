@@ -49,7 +49,7 @@ private:
 
     CDisplay*       m_pDisplay;
     CScroller       m_Clouds[NUMBER_OF_CLOUDS];
-    int             m_CloudSprites[NUMBER_OF_CLOUDS];
+    const void*     m_CloudSprites[NUMBER_OF_CLOUDS];
    
 public:
 

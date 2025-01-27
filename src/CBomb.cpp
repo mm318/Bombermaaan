@@ -31,6 +31,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CBomb.h"
 #include "CArena.h"
 #include "CItem.h"
@@ -805,23 +807,27 @@ void CBomb::Display(void)
 
     // Draw the bomb sprite. Priority is not used.
     if (!m_Remote)
+    {
         m_pDisplay->DrawSprite(m_iX,
-        m_iY,
-        NULL,                            // Draw entire sprite
-        &Clip,                           // Clip sprite to arena view !!!
-        BMP_ARENA_BOMB,
-        m_Sprite,
-        SpriteTable,
-        PRIORITY_UNUSED);
+                               m_iY,
+                               NULL,                            // Draw entire sprite
+                               &Clip,                           // Clip sprite to arena view !!!
+                               BMP_ARENA_BOMB,
+                               m_Sprite,
+                               SpriteTable,
+                               PRIORITY_UNUSED);
+    }
     else
+    {
         m_pDisplay->DrawSprite(m_iX,
-        m_iY,
-        NULL,                            // Draw entire sprite
-        &Clip,                           // Clip sprite to arena view !!!
-        BMP_ARENA_REMOTE_BOMB,
-        m_Sprite,
-        SpriteTable,
-        PRIORITY_UNUSED);
+                               m_iY,
+                               NULL,                            // Draw entire sprite
+                               &Clip,                           // Clip sprite to arena view !!!
+                               BMP_ARENA_REMOTE_BOMB,
+                               m_Sprite,
+                               SpriteTable,
+                               PRIORITY_UNUSED);
+    }
 }
 
 //******************************************************************************************************************************

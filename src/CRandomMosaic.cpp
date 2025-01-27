@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CRandomMosaic.h"
 #include "CMosaic.h"
 

@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CFont.h"
 #include "CDisplay.h"
 
@@ -38,9 +40,9 @@
 
 #define MAX_STRING_LENGTH               2048    //!< Maximum length for a string to draw
 #define CHAR_COUNT_PER_FONTCOLOR        46      //!< Number of characters per font color in the font sprite table
-#define CHAR_WIDTH                      10      //!< Size (in pixels) of one character
-#define CHAR_HEIGHT                     10
-#define CHAR_SPACE                      1       //!< Space (in pixels) between two chars when drawing a string
+#define CHAR_PIXEL_WIDTH                10      //!< Size (in pixels) of one character
+#define CHAR_PIXEL_HEIGHT               10
+#define CHAR_PIXEL_SPACE                1       //!< Space (in pixels) between two chars when drawing a string
 
 // Character offset stuff
 #define LETTERS_CHAR_OFFSET_BEGIN       0       //!< Beginning character offset for letters
@@ -208,7 +210,7 @@ void CFont::DrawString (int PositionX, int PositionY, const char *pString)
         }
 
         // Update position where to draw the next character
-        PositionX += CHAR_WIDTH + CHAR_SPACE;
+        PositionX += CHAR_PIXEL_WIDTH + CHAR_PIXEL_SPACE;
 
         // Point to next character in string
         pString++;
@@ -246,7 +248,7 @@ void CFont::DrawCenteredX (int BorderLeft, int BorderRight, int PositionY, const
     va_end (argList);
 
     // Compute X position so that the string we write is centered between the two borders
-    int PositionX = ((BorderRight - BorderLeft) - (strlen(String) * (CHAR_WIDTH + CHAR_SPACE) - CHAR_SPACE)) / 2;
+    int PositionX = ((BorderRight - BorderLeft) - (strlen(String) * (CHAR_PIXEL_WIDTH + CHAR_PIXEL_SPACE) - CHAR_PIXEL_SPACE)) / 2;
 
     // Draw the given string at center position
     DrawString (PositionX, PositionY, String);
@@ -266,7 +268,7 @@ void CFont::DrawCenteredY (int PositionX, int BorderUp, int BorderDown, const ch
     va_end (argList);
 
     // Compute Y position so that the string we write is centered between the two borders
-    int PositionY = ((BorderDown - BorderUp) - CHAR_HEIGHT) / 2;
+    int PositionY = ((BorderDown - BorderUp) - CHAR_PIXEL_HEIGHT) / 2;
 
     // Draw the given string at center position
     DrawString (PositionX, PositionY, String);
@@ -286,10 +288,10 @@ void CFont::DrawCenteredXY (int BorderUp, int BorderDown, int BorderLeft, int Bo
     va_end (argList);
 
     // Compute X position so that the string we write is centered between the two borders
-    int PositionX = ((BorderRight - BorderLeft) - (strlen(String) * (CHAR_WIDTH + CHAR_SPACE) - CHAR_SPACE)) / 2;
+    int PositionX = ((BorderRight - BorderLeft) - (strlen(String) * (CHAR_PIXEL_WIDTH + CHAR_PIXEL_SPACE) - CHAR_PIXEL_SPACE)) / 2;
 
     // Compute Y position so that the string we write is centered between the two borders
-    int PositionY = ((BorderDown - BorderUp) - CHAR_HEIGHT) / 2;
+    int PositionY = ((BorderDown - BorderUp) - CHAR_PIXEL_HEIGHT) / 2;
 
     // Draw the given string at center position
     DrawString (PositionX, PositionY, String);

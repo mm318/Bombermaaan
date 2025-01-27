@@ -565,9 +565,6 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     m_Display.SetOptions(&m_Options);
 #ifdef WIN32
     m_Display.SetWindowHandle(m_hWnd);
-    m_Display.SetModuleHandle(m_hModule);
-#else
-    m_Display.SetModuleHandle (NULL);
 #endif // WIN32
 
 #ifdef SDL
@@ -668,11 +665,6 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 
     // Set the objects the sound object has to communicate with
     m_Sound.SetOptions(&m_Options);
-#ifdef WIN32
-    m_Sound.SetModuleHandle(m_hModule);
-#else
-    m_Sound.SetModuleHandle (NULL);
-#endif
 
     // If creating the display and setting the display mode failed
     if (!m_Display.Create(m_Options.GetDisplayMode()))

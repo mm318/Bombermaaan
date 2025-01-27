@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CDrawGame.h"
 #include "CDisplay.h"
 #include "CInput.h"

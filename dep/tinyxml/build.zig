@@ -8,13 +8,12 @@ const src_files = [_][]const u8{
     "tinyxmlparser.cpp",
 };
 
-const c_flags: []const []const u8 = &.{
-    "-DTIXML_USE_STL",
-};
-
 pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+
+    const use_stl = b.option(bool, "use_stl", "Use C++ standard template library types") orelse true;
+    const c_flags: []const []const u8 = if (use_stl) &.{"-DTIXML_USE_STL"} else &.{};
 
     const lib = b.addStaticLibrary(.{
         .name = "tinyxml",

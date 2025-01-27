@@ -1,7 +1,9 @@
 #include <stdint.h>
 
-extern const uint8_t* BombermaaanIcon;
-extern const uint32_t BombermaaanIconSize;
+extern const uint8_t* BombermaaanIconSmall;
+extern const uint32_t BombermaaanIconSmallSize;
+extern const uint8_t* BombermaaanIconLarge;
+extern const uint32_t BombermaaanIconLargeSize;
 
 extern const uint8_t* BMP_GREEN_BACKGROUND_SOLID;
 extern const uint32_t BMP_GREEN_BACKGROUND_SOLID_SIZE;

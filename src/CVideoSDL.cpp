@@ -29,9 +29,9 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
 
 #include "CVideoSDL.h"
-#include "BombermaaanIco.h"
 
 static const char* GetSDLVideoError();
 static void AddDisplayMode(int width, int height, int depth, std::vector<SDisplayMode>& displayModes);
@@ -202,7 +202,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
     // show cursor depending on windowed/fullscreen mode
     SDL12_ShowCursor(!m_FullScreen);
 
-    SDL_RWops *rwIcon = SDL12_RWFromMem(BombermaaanIcon, sizeof(BombermaaanIcon));
+    SDL_RWops *rwIcon = SDL12_RWFromMem(const_cast<uint8_t*>(BombermaaanIconSmall), BombermaaanIconSmallSize);
 
     SDL_Surface *icon = SDL12_LoadBMP_RW(rwIcon, 0);
 

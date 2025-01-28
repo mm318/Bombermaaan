@@ -29,17 +29,13 @@
 #ifndef __CMAININPUT_H__
 #define __CMAININPUT_H__
 
-#ifdef DIRECTX_INPUT
-#  include "CInputDX.h"
-#else
-#  include "CInputSDL.h"
-#endif
+#include "CInputSDL.h"
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#define NUMBER_OF_MENU_CONTROLS               8       //!< Number of menu controls
+#define NUMBER_OF_MENU_CONTROLS         8       //!< Number of menu controls
 
 #define MAX_PLAYER_INPUT_NAME_LENGTH    16      //!< Maximum length of a string containing a player input name
 
@@ -52,7 +48,7 @@
 #define MENU_NEXT2      6       //!< Index of another menu "next" control in the menu controls array
 #define MENU_NEXT3      7       //!< Index of another menu "next" control in the menu controls array
 
-#define NUMBER_OF_SYSTEM_CONTROLS         2
+#define NUMBER_OF_SYSTEM_CONTROLS       2
 
 #define SYSTEM_PAUSE    0
 #define SYSTEM_BREAK    1

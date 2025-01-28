@@ -160,13 +160,8 @@ CGame::CGame (HINSTANCE hInstance, char** pCommandLine)
         windowTitle.append(__DATE__ + 4, 2);
     }
 
-#ifdef DIRECTX
-    SetWindowText(m_hWnd, windowTitle.c_str());
-#else
     // keep the window text in mind
     m_WindowTitle = windowTitle;
-#endif
-
 }
 
 //******************************************************************************************************************************
@@ -493,14 +488,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     }
 #endif
 
-#ifdef SDL
-    if ((SDL12_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1))
-    {
-        theLog.WriteLine("Game            => !!! Could not initialise SDL library");
-        theLog.LogLastError();
-        return false;
-    }
-#elif ALLEGRO
+#if ALLEGRO
     allegro_init();
 
     install_timer();
@@ -509,8 +497,8 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL);
 
     set_color_depth(32);
-#elif DIRECTX
-    if ((SDL12_Init(SDL_INIT_AUDIO) == -1))
+#else
+    if ((SDL12_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1))
     {
         theLog.WriteLine("Game            => !!! Could not initialise SDL library");
         theLog.LogLastError();
@@ -949,9 +937,7 @@ void CGame::StartGameMode(EGameMode GameMode)
 
         SDL12_PushEvent(&quitevent);
     #elif ALLEGRO
-        //set_close_button_callback();
-    #elif DIRECTX
-        PostMessage(m_hWnd, WM_CLOSE, 0, 0);
+        // set_close_button_callback();
     #endif
 
     }
@@ -1122,22 +1108,6 @@ void CGame::OnKeyUp(WPARAM wParam, LPARAM lParam)
         }
     #elif ALLEGRO
         // TODO:
-    #elif DIRECTX
-        //! Change display mode if this is a F1-F4 key
-        switch (wParam)
-        {
-            //! Display modes #1 and #2 are not available in the 32-pixels version
-            //! since the screen isn't large enough (so disable F1 and F2 keys)
-        case VK_F3:
-            DisplayMode = DISPLAYMODE_FULL3;
-            break;
-        case VK_F4:
-            DisplayMode = DISPLAYMODE_WINDOWED;
-            break;
-        default:
-            SetDisplayMode = false;
-            break;
-        }
     #endif
 
         // If we have to change the display mode
@@ -1235,7 +1205,6 @@ void CGame::OnSize(WPARAM wParam, LPARAM lParam)
 
 // When the window is active and a joystick axis changes,
 // this method will be called.
-#ifndef DIRECTX_INPUT
 void CGame::OnJoystickAxis(WPARAM wParam, LPARAM lParam)
 {
     SDL_JoyAxisEvent *jaxis;
@@ -1274,7 +1243,6 @@ void CGame::OnJoystickAxis(WPARAM wParam, LPARAM lParam)
 
     return;
 }
-#endif
 
 void CGame::OnJoystickHatMotion(WPARAM wParam, LPARAM lParam)
 {
@@ -1322,8 +1290,6 @@ void CGame::OnJoystickHatMotion(WPARAM wParam, LPARAM lParam)
 
 // When the window is active and a joystick button is pressed/released,
 // this method will be called.
-
-#ifndef DIRECTX_INPUT
 void CGame::OnJoystickButton(WPARAM wParam, LPARAM lParam)
 {
     SDL_JoyButtonEvent *jbutton;
@@ -1352,7 +1318,6 @@ void CGame::OnJoystickButton(WPARAM wParam, LPARAM lParam)
     m_pPlayerInput.Update();
 
 }
-#endif
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************

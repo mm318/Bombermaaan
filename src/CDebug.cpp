@@ -256,13 +256,13 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef _DEBUG_FLAG_1
+#ifdef BOMBERMAAAN_DEBUG
 #ifdef DIRECTX
             case VK_F5:
 #else
             case SDLK_F5:
 #endif
-                theConsole.Write("CDebug::HandleKey(...): Ctrl+F5 was pressed. Writing bombs to log...\n");
+                debugLog.Write("CDebug::HandleKey(...): Ctrl+F5 was pressed. Writing bombs to log...\n");
                 m_pMatch->_Debug_WriteBombsToLog();
                 break;
 #endif

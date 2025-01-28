@@ -61,21 +61,12 @@
 #define ASSERT assert
 #endif
 
-//! Define this if the Ctrl+F5 key should output all bombs to the log file for debugging purposes
-#define _DEBUG_FLAG_1
-
-#define MEMSET(_p,_value,_size)     memset (_p, _value, _size)
-#define MEMZERO(_p,_size)           memset (_p, 0, _size)
-#define MEMCOPY(_dst,_src,_size)    memcpy (_dst, _src, _size)
-
 #ifndef __ABSMINMAX__
 #define __ABSMINMAX__
 #define ABS(_x)     ((_x) > 0 ? (_x) : -(_x))
 #define MIN(_x,_y)  ((_x) < (_y) ? (_x) : (_y))
 #define MAX(_x,_y)  ((_x) > (_y) ? (_x) : (_y))
 #endif // __ABSMINMAX__
-
-#define SQRT(_x)            sqrt(_x)
 
 #define SEED_RANDOM(seed)   srand(seed)
 #define RANDOM(max)         (rand() % (max))
@@ -98,7 +89,6 @@
 #define MAX_ITER                50
 
 #include "CLog.h"
-#include "CConsole.h"
 #include "CDebug.h"
 #include "CTimer.h"
 

@@ -64,7 +64,7 @@ void CArenaSnapshot::Begin (void)
 {
     m_Position = 0;
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "BEGIN SNAPSHOT\n");
 #endif
 }
@@ -80,7 +80,7 @@ void CArenaSnapshot::ReadData(T* pValue)
 
     memcpy(pValue, &m_Buffer[m_Position], sizeof(T)); // #3078839
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "READ %s %d FROM POS %d\n", typeid(T).name(), *pValue, m_Position);
 #endif
 
@@ -98,7 +98,7 @@ void CArenaSnapshot::WriteData(const T& Value)
     
     memcpy(&m_Buffer[m_Position], &Value, sizeof(T)); // #3078839
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "WRITE %s %d TO POS %d\n", typeid(T).name(), Value, m_Position);
 #endif
 

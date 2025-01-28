@@ -384,7 +384,7 @@ inline void CBomber::SetSickness(ESick Sickness)
     m_JustGotSick = true;
     m_TimeSinceLastSick = 0.0;
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber getting sick [id=%d, sickness=%02d].", m_Player, Sickness);
 #endif
 

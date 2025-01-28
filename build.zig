@@ -15,7 +15,6 @@ const src_files = [_][]const u8{
     "CClock.cpp",
     "CCloudManager.cpp",
     "CCommandChunk.cpp",
-    "CConsole.cpp",
     "CControls.cpp",
     "CCredits.cpp",
     "CDebug.cpp",
@@ -77,8 +76,8 @@ const c_flags_common = [_][]const u8{
 };
 
 const c_flags_dbg = [_][]const u8{
-    "-DENABLE_LOG",
-    "-DENABLE_DEBUG_LOG",
+    "-DENABLE_LOG", // Define this if the log file should be enabled
+    "-DENABLE_DEBUG_LOG", // Define this if the debug log file should be enabled
 };
 
 const c_flags_rel = [_][]const u8{

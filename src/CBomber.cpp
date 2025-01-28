@@ -405,7 +405,7 @@ void CBomber::Destroy(void)
 void CBomber::Die(void)
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber dying [id=%d, x=%02d, y=%02d].", m_Player, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY());
 #endif
 
@@ -475,7 +475,7 @@ void CBomber::Die(void)
 void CBomber::Burn()
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber burning [id=%d, x=%02d, y=%02d].", m_Player, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY());
 #endif
 
@@ -500,7 +500,7 @@ void CBomber::Burn()
 
 void CBomber::Crush()
 {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber crushing [id=%d, x=%02d, y=%02d].", m_Player, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY());
 #endif
 
@@ -608,7 +608,7 @@ void CBomber::Action()
             // If action1 is not pressed
             if (m_BomberAction != BOMBERACTION_ACTION1)
             {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                 debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber throwing bomb [bomber=%d, bomb=%02d].", m_Player, m_BombIndex);
 #endif
 
@@ -633,7 +633,7 @@ void CBomber::Action()
                     m_LastBomberAction != BOMBERACTION_ACTION1 &&
                     m_pArena->IsBomb(m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY()))
                 {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber lifting bomb [bomber=%d, x=%02d, y=%02d].", m_Player, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY());
 #endif
 
@@ -650,7 +650,7 @@ void CBomber::Action()
                             m_pArena->GetBomb(Index).GetBlockY() == m_BomberMove.GetBlockY() &&
                             m_pArena->GetBomb(Index).IsOnFloor())
                         {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                             debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber lifting bomb [bomber=%d, bomb=%02d, x=%02d, y=%02d].", m_Player, Index, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY());
 #endif
 
@@ -725,7 +725,7 @@ void CBomber::Action()
                                 // Create the bomb (unless it is possible)
                                 if (m_pArena->BombsInUse() >= m_pArena->MaxBombs()) break;
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                                 debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber dropping bomb [bomber=%d, x=%02d, y=%02d, used=%02d, total=%02d].", m_Player, x, y, m_UsedBombs, m_TotalBombs);
 #endif
 
@@ -826,7 +826,7 @@ void CBomber::Action()
                                 m_pArena->GetBomb(Index).GetBlockY() == FrontBlockY &&
                                 !m_pArena->GetBomb(Index).IsBeingPunched())
                             {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                                 debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber punching bomb [bomber=%d, x=%02d, y=%02d, bomb=%02d].", m_Player, m_BomberMove.GetBlockX(), m_BomberMove.GetBlockY(), Index);
 #endif
 
@@ -874,7 +874,7 @@ void CBomber::Action()
                                 bombTimeMax = Index;
                             }
                             else {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
                                 debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber fusing bomb [bomber=%d, bomb=%02d].", m_Player, Index);
 #endif
 

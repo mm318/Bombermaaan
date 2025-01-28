@@ -88,6 +88,9 @@ private:
     std::ofstream   m_theLog;
     bool            m_bOpen;
     bool            m_toStdout;
+    bool            m_FilterRepeatedMessage;    //!< Should we manage message repetition by not displaying all consecutive identical messages?
+    int             m_NumberOfRepeatedMessages; //!< How many consecutive identical messages have been sent?
+    char            m_LastMessage[2048];        //!< Last message written to the console
 };
 
 //******************************************************************************************************************************

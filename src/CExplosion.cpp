@@ -119,7 +119,7 @@ void CExplosion::Create (int BlockX, int BlockY, int FlameSize)
 {
     CElement::Create();
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_EXPLOSION, "New explosion [x=%02d, y=%02d, flamesize=%02d].", BlockX, BlockY, FlameSize);
 #endif
 

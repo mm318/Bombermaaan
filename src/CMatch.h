@@ -131,7 +131,7 @@ public:
     inline int      GetWinnerTeam(void);                //!< Get the number of the team that won this match
     inline bool     IsPlayerWinner(int Player);         //!< Get the if player has won this match
 
-#ifdef _DEBUG_FLAG_1
+#ifdef BOMBERMAAAN_DEBUG
     void            _Debug_WriteBombsToLog();           //!< Only used for debugging!
 #endif
 

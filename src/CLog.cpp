@@ -45,10 +45,21 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
+//! Display a dot on the console every X repeated messages
+#define REPEATED_MESSAGES_LIMIT     300
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
 CLog::CLog()
 {
     m_bOpen = false;    // Log file is not open yet
     m_toStdout = false;
+
+    m_FilterRepeatedMessage = true; // Filter repeated messages by default
+    m_NumberOfRepeatedMessages = 0; // No previous message
+    m_LastMessage[0] = '\0';        // No previous message
 }
 
 //******************************************************************************************************************************
@@ -304,64 +315,81 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
     char Message[2048];
     vsprintf(Message, pMessage, args);
 
-    // If the log is open
-    if( m_bOpen )
-    {
-        // If the message starts with a blank line
-        if( Message[0] != '\n' )
+    bool isRepeatMessage = false;
+
+    // If we have to filter repeated messages
+    if (m_FilterRepeatedMessage)
+    {        
+        // If the last message written to the console is not the same
+        if (strcmp(Message, m_LastMessage) != 0)
         {
-            // Get current time
-#ifdef WIN32
-            SYSTEMTIME LocalTime;
-            GetLocalTime (&LocalTime);
-#else
-            struct tm *LocalTime;
-            time_t curTime = time(NULL);
-            LocalTime = localtime(&curTime);
-#endif
-    
-            // Store the time string
-            char Time [64];
-#ifdef WIN32
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
-                      LocalTime.wHour,      // Time numbers to use
-                      LocalTime.wMinute, 
-                      LocalTime.wSecond );
-#else
-            sprintf ( Time,                 // String where to write
-                      "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
-                      LocalTime->tm_hour,   // Time numbers to use
-                      LocalTime->tm_min, 
-                      LocalTime->tm_sec );
-#endif
-            
-            // Write the time string
-            m_theLog.write( Time, strlen( Time ) );
+            // Save the message
+            strcpy(m_LastMessage, Message);
 
-            // Write the space between time and message
-            m_theLog.write( "  ", strlen( "  " ) );
-
-            // Write the message
-            m_theLog.write( Message, strlen( Message ) );
+            // Stop the chain of repeated messages (if there is one)
+            m_NumberOfRepeatedMessages = 0;
         }
-        // If the message doesn't start with a blank line
+        // If the last message written to the console is the same
         else
         {
-            // Write the message without the time
-            m_theLog.write( Message, strlen( Message ) );
+            // It's a repeated message
+            m_NumberOfRepeatedMessages++;
+
+            // Show that messages are being repeated, by writing a dot 
+            // every REPEATED_MESSAGES_LIMIT repeated messages.
+            if ((m_NumberOfRepeatedMessages % REPEATED_MESSAGES_LIMIT) == 0)
+            {
+                sprintf(Message, ".");
+            }
+            else
+            {
+                isRepeatMessage = true;
+            }
         }
+    }
+
+    // If the log is open
+    if(m_bOpen && !isRepeatMessage)
+    {
+        // Get current time
+#ifdef WIN32
+        SYSTEMTIME LocalTime;
+        GetLocalTime (&LocalTime);
+#else
+        struct tm *LocalTime;
+        time_t curTime = time(NULL);
+        LocalTime = localtime(&curTime);
+#endif
+
+        // Store the time string
+        char Time [64];
+#ifdef WIN32
+        sprintf ( Time,                 // String where to write
+                  "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
+                  LocalTime.wHour,      // Time numbers to use
+                  LocalTime.wMinute, 
+                  LocalTime.wSecond );
+#else
+        sprintf ( Time,                 // String where to write
+                  "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
+                  LocalTime->tm_hour,   // Time numbers to use
+                  LocalTime->tm_min, 
+                  LocalTime->tm_sec );
+#endif
+        
+        // Write the time string
+        m_theLog.write( Time, strlen( Time ) );
+
+        // Write the space between time and message
+        m_theLog.write( "  ", strlen( "  " ) );
+
+        // Write the message
+        m_theLog.write( Message, strlen( Message ) );
 
         m_theLog.flush();
     }
-    // If the log is not open
-    else
-    {
-        // Couldn't write to Log!
-        return 0;
-    }
 
-    if (m_toStdout)
+    if (m_toStdout && !isRepeatMessage)
     {
         std::cout.write(Message, strlen(Message));
     }

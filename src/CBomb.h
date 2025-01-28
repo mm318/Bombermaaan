@@ -169,7 +169,7 @@ public:
     inline bool         IsBeingHeld(void);                     //!< Return whether the bomb is held
     inline bool         IsBeingPunched(void);                  //!< Return whether the bomb is punched
 
-#ifdef _DEBUG_FLAG_1
+#ifdef BOMBERMAAAN_DEBUG
     void                _Debug_WriteToLog();
 #endif
 
@@ -242,7 +242,7 @@ inline void CBomb::SetPosition(int X, int Y)
 inline void CBomb::SetBeingLifted(void)
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb set being lifted [x=%02d, y=%02d, owner=%d].", m_BlockX, m_BlockY, m_OwnerPlayer);
 #endif
 
@@ -261,7 +261,7 @@ inline void CBomb::SetBeingLifted(void)
 inline void CBomb::SetBeingHeld(void)
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb set being held [x=%02d, y=%02d, owner=%d].", m_BlockX, m_BlockY, m_OwnerPlayer);
 #endif
 
@@ -280,7 +280,7 @@ inline void CBomb::SetBeingHeld(void)
 inline void CBomb::SetBeingPunched(void)
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb set being punched [x=%02d, y=%02d, owner=%d].", m_BlockX, m_BlockY, m_OwnerPlayer);
 #endif
 

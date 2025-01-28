@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CMenuBase.h"
 #include "CMenu.h"
 #include "CDisplay.h"

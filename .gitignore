@@ -1,5 +1,14 @@
 .zig-cache/
 zig-out/
+
 config.xml
 log.txt
 debug.log
+
+assets/*
+!assets/*.h
+!assets/*.zig
+!assets/*.zon
+!assets/game_assets.zip
+!assets/ss01.png
+!assets/ss02.png

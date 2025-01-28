@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CBoard.h"
 #include "CClock.h"
 #include "CDisplay.h"

@@ -31,12 +31,13 @@
  */
 
 #include "StdAfx.h"
+
 #include "CLevel.h"
-//#include "COptions.h"
-//#include "CInput.h"
 #include "CArena.h"
 #include <sstream>
 #include <iomanip>
+
+#define SI_SUPPORT_IOSTREAMS
 #include "SimpleIni.h"
 
 //******************************************************************************************************************************
@@ -63,9 +64,8 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-CLevel::CLevel(std::string filename_full, std::string filename_short) :
-    m_FilenameShort(filename_short),
-    m_FilenameFull(filename_full)
+CLevel::CLevel(const std::string& level_name) :
+    m_LevelName(level_name)
 {
 
     for (int i = 0; i < ARENA_WIDTH; i++)
@@ -105,33 +105,33 @@ CLevel::~CLevel(void)
  *  @param  filename_short   The file name of the level file without path
  */
 
-bool CLevel::LoadFromFile()
+bool CLevel::LoadFromStream(std::istream& in)
 {
     bool ErrorOccurred = false;
 
     // Open the existing level file for reading
-    std::ifstream in;
-    in.open(m_FilenameFull.c_str(), std::ios_base::in);
+    in.seekg(0);
 
     // If it failed
-    if (!in.is_open())
+    if (!in.good())
     {
-        theLog.WriteLine("Options         => Loading level file %s failed.", m_FilenameFull.c_str());
+        theLog.WriteLine("Options         => Loading level %s failed.", m_LevelName.c_str());
         // Stop loading levels
         return false;
     }
 
     // This is the first line for the level files beginning with version 2 (therefore "V2plus")
-    std::string headerV2plus("; Bombermaaan level file version=");
+    const char * headerV2plus = "; Bombermaaan level file version=";
 
     std::string s;
     std::getline(in, s);
     int LevelVersion;
 
     // When header string is found at the beginning of the string, find() returns 0 (offset 0)
-    if (s.find(headerV2plus) == 0) {
+    if (s.find(headerV2plus) == 0)
+    {
         // We can look for the level version now
-        LevelVersion = atoi(s.substr(headerV2plus.length()).c_str());
+        LevelVersion = atoi(s.substr(strlen(headerV2plus)).c_str());
     }
     else
     {
@@ -147,20 +147,17 @@ bool CLevel::LoadFromFile()
         break;
 
     case 2:
-        if (!LoadVersion2(m_FilenameFull)) {
+        if (!LoadVersion2(in)) {
             ErrorOccurred = true;
         }
         break;
 
     default:
-        theLog.WriteLine("Options         => !!! Unsupported version of level file %s.", m_FilenameShort.c_str());
+        theLog.WriteLine("Options         => !!! Unsupported version of level data for level %s.", m_LevelName.c_str());
         ErrorOccurred = true;
         break;
 
     }
-
-    // Close the level file
-    in.close();
 
     // Validate this level if no error occurred so far
     if (!ErrorOccurred)
@@ -171,17 +168,19 @@ bool CLevel::LoadFromFile()
     // If there wasn't any problem
     if (!ErrorOccurred)
     {
-        theLog.WriteLine("Options         => Level file %s was successfully loaded (version %d).", m_FilenameShort.c_str(), LevelVersion);
+        theLog.WriteLine("Options         => Level %s was successfully loaded (version %d).", m_LevelName.c_str(), LevelVersion);
     }
     // If there was a problem
     else
     {
-        theLog.WriteLine("Options         => !!! Could not load level file %s (version %d).", m_FilenameShort.c_str(), LevelVersion);
+        theLog.WriteLine("Options         => !!! Could not load level data for level %s (version %d).", m_LevelName.c_str(), LevelVersion);
     }
 
     // If we had to stop then there is a problem.
     if (ErrorOccurred)
+    {
         return false;
+    }
 
     // Everything went right
     return true;
@@ -191,13 +190,12 @@ bool CLevel::LoadFromFile()
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CLevel::LoadVersion1(std::ifstream& File) {
+bool CLevel::LoadVersion1(std::istream& in) {
 
     bool StopReadingFile = false;
-    std::filebuf *pbuf = File.rdbuf();
 
     // go to the beginning
-    pbuf->pubseekpos(0, std::ios::in);
+    in.seekg(0);
 
     // For each line of characters to read
     for (int y = 0; y < ARENA_HEIGHT; y++)
@@ -207,9 +205,9 @@ bool CLevel::LoadVersion1(std::ifstream& File) {
         int ReadBytes;
 
         // Read one line of characters (including the EOL chars)
-        if (File.good())
+        if (in.good())
         {
-            std::getline(File, Line);
+            std::getline(in, Line);
             ReadBytes = Line.size();
         }
         else
@@ -223,11 +221,9 @@ bool CLevel::LoadVersion1(std::ifstream& File) {
             // Log there is a problem
             theLog.WriteLine("Options         => !!! Level file is incorrect (Line: %d, Length: %d).", y + 1, ReadBytes);
 
-            // Close the level file
-            File.close();
-
             // Stop loading levels
             StopReadingFile = true;
+
             break;
         }
 
@@ -237,41 +233,39 @@ bool CLevel::LoadVersion1(std::ifstream& File) {
             // According to the character value, store the corresponding block type in the current position and level
             switch (Line.c_str()[x])
             {
-            case '*': m_ArenaData[x][y] = BLOCKTYPE_HARDWALL;          break;
-            case '-': m_ArenaData[x][y] = BLOCKTYPE_SOFTWALL;          break;
-            case '?': m_ArenaData[x][y] = BLOCKTYPE_RANDOM;            break;
-            case ' ': m_ArenaData[x][y] = BLOCKTYPE_FREE;              break;
-            case '1': m_ArenaData[x][y] = BLOCKTYPE_WHITEBOMBER;       break;
-            case '2': m_ArenaData[x][y] = BLOCKTYPE_BLACKBOMBER;       break;
-            case '3': m_ArenaData[x][y] = BLOCKTYPE_REDBOMBER;         break;
-            case '4': m_ArenaData[x][y] = BLOCKTYPE_BLUEBOMBER;        break;
-            case '5': m_ArenaData[x][y] = BLOCKTYPE_GREENBOMBER;       break;
-            case 'R': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_RIGHT;    break;
-            case 'D': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_DOWN;     break;
-            case 'L': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_LEFT;     break;
-            case 'U': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_UP;       break;
-            case 'B': m_ArenaData[x][y] = BLOCKTYPE_ITEM_BOMB;         break;
-            case 'K': m_ArenaData[x][y] = BLOCKTYPE_ITEM_KICK;         break;
-            case 'F': m_ArenaData[x][y] = BLOCKTYPE_ITEM_FLAME;        break;
-            case 'S': m_ArenaData[x][y] = BLOCKTYPE_ITEM_ROLLER;       break;
-            case 'P': m_ArenaData[x][y] = BLOCKTYPE_ITEM_PUNCH;        break;
-            case 'T': m_ArenaData[x][y] = BLOCKTYPE_ITEM_THROW;        break;
-            case 'Z': m_ArenaData[x][y] = BLOCKTYPE_ITEM_REMOTES;      break;
-            case 'C': m_ArenaData[x][y] = BLOCKTYPE_ITEM_SKULL;        break;
-            case 'V': m_ArenaData[x][y] = BLOCKTYPE_ITEM_SHIELD;       break;
-            case 'I': m_ArenaData[x][y] = BLOCKTYPE_ITEM_STRONGWEAK;   break;
-            default:
-            {
-                // Log there is a problem
-                theLog.WriteLine("Options         => !!! Level file is incorrect (unknown character %c).", Line[x]);
+                case '*': m_ArenaData[x][y] = BLOCKTYPE_HARDWALL;          break;
+                case '-': m_ArenaData[x][y] = BLOCKTYPE_SOFTWALL;          break;
+                case '?': m_ArenaData[x][y] = BLOCKTYPE_RANDOM;            break;
+                case ' ': m_ArenaData[x][y] = BLOCKTYPE_FREE;              break;
+                case '1': m_ArenaData[x][y] = BLOCKTYPE_WHITEBOMBER;       break;
+                case '2': m_ArenaData[x][y] = BLOCKTYPE_BLACKBOMBER;       break;
+                case '3': m_ArenaData[x][y] = BLOCKTYPE_REDBOMBER;         break;
+                case '4': m_ArenaData[x][y] = BLOCKTYPE_BLUEBOMBER;        break;
+                case '5': m_ArenaData[x][y] = BLOCKTYPE_GREENBOMBER;       break;
+                case 'R': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_RIGHT;    break;
+                case 'D': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_DOWN;     break;
+                case 'L': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_LEFT;     break;
+                case 'U': m_ArenaData[x][y] = BLOCKTYPE_MOVEBOMB_UP;       break;
+                case 'B': m_ArenaData[x][y] = BLOCKTYPE_ITEM_BOMB;         break;
+                case 'K': m_ArenaData[x][y] = BLOCKTYPE_ITEM_KICK;         break;
+                case 'F': m_ArenaData[x][y] = BLOCKTYPE_ITEM_FLAME;        break;
+                case 'S': m_ArenaData[x][y] = BLOCKTYPE_ITEM_ROLLER;       break;
+                case 'P': m_ArenaData[x][y] = BLOCKTYPE_ITEM_PUNCH;        break;
+                case 'T': m_ArenaData[x][y] = BLOCKTYPE_ITEM_THROW;        break;
+                case 'Z': m_ArenaData[x][y] = BLOCKTYPE_ITEM_REMOTES;      break;
+                case 'C': m_ArenaData[x][y] = BLOCKTYPE_ITEM_SKULL;        break;
+                case 'V': m_ArenaData[x][y] = BLOCKTYPE_ITEM_SHIELD;       break;
+                case 'I': m_ArenaData[x][y] = BLOCKTYPE_ITEM_STRONGWEAK;   break;
+                default:
+                {
+                    // Log there is a problem
+                    theLog.WriteLine("Options         => !!! Level file is incorrect (unknown character %c).", Line[x]);
 
-                // Close the level file
-                File.close();
+                    // Stop loading levels
+                    StopReadingFile = true;
 
-                // Stop loading levels
-                StopReadingFile = true;
-                break;
-            }
+                    break;
+                }
             }
         }
 
@@ -307,21 +301,25 @@ bool CLevel::LoadVersion1(std::ifstream& File) {
     m_InitialBomberSkills[BOMBERSKILL_STRONGWEAKITEMS] = 0;
 
     return !StopReadingFile;
-
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CLevel::LoadVersion2(std::string filename)
+bool CLevel::LoadVersion2(std::istream& in)
 {
+    in.seekg(0);
+
     // Define INI file
     CSimpleIniA iniFile(false, false, false);
 
     // Load INI file
-    SI_Error rc = iniFile.LoadFile(filename.c_str());
-    if (rc < 0) return false;
+    SI_Error rc = iniFile.Load(in);
+    if (rc < 0)
+    {
+        return false;
+    }
 
     std::string s;
     int value;

@@ -30,6 +30,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CWinner.h"
 #include "CScores.h"
 #include "CMatch.h"

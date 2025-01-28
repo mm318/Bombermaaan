@@ -1144,18 +1144,18 @@ void CMatch::DisplayPauseMessage(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#ifdef _DEBUG_FLAG_1
+#ifdef BOMBERMAAAN_DEBUG
 
 void CMatch::_Debug_WriteBombsToLog() {
 
-    theLog.WriteLine("CMatch::_Debug_WriteBombsToLog(): Bombs in m_Arena -- BEGIN --");
+    debugLog.WriteLine("CMatch::_Debug_WriteBombsToLog(): Bombs in m_Arena -- BEGIN --");
 
     for (int i = 0; i < m_Arena.MaxBombs(); i++) {
-        theLog.WriteLine("--------------------------- Bomb %d -------------------------", i);
+        debugLog.WriteLine("--------------------------- Bomb %d -------------------------", i);
         m_Arena.GetBomb(i)._Debug_WriteToLog();
     }
 
-    theLog.WriteLine("CMatch::_Debug_WriteBombsToLog(): Bombs in m_Arena -- END --");
+    debugLog.WriteLine("CMatch::_Debug_WriteBombsToLog(): Bombs in m_Arena -- END --");
 
 }
 

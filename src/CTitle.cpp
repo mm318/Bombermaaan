@@ -30,6 +30,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CTitle.h"
 #include "CDisplay.h"
 #include "CInput.h"

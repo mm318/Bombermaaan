@@ -120,7 +120,6 @@ class CSound
 private:
 
     const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
-    HMODULE m_hModule;                  //!< Connection to the resources
     bool m_GlobalPause;                 //!< Is the sound paused?
     bool m_SoundOK;                     //!< Could SDL_mixer be initialized? This may be false if there is no sound card
     Mix_Chunk *m_Samples[NUM_SAMPLES];  //!< The available samples
@@ -128,11 +127,9 @@ private:
     ESong m_ESong;                      //!< current song number
 
     const std::string& GetProgramFolder(void) const;
-    bool GetSoundResource(int ResourceID, LPVOID &pData, DWORD &DataSize);
-    bool LoadSample(ESample Sample, int ResourceID, const char *file);
-
+    bool LoadSample(ESample Sample, const uint8_t* ResourceData, uint32_t ResourceSize);
     void FreeSample(ESample Sample);
-    bool LoadSong(ESong Song, int ResourceID, const char* file);
+    bool LoadSong(ESong Song, const uint8_t* ResourceData, uint32_t ResourceSize);
     void FreeSong(ESong Song);
 
 public:
@@ -141,7 +138,6 @@ public:
     ~CSound(void);
 
     inline void SetOptions(const COptions *pOptions);
-    inline void SetModuleHandle(HMODULE hModule);             //!< Set the connection to the resources
     bool        Create(void);                                 //!< Initialize the object
     void        Destroy(void);                                //!< Uninitialize the object
     void        SetPause(bool Pause);                         //!< Pause or resume the sound
@@ -161,11 +157,6 @@ public:
 inline void CSound::SetOptions(const COptions *pOptions)
 {
     m_pOptions = pOptions;
-}
-
-inline void CSound::SetModuleHandle(HMODULE hModule)
-{
-    m_hModule = hModule;
 }
 
 inline bool CSound::IsPaused(void)

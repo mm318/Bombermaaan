@@ -115,22 +115,21 @@ class CLevel
 {
 private:
 
+    std::string         m_LevelName;                                    //!< The short level file name without path
     EBlockType          m_ArenaData[ARENA_WIDTH][ARENA_HEIGHT];         //!< Arena cells are walls etc.?
-    std::string         m_FilenameShort;                                //!< The short level file name without path
-    std::string         m_FilenameFull;                                 //!< The full name of a level file including path
     int                 m_NumberOfItemsInWalls[NUMBER_OF_ITEMS];        //!< The number of items in the soft walls
     int                 m_InitialBomberSkills[NUMBER_OF_BOMBERSKILLS];  //!< The initial bomber skills
 
-    bool                LoadVersion1(std::ifstream& File);                    //!< Load level file version 1
-    bool                LoadVersion2(std::string filename);                   //!< Load level file version 2 (requiredRemoteFuse = false) or 3 (requiredRemoteFuse = true)
-    bool                CheckMaxNumberOfItems(unsigned int *sumOfMaxItems);   //!< Check if number of max items is valid
-    bool                Validate();                                           //!< Check if this level is valid
+    bool                LoadVersion1(std::istream& in);                 //!< Load level file version 2 (requiredRemoteFuse = false) or 3 (requiredRemoteFuse = true)
+    bool                LoadVersion2(std::istream& in);                 //!< Load level file version 2 (requiredRemoteFuse = false) or 3 (requiredRemoteFuse = true)
+    bool                CheckMaxNumberOfItems(unsigned int *sumOfMaxItems); //!< Check if number of max items is valid
+    bool                Validate();                                         //!< Check if this level is valid
 
 public:
 
-    CLevel(std::string filename_full, std::string filename_short);     //!< Constructor.
-    ~CLevel(void);                                 //!< Destructor.
-    bool                LoadFromFile();                                 //!< Load game level data from the file.
+    CLevel(const std::string& level_name);                          //!< Constructor.
+    ~CLevel(void);                                                  //!< Destructor.
+    bool                LoadFromStream(std::istream& input_stream); //!< Load game level data from the file.
     inline EBlockType   GetBlockType(int X, int Y);
     inline int          GetNumberOfItemsInWalls(EItemType ItemType);
     inline int          GetInitialBomberSkills(EBomberSkills BomberSkill);
@@ -165,7 +164,7 @@ inline int CLevel::GetInitialBomberSkills(EBomberSkills BomberSkill)
 
 inline const char* CLevel::GetLevelName(void)
 {
-    return m_FilenameShort.c_str();
+    return m_LevelName.c_str();
 }
 
 //******************************************************************************************************************************

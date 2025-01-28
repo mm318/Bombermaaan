@@ -61,13 +61,6 @@
 #define ASSERT assert
 #endif
 
-//! Define this if the Ctrl+F5 key should output all bombs to the log file for debugging purposes
-#define _DEBUG_FLAG_1
-
-#define MEMSET(_p,_value,_size)     memset (_p, _value, _size)
-#define MEMZERO(_p,_size)           memset (_p, 0, _size)
-#define MEMCOPY(_dst,_src,_size)    memcpy (_dst, _src, _size)
-
 #ifndef __ABSMINMAX__
 #define __ABSMINMAX__
 #define ABS(_x)     ((_x) > 0 ? (_x) : -(_x))
@@ -75,38 +68,31 @@
 #define MAX(_x,_y)  ((_x) > (_y) ? (_x) : (_y))
 #endif // __ABSMINMAX__
 
-#define SQRT(_x)    sqrt(_x)
+#define SEED_RANDOM(seed)   srand(seed)
+#define RANDOM(max)         (rand() % (max))
 
-#define SEED_RANDOM(seed)     srand(seed)
-#define RANDOM(max)       (rand() % (max))
+#define PLAYER_WHITE            0       //!< Player number of the white bomber
+#define PLAYER_BLACK            1       //!< Player number of the black bomber
+#define PLAYER_RED              2       //!< Player number of the red bomber
+#define PLAYER_BLUE             3       //!< Player number of the blue bomber
+#define PLAYER_GREEN            4       //!< Player number of the green bomber
+#define MAX_PLAYERS             5       //!< Maximum number of players
+#define MAX_PLAYER_SCORE        5       //!< Maximum score for a player
+#define MAX_DRAWGAME_SCORE      5       //!< Maximum score for draw games
+#define ARENA_WIDTH             15      //!< Arena width in blocks
+#define ARENA_HEIGHT            13      //!< Arena height in blocks
+#define BLOCK_SIZE              32      //!< Block size in pixels
+#define BLOCK_POSITION_SHIFT    8       //!< Shift number when translating position<->block : i.e. position >> 4
+#define VIEW_WIDTH              (ARENA_WIDTH * BLOCK_SIZE)          // Size of the game view from left to right in pixels (size of client area in windowed mode)
+#define VIEW_HEIGHT             (26 + ARENA_HEIGHT * BLOCK_SIZE)    // Size of the game view from top to bottom in pixels (size of client area in windowed mode)
 
-#define PLAYER_WHITE                    0       //!< Player number of the white bomber
-#define PLAYER_BLACK                    1       //!< Player number of the black bomber
-#define PLAYER_RED                      2       //!< Player number of the red bomber
-#define PLAYER_BLUE                     3       //!< Player number of the blue bomber
-#define PLAYER_GREEN                    4       //!< Player number of the green bomber
-#define MAX_PLAYERS                     5       //!< Maximum number of players
-#define MAX_PLAYER_SCORE                5       //!< Maximum score for a player
-#define MAX_DRAWGAME_SCORE              5       //!< Maximum score for draw games
-#define ARENA_WIDTH                     15      //!< Arena width in blocks
-#define ARENA_HEIGHT                    13      //!< Arena height in blocks
-#define BLOCK_SIZE                      32      //!< Block size in pixels
-#define BLOCK_POSITION_SHIFT            8       //!< Shift number when translating position<->block : i.e. position >> 4
-#define VIEW_WIDTH                      (ARENA_WIDTH * BLOCK_SIZE)          // Size of the game view from left to right in pixels (size of client area in windowed mode)
-#define VIEW_HEIGHT                     (26 + ARENA_HEIGHT * BLOCK_SIZE)    // Size of the game view from top to bottom in pixels (size of client area in windowed mode)
-
-#define MAX_ITER       50
-
-#define IMAGE_FOLDER "images"
-#define SOUND_FOLDER "sounds"
+#define MAX_ITER                50
 
 #include "CLog.h"
-#include "CConsole.h"
 #include "CDebug.h"
 #include "CTimer.h"
 
-#include "res.h"
-#include "resource.h"
+#define IDI_BOMBER              101
 
 // Originally taken from CGame.h
 //! Describes how the game should currently be updated

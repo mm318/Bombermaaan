@@ -38,7 +38,7 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-//#define ENABLE_PRINT_CONSOLE
+//#define _DEBUG
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -64,8 +64,8 @@ void CArenaSnapshot::Begin (void)
 {
     m_Position = 0;
 
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("BEGIN SNAPSHOT\n");
+#ifdef BOMBERMAAAN_DEBUG
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "BEGIN SNAPSHOT\n");
 #endif
 }
 
@@ -73,102 +73,108 @@ void CArenaSnapshot::Begin (void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::ReadInteger (int* pValue)
+template<typename T>
+void CArenaSnapshot::ReadData(T* pValue)
 {
-    ASSERT(m_Position + sizeof(int) < ARENA_SNAPSHOT_SIZE);
+    ASSERT(m_Position + sizeof(T) < ARENA_SNAPSHOT_SIZE);
 
-    memcpy(pValue, &m_Buffer[m_Position], sizeof(int)); // #3078839
+    memcpy(pValue, &m_Buffer[m_Position], sizeof(T)); // #3078839
+
+#ifdef BOMBERMAAAN_DEBUG
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "READ %s %d FROM POS %d\n", typeid(T).name(), *pValue, m_Position);
+#endif
+
+    m_Position += sizeof(T);
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+template<typename T>
+void CArenaSnapshot::WriteData(const T& Value)
+{
+    ASSERT(m_Position + sizeof(T) < ARENA_SNAPSHOT_SIZE);
     
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("READ INT %d FROM POS %d\n", *pValue, m_Position);
+    memcpy(&m_Buffer[m_Position], &Value, sizeof(T)); // #3078839
+
+#ifdef BOMBERMAAAN_DEBUG
+    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "WRITE %s %d TO POS %d\n", typeid(T).name(), Value, m_Position);
 #endif
-    
-    m_Position += sizeof(int);
+
+    m_Position += sizeof(T);
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::ReadFloat (float* pValue)
+void CArenaSnapshot::ReadInteger(int* pValue)
 {
-    ASSERT(m_Position + sizeof(float) < ARENA_SNAPSHOT_SIZE);
-
-    memcpy(pValue, &m_Buffer[m_Position], sizeof(float)); // #3078839
-
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("READ FLOAT %f FROM POS %d\n", *pValue, m_Position);
-#endif
-
-    m_Position += sizeof(float);
+    ReadData(pValue);
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::ReadBoolean (bool* pValue)
+void CArenaSnapshot::ReadFloat(float* pValue)
 {
-    ASSERT(m_Position + sizeof(bool) < ARENA_SNAPSHOT_SIZE);
-
-    memcpy(pValue, &m_Buffer[m_Position], sizeof(bool)); // #3078839
-
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("READ BOOL %d FROM POS %d\n", *pValue, m_Position);
-#endif
-
-    m_Position += sizeof(bool);
+    ReadData(pValue);
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::WriteInteger (int Value)
+void CArenaSnapshot::ReadBoolean(bool* pValue)
 {
-    ASSERT(m_Position + sizeof(int) < ARENA_SNAPSHOT_SIZE);
-    
-    memcpy(&m_Buffer[m_Position], &Value, sizeof(int)); // #3078839
-
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("WRITE INT %d TO POS %d\n", Value, m_Position);
-#endif
-
-    m_Position += sizeof(int);
+    ReadData(pValue);
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::WriteFloat (float Value)
+void CArenaSnapshot::ReadPointer(const void** pValue)
 {
-    ASSERT(m_Position + sizeof(float) < ARENA_SNAPSHOT_SIZE);
-
-    memcpy(&m_Buffer[m_Position], &Value, sizeof(float)); // #3078839
-
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("WRITE FLOAT %f TO POS %d\n", Value, m_Position);
-#endif
-
-    m_Position += sizeof(float);
+    ReadData(pValue);
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-void CArenaSnapshot::WriteBoolean (bool Value)
+void CArenaSnapshot::WriteInteger(int Value)
 {
-    ASSERT(m_Position + sizeof(bool) < ARENA_SNAPSHOT_SIZE);
+    WriteData(Value);
+}
 
-    memcpy(&m_Buffer[m_Position], &Value, sizeof(bool)); // #3078839
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
 
-#ifdef ENABLE_PRINT_CONSOLE
-    theConsole.Write("WRITE BOOL %d TO POS %d\n", Value, m_Position);
-#endif
+void CArenaSnapshot::WriteFloat(float Value)
+{
+    WriteData(Value);
+}
 
-    m_Position += sizeof(bool);
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+void CArenaSnapshot::WriteBoolean(bool Value)
+{
+    WriteData(Value);
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+void CArenaSnapshot::WritePointer(const void* Value)
+{
+    WriteData(Value);
 }
 
 //******************************************************************************************************************************

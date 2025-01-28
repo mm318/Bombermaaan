@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CHurryMessage.h"
 #include "CSound.h"
 #include "CScroller.h"

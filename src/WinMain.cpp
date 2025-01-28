@@ -33,10 +33,6 @@
 #include <tchar.h>
 #endif
 
-#ifdef _DEBUG_MEMORY
-#include <vld.h> 
-#endif
-
 #include "StdAfx.h"
 #include "CGame.h"
 

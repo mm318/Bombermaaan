@@ -37,7 +37,7 @@ class CDisplay;
 
 struct SMosaicTileProperties
 {
-    int SpriteTable;
+    const void* SpriteTable;
     int Sprite;
     int CountX;
     int CountY;

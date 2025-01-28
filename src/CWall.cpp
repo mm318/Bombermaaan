@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CWall.h"
 #include "CBomber.h"
 #include "CArena.h"

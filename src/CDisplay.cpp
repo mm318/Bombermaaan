@@ -34,7 +34,7 @@
 #include "StdAfx.h"
 #include "CDisplay.h"
 
-#include "res.h"
+#include "BombermaaanAssets.h"
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -42,9 +42,6 @@
 
 CDisplay::CDisplay(void)
 {
-    // No connection to the resources yet
-    m_hModule = NULL;
-
     // Reset view origin
     m_ViewOriginX = 0;
     m_ViewOriginY = 0;
@@ -65,11 +62,6 @@ CDisplay::~CDisplay(void)
 
 bool CDisplay::Create(int Width, int Height, bool FullScreen)
 {
-    // Check if we have a connection with the resources
-#ifndef LOAD_RESOURCES_FROM_FILES
-    ASSERT(m_hModule != NULL);
-#endif
-
     int Depth = 32;
 
     // If no display mode has been set yet or the current display mode is not the right one
@@ -85,72 +77,71 @@ bool CDisplay::Create(int Width, int Height, bool FullScreen)
             return false;
         }
 
-        if (!LoadSprites(1, 1, 82, 41, false, BMP_GREEN_BACKGROUND_SOLID, "green_background_solid.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_BLUE_BACKGROUND_SOLID, "blue_background_solid.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_PURPLE_BACKGROUND_SOLID, "purple_background_solid.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_RED_BACKGROUND_SOLID, "red_background_solid.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_GREEN_BACKGROUND_BOMB, "green_background_bomb.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_BLUE_BACKGROUND_BOMB, "blue_background_bomb.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_PURPLE_BACKGROUND_BOMB, "purple_background_bomb.bmp") ||
-            !LoadSprites(1, 1, 82, 41, false, BMP_RED_BACKGROUND_BOMB, "red_background_bomb.bmp") ||
-            !LoadSprites(2, 1, 32, 32, false, BMP_ARENA_FLOOR, "arena_floor.bmp") ||
-            !LoadSprites(7, 1, 32, 32, true, BMP_ARENA_WALL, "arena_wall.bmp") ||
-            !LoadSprites(28, 1, 32, 32, true, BMP_ARENA_FLAME, "arena_flame.bmp") ||
-            !LoadSprites(20, 1, 32, 32, false, BMP_ARENA_ITEM, "arena_item.bmp") ||
-            !LoadSprites(3, 1, 32, 32, true, BMP_ARENA_BOMB, "arena_bomb.bmp") ||
-            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_WALK, "arena_bomber_walk.bmp") ||
-            !LoadSprites(7, 1, 52, 54, true, BMP_ARENA_FIRE, "arena_fire.bmp") ||
-            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_WALK_HOLD, "arena_bomber_walk_hold.bmp") ||
-            !LoadSprites(4, 1, 32, 32, true, BMP_ARENA_FLY, "arena_fly.bmp") ||
-            !LoadSprites(1, 1, 480, 26, false, BMP_BOARD_BACKGROUND, "board_background.bmp") ||
-            !LoadSprites(12, 1, 7, 10, true, BMP_BOARD_TIME, "board_time.bmp") ||
-            !LoadSprites(2, 1, 15, 7, true, BMP_BOARD_CLOCK_TOP, "board_clock_top.bmp") ||
-            !LoadSprites(8, 1, 15, 13, true, BMP_BOARD_CLOCK_BOTTOM, "board_clock_bottom.bmp") ||
-            !LoadSprites(6, 1, 6, 8, true, BMP_BOARD_SCORE, "board_score.bmp") ||
-            !LoadSprites(5, 2, 14, 14, true, BMP_BOARD_HEADS, "board_heads.bmp") ||
-            !LoadSprites(1, 1, 480, 442, false, BMP_DRAWGAME_MAIN, "drawgame_main.bmp") ||
-            !LoadSprites(2, 1, 68, 96, false, BMP_DRAWGAME_FLAG, "drawgame_flag.bmp") ||
-            !LoadSprites(4, 1, 20, 62, true, BMP_DRAWGAME_FUMES, "drawgame_fumes.bmp") ||
-            !LoadSprites(4, 5, 24, 32, true, BMP_WINNER_BOMBER, "winner_bomber.bmp") ||
-            !LoadSprites(16, 1, 22, 22, true, BMP_WINNER_COIN, "winner_coin.bmp") ||
-            !LoadSprites(4, 1, 6, 6, true, BMP_WINNER_LIGHTS, "winner_lights.bmp") ||
-            !LoadSprites(4, 2, 16, 16, true, BMP_WINNER_SPARKS, "winner_sparks.bmp") ||
-            !LoadSprites(1, 1, 158, 16, true, BMP_WINNER_TITLE, "winner_title.bmp") ||
-            !LoadSprites(1, 1, 32, 405, false, BMP_VICTORY_WALL, "victory_wall.bmp") ||
-            !LoadSprites(9, 1, 14, 16, true, BMP_VICTORY_CROWD, "victory_crowd.bmp") ||
-            !LoadSprites(14, 5, 36, 61, true, BMP_VICTORY_BOMBER, "victory_bomber.bmp") ||
-            !LoadSprites(1, 1, 192, 60, true, BMP_VICTORY_TITLE, "victory_title.bmp") ||
-            !LoadSprites(46, 6, 10, 10, true, BMP_GLOBAL_FONT, "global_font.bmp") ||
-            !LoadSprites(5, 2, 21, 19, true, BMP_MENU_BOMBER, "menu_bomber.bmp") ||
-            !LoadSprites(1, 1, 420, 362, true, BMP_MENU_FRAME_1, "menu_frame_1.bmp") ||
-            !LoadSprites(2, 1, 15, 16, true, BMP_MENU_HAND, "menu_hand.bmp") ||
-            !LoadSprites(5, 1, 23, 23, true, BMP_WINNER_CROSS, "winner_cross.bmp") ||
-            !LoadSprites(5, 5, 14, 15, true, BMP_VICTORY_CONFETTIS_LARGE, "victory_confettis_large.bmp") ||
-            !LoadSprites(5, 5, 13, 14, true, BMP_VICTORY_CONFETTIS_MEDIUM, "victory_confettis_medium.bmp") ||
-            !LoadSprites(5, 5, 10, 10, true, BMP_VICTORY_CONFETTIS_SMALL, "victory_confettis_small.bmp") ||
-            !LoadSprites(1, 1, 200, 36, true, BMP_PAUSE, "arena_pause.bmp") ||
-            !LoadSprites(1, 1, 200, 36, true, BMP_HURRY, "arena_hurry.bmp") ||
-            !LoadSprites(1, 1, 154, 93, true, BMP_MENU_FRAME_2, "menu_frame_2.bmp") ||
-            !LoadSprites(3, 4, 32, 32, true, BMP_ARENA_FUMES, "arena_fumes.bmp") ||
-            !LoadSprites(1, 1, 14, 14, true, BMP_BOARD_DRAWGAME, "board_drawgame.bmp") ||
-            !LoadSprites(1, 1, 480, 442, false, BMP_TITLE_BACKGROUND, "title_background.bmp") ||
-            !LoadSprites(1, 1, 480, 126, true, BMP_TITLE_BOMBERS, "title_bombers.bmp") ||
-            !LoadSprites(1, 1, 298, 139, true, BMP_TITLE_TITLE, "title_title.bmp") ||
-            !LoadSprites(2, 6, 128, 26, true, BMP_TITLE_MENU_ITEMS, "title_menu_items.bmp") ||
-            !LoadSprites(1, 1, 138, 46, true, BMP_TITLE_CLOUD_1, "title_cloud_1.bmp") ||
-            !LoadSprites(1, 1, 106, 46, true, BMP_TITLE_CLOUD_2, "title_cloud_2.bmp") ||
-            !LoadSprites(1, 1, 66, 22, true, BMP_TITLE_CLOUD_3, "title_cloud_3.bmp") ||
-            !LoadSprites(18, 1, 16, 16, true, BMP_LEVEL_MINI_TILES, "level_mini_tiles.bmp") ||
-            !LoadSprites(5, 1, 24, 20, true, BMP_LEVEL_MINI_BOMBERS, "level_mini_bombers.bmp") ||
-            !LoadSprites(7, 5, 42, 44, true, BMP_ARENA_BOMBER_DEATH, "arena_bomber_death.bmp") ||
-            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_LIFT, "arena_bomber_lift.bmp") ||
-            !LoadSprites(20, 8, 42, 44, true, BMP_ARENA_BOMBER_THROW, "arena_bomber_throw.bmp") ||
-            !LoadSprites(8, 8, 42, 44, true, BMP_ARENA_BOMBER_PUNCH, "arena_bomber_punch.bmp") ||
-            !LoadSprites(4, 8, 42, 44, true, BMP_ARENA_BOMBER_STUNT, "arena_bomber_stunt.bmp") ||
-            !LoadSprites(4, 1, 32, 32, true, BMP_ARENA_ARROWS, "arena_arrows.bmp") ||
-            !LoadSprites(1, 1, 30, 32, true, BMP_MENU_HAND_TITLE, "menu_hand_title.bmp") ||
-            !LoadSprites(3, 1, 32, 32, true, BMP_ARENA_REMOTE_BOMB, "arena_remote_bomb.bmp")
-            )
+        if (!LoadSprites(1, 1, 82, 41, false, BMP_GREEN_BACKGROUND_SOLID, BMP_GREEN_BACKGROUND_SOLID_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_BLUE_BACKGROUND_SOLID, BMP_BLUE_BACKGROUND_SOLID_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_PURPLE_BACKGROUND_SOLID, BMP_PURPLE_BACKGROUND_SOLID_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_RED_BACKGROUND_SOLID, BMP_RED_BACKGROUND_SOLID_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_GREEN_BACKGROUND_BOMB, BMP_GREEN_BACKGROUND_BOMB_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_BLUE_BACKGROUND_BOMB, BMP_BLUE_BACKGROUND_BOMB_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_PURPLE_BACKGROUND_BOMB, BMP_PURPLE_BACKGROUND_BOMB_SIZE) ||
+            !LoadSprites(1, 1, 82, 41, false, BMP_RED_BACKGROUND_BOMB, BMP_RED_BACKGROUND_BOMB_SIZE) ||
+            !LoadSprites(2, 1, 32, 32, false, BMP_ARENA_FLOOR, BMP_ARENA_FLOOR_SIZE) ||
+            !LoadSprites(7, 1, 32, 32, true, BMP_ARENA_WALL, BMP_ARENA_WALL_SIZE) ||
+            !LoadSprites(28, 1, 32, 32, true, BMP_ARENA_FLAME, BMP_ARENA_FLAME_SIZE) ||
+            !LoadSprites(20, 1, 32, 32, false, BMP_ARENA_ITEM, BMP_ARENA_ITEM_SIZE) ||
+            !LoadSprites(3, 1, 32, 32, true, BMP_ARENA_BOMB, BMP_ARENA_BOMB_SIZE) ||
+            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_WALK, BMP_ARENA_BOMBER_WALK_SIZE) ||
+            !LoadSprites(7, 1, 52, 54, true, BMP_ARENA_FIRE, BMP_ARENA_FIRE_SIZE) ||
+            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_WALK_HOLD, BMP_ARENA_BOMBER_WALK_HOLD_SIZE) ||
+            !LoadSprites(4, 1, 32, 32, true, BMP_ARENA_FLY, BMP_ARENA_FLY_SIZE) ||
+            !LoadSprites(1, 1, 480, 26, false, BMP_BOARD_BACKGROUND, BMP_BOARD_BACKGROUND_SIZE) ||
+            !LoadSprites(12, 1, 7, 10, true, BMP_BOARD_TIME, BMP_BOARD_TIME_SIZE) ||
+            !LoadSprites(2, 1, 15, 7, true, BMP_BOARD_CLOCK_TOP, BMP_BOARD_CLOCK_TOP_SIZE) ||
+            !LoadSprites(8, 1, 15, 13, true, BMP_BOARD_CLOCK_BOTTOM, BMP_BOARD_CLOCK_BOTTOM_SIZE) ||
+            !LoadSprites(6, 1, 6, 8, true, BMP_BOARD_SCORE, BMP_BOARD_SCORE_SIZE) ||
+            !LoadSprites(5, 2, 14, 14, true, BMP_BOARD_HEADS, BMP_BOARD_HEADS_SIZE) ||
+            !LoadSprites(1, 1, 480, 442, false, BMP_DRAWGAME_MAIN, BMP_DRAWGAME_MAIN_SIZE) ||
+            !LoadSprites(2, 1, 68, 96, false, BMP_DRAWGAME_FLAG, BMP_DRAWGAME_FLAG_SIZE) ||
+            !LoadSprites(4, 1, 20, 62, true, BMP_DRAWGAME_FUMES, BMP_DRAWGAME_FUMES_SIZE) ||
+            !LoadSprites(4, 5, 24, 32, true, BMP_WINNER_BOMBER, BMP_WINNER_BOMBER_SIZE) ||
+            !LoadSprites(16, 1, 22, 22, true, BMP_WINNER_COIN, BMP_WINNER_COIN_SIZE) ||
+            !LoadSprites(4, 1, 6, 6, true, BMP_WINNER_LIGHTS, BMP_WINNER_LIGHTS_SIZE) ||
+            !LoadSprites(4, 2, 16, 16, true, BMP_WINNER_SPARKS, BMP_WINNER_SPARKS_SIZE) ||
+            !LoadSprites(1, 1, 158, 16, true, BMP_WINNER_TITLE, BMP_WINNER_TITLE_SIZE) ||
+            !LoadSprites(1, 1, 32, 405, false, BMP_VICTORY_WALL, BMP_VICTORY_WALL_SIZE) ||
+            !LoadSprites(9, 1, 14, 16, true, BMP_VICTORY_CROWD, BMP_VICTORY_CROWD_SIZE) ||
+            !LoadSprites(14, 5, 36, 61, true, BMP_VICTORY_BOMBER, BMP_VICTORY_BOMBER_SIZE) ||
+            !LoadSprites(1, 1, 192, 60, true, BMP_VICTORY_TITLE, BMP_VICTORY_TITLE_SIZE) ||
+            !LoadSprites(46, 6, 10, 10, true, BMP_GLOBAL_FONT, BMP_GLOBAL_FONT_SIZE) ||
+            !LoadSprites(5, 2, 21, 19, true, BMP_MENU_BOMBER, BMP_MENU_BOMBER_SIZE) ||
+            !LoadSprites(1, 1, 420, 362, true, BMP_MENU_FRAME_1, BMP_MENU_FRAME_1_SIZE) ||
+            !LoadSprites(2, 1, 15, 16, true, BMP_MENU_HAND, BMP_MENU_HAND_SIZE) ||
+            !LoadSprites(5, 1, 23, 23, true, BMP_WINNER_CROSS, BMP_WINNER_CROSS_SIZE) ||
+            !LoadSprites(5, 5, 14, 15, true, BMP_VICTORY_CONFETTIS_LARGE, BMP_VICTORY_CONFETTIS_LARGE_SIZE) ||
+            !LoadSprites(5, 5, 13, 14, true, BMP_VICTORY_CONFETTIS_MEDIUM, BMP_VICTORY_CONFETTIS_MEDIUM_SIZE) ||
+            !LoadSprites(5, 5, 10, 10, true, BMP_VICTORY_CONFETTIS_SMALL, BMP_VICTORY_CONFETTIS_SMALL_SIZE) ||
+            !LoadSprites(1, 1, 200, 36, true, BMP_PAUSE, BMP_PAUSE_SIZE) ||
+            !LoadSprites(1, 1, 200, 36, true, BMP_HURRY, BMP_HURRY_SIZE) ||
+            !LoadSprites(1, 1, 154, 93, true, BMP_MENU_FRAME_2, BMP_MENU_FRAME_2_SIZE) ||
+            !LoadSprites(3, 4, 32, 32, true, BMP_ARENA_FUMES, BMP_ARENA_FUMES_SIZE) ||
+            !LoadSprites(1, 1, 14, 14, true, BMP_BOARD_DRAWGAME, BMP_BOARD_DRAWGAME_SIZE) ||
+            !LoadSprites(1, 1, 480, 442, false, BMP_TITLE_BACKGROUND, BMP_TITLE_BACKGROUND_SIZE) ||
+            !LoadSprites(1, 1, 480, 126, true, BMP_TITLE_BOMBERS, BMP_TITLE_BOMBERS_SIZE) ||
+            !LoadSprites(1, 1, 298, 139, true, BMP_TITLE_TITLE, BMP_TITLE_TITLE_SIZE) ||
+            !LoadSprites(2, 6, 128, 26, true, BMP_TITLE_MENU_ITEMS, BMP_TITLE_MENU_ITEMS_SIZE) ||
+            !LoadSprites(1, 1, 138, 46, true, BMP_TITLE_CLOUD_1, BMP_TITLE_CLOUD_1_SIZE) ||
+            !LoadSprites(1, 1, 106, 46, true, BMP_TITLE_CLOUD_2, BMP_TITLE_CLOUD_2_SIZE) ||
+            !LoadSprites(1, 1, 66, 22, true, BMP_TITLE_CLOUD_3, BMP_TITLE_CLOUD_3_SIZE) ||
+            !LoadSprites(18, 1, 16, 16, true, BMP_LEVEL_MINI_TILES, BMP_LEVEL_MINI_TILES_SIZE) ||
+            !LoadSprites(5, 1, 24, 20, true, BMP_LEVEL_MINI_BOMBERS, BMP_LEVEL_MINI_BOMBERS_SIZE) ||
+            !LoadSprites(7, 5, 42, 44, true, BMP_ARENA_BOMBER_DEATH, BMP_ARENA_BOMBER_DEATH_SIZE) ||
+            !LoadSprites(12, 8, 42, 44, true, BMP_ARENA_BOMBER_LIFT, BMP_ARENA_BOMBER_LIFT_SIZE) ||
+            !LoadSprites(20, 8, 42, 44, true, BMP_ARENA_BOMBER_THROW, BMP_ARENA_BOMBER_THROW_SIZE) ||
+            !LoadSprites(8, 8, 42, 44, true, BMP_ARENA_BOMBER_PUNCH, BMP_ARENA_BOMBER_PUNCH_SIZE) ||
+            !LoadSprites(4, 8, 42, 44, true, BMP_ARENA_BOMBER_STUNT, BMP_ARENA_BOMBER_STUNT_SIZE) ||
+            !LoadSprites(4, 1, 32, 32, true, BMP_ARENA_ARROWS, BMP_ARENA_ARROWS_SIZE) ||
+            !LoadSprites(1, 1, 30, 32, true, BMP_MENU_HAND_TITLE, BMP_MENU_HAND_TITLE_SIZE) ||
+            !LoadSprites(3, 1, 32, 32, true, BMP_ARENA_REMOTE_BOMB, BMP_ARENA_REMOTE_BOMB_SIZE))
         {
             // Failure, get out (error is logged by the LoadSprites() method)
             return false;
@@ -219,64 +210,21 @@ bool CDisplay::IsDisplayModeAvailable(EDisplayMode DisplayMode)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#ifndef LOAD_RESOURCES_FROM_FILES
-
-bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file)
-{
-#ifdef WIN32
-    // Load the bitmap as a resource
-    HBITMAP hBitmap = (HBITMAP)LoadImage(m_hModule, MAKEINTRESOURCE(BMP_ID), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
-
-    // If it failed
-    if (hBitmap == NULL)
-    {
-        // Log failure
-        theLog.WriteLine("Display         => !!! Could not load resource image (%d) and create handle to bitmap.", BMP_ID);
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-#endif
-    // Create the sprites by giving the sprite table information and the handle to the bitmap.
-    // If it fails
-#ifdef WIN32
-    if (!m_VideoSDL.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID, hBitmap))
-#else
-    if (!m_VideoSDL.LoadSprites(SpriteTableWidth, SpriteTableHeight, SpriteWidth, SpriteHeight, Transparent, BMP_ID))
-#endif
-    {
-        // Get out, failure
-        return false;
-    }
-
-#ifdef WIN32
-    // We no longer need the hBitmap so delete it
-    // If it fails
-    if (DeleteObject(hBitmap) == 0)
-    {
-        // Log failure
-        theLog.WriteLine("Display         => !!! Could not delete handle to bitmap.");
-        theLog.LogLastError();
-
-        // Get out, failure
-        return false;
-    }
-#endif
-}
-
-#else
-
-bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int SpriteWidth, int SpriteHeight, bool Transparent, int BMP_ID, const char *file)
+bool CDisplay::LoadSprites(int SpriteTableWidth,
+                           int SpriteTableHeight,
+                           int SpriteWidth,
+                           int SpriteHeight,
+                           bool Transparent,
+                           const uint8_t* BitmapData,
+                           uint32_t BitmapSize)
 {
     if (!m_VideoSDL.LoadSprites(SpriteTableWidth,
                                 SpriteTableHeight,
                                 SpriteWidth,
                                 SpriteHeight,
                                 Transparent,
-                                BMP_ID,
-                                GetProgramFolder(),
-                                file))
+                                BitmapData,
+                                BitmapSize))
     {
         // Get out, failure
         return false;
@@ -286,9 +234,6 @@ bool CDisplay::LoadSprites(int SpriteTableWidth, int SpriteTableHeight, int Spri
     return true;
 }
 
-#endif
-
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-

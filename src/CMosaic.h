@@ -39,7 +39,7 @@ class CMosaic
 private:
 
     CDisplay*   m_pDisplay;                     //!< Link to the display object to use to draw the mosaic
-    int         m_SpriteTable;                  //!< Sprite table of the mosaic tile sprite to use
+    const void* m_SpriteTable;                  //!< Sprite table of the mosaic tile sprite to use
     int         m_Sprite;                       //!< Number of the mosaic tile sprite to use
     int         m_SpriteLayer;                  //!< Sprite layer where to draw the mosaic
     int         m_PriorityInLayer;              //!< Priority to use in the sprite layer where to draw the mosaic
@@ -59,7 +59,16 @@ public:
                 CMosaic (void);
                 ~CMosaic (void);
     inline void SetDisplay (CDisplay* pDisplay);
-    void        Create (int SpriteTable, int Sprite, int SpriteLayer, int PriorityInLayer, int SpriteWidth, int SpriteHeight, int TileCountX, int TileCountY, float SpeedX, float SpeedY);
+    void        Create(const void* SpriteTable,
+                       int Sprite,
+                       int SpriteLayer,
+                       int PriorityInLayer,
+                       int SpriteWidth,
+                       int SpriteHeight,
+                       int TileCountX,
+                       int TileCountY,
+                       float SpeedX,
+                       float SpeedY);
     void        Destroy (void);
     void        Update (float DeltaTime);              //!< Update the mosaic state
     void        Display (void);                        //!< Display the mosaic in its current state

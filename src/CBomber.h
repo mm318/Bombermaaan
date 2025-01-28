@@ -81,7 +81,7 @@ enum EBomberState
 //! Describes a sprite table with bomber sprites inside
 struct SBomberSpriteTable
 {
-    int SpriteTableNumber;          //!< Number of the sprite table
+    const void* SpriteTableId;      //!< ID of the sprite table
     int NumberOfSpritesPerColor;    //!< Number of sprites representing a single bomber color (white, red, etc).
 };
 
@@ -137,10 +137,10 @@ private:
     CBomberMove     m_BomberMove;                   //!< Bomber movement manager object.
     EBomberAction   m_BomberAction;                 //!< Describes the action that the owner player currently wants the bomber to perform.
     EBomberAction   m_LastBomberAction;             //!< Action from last game update
+    const void*     m_SpriteTableId;                //!< Current sprite table ID to use when displaying
     int             m_Sprite;                       //!< Current bomber's sprite to display
     int             m_SpriteOverlay;                //!< Current bomber's sprite overlay to display
     int             m_AnimationSprites[5];          //!< Sprite numbers for animations, their values depend on bomber direction
-    int             m_Page;                         //!< Current sprite page number to use when displaying
     float           m_Timer;                        //!< Time counter for general use (walk and death animation, delay...)
     float           m_SickTimer;                    //!< Time counter for sickness flashing animation
     int             m_TotalBombs;                   //!< Number of bombs the bomber can drop together
@@ -384,7 +384,7 @@ inline void CBomber::SetSickness(ESick Sickness)
     m_JustGotSick = true;
     m_TimeSinceLastSick = 0.0;
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMBER, "Bomber getting sick [id=%d, sickness=%02d].", m_Player, Sickness);
 #endif
 

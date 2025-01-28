@@ -57,20 +57,8 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-// Define this if the log file should be enabled
-// #define ENABLE_LOG
-
-// Define this if the debug log file should be enabled
-// #define ENABLE_DEBUG_LOG
-
-// Define this if the console window should be enabled
-// #define ENABLE_CONSOLE
-
-// Define this if you want the console to filter repeated message
-//#define ENABLE_CONSOLE_REPEATED_MESSAGE_FILTERING
-
 // Define this if debug keys should be enabled
-//#define ENABLE_DEBUG_KEYS
+// #define ENABLE_DEBUG_KEYS
 
 // Define this if the game should update normally even when the window does not have the focus
 // Note : when the window does not have the focus, you will not have the input focus.
@@ -264,22 +252,6 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
         // Return false so the program will terminate after the message box was closed
         return false;
     }
-
-
-    //! @see ENABLE_CONSOLE
-#ifdef ENABLE_CONSOLE
-
-    // Open the console window
-    theConsole.Open ();
-
-#ifndef ENABLE_CONSOLE_REPEATED_MESSAGE_FILTERING
-
-    theConsole.SetFilterRepeatedMessages(false);
-
-#endif
-
-#endif
-
 
     // A folder where log file and configuration file are stored.
     // Is %APPDATA%\Bombermaaan when called with --use-appdata-dir (see below) on Windows
@@ -565,9 +537,6 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     m_Display.SetOptions(&m_Options);
 #ifdef WIN32
     m_Display.SetWindowHandle(m_hWnd);
-    m_Display.SetModuleHandle(m_hModule);
-#else
-    m_Display.SetModuleHandle (NULL);
 #endif // WIN32
 
 #ifdef SDL
@@ -668,11 +637,6 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 
     // Set the objects the sound object has to communicate with
     m_Sound.SetOptions(&m_Options);
-#ifdef WIN32
-    m_Sound.SetModuleHandle(m_hModule);
-#else
-    m_Sound.SetModuleHandle (NULL);
-#endif
 
     // If creating the display and setting the display mode failed
     if (!m_Display.Create(m_Options.GetDisplayMode()))
@@ -848,13 +812,6 @@ void CGame::Destroy(void)
 #endif // WIN32
         m_hModule = NULL;
     }
-
-#ifdef ENABLE_CONSOLE
-
-    // Close the console window
-    theConsole.Close ();
-
-#endif
 
 #ifdef ENABLE_LOG
 

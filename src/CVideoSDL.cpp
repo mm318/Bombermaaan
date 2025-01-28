@@ -29,9 +29,9 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
 
 #include "CVideoSDL.h"
-#include "BombermaaanIco.h"
 
 static const char* GetSDLVideoError();
 static void AddDisplayMode(int width, int height, int depth, std::vector<SDisplayMode>& displayModes);
@@ -202,13 +202,12 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
     // show cursor depending on windowed/fullscreen mode
     SDL12_ShowCursor(!m_FullScreen);
 
-    SDL_RWops *rwIcon = SDL12_RWFromMem(BombermaaanIcon, sizeof(BombermaaanIcon));
+    SDL_RWops *rwIcon = SDL12_RWFromMem(const_cast<uint8_t*>(BombermaaanIconSmall), BombermaaanIconSmallSize);
 
     SDL_Surface *icon = SDL12_LoadBMP_RW(rwIcon, 0);
 
     if (icon != NULL) {
-        if (SDL12_SetColorKey(icon, SDL_SRCCOLORKEY, SDL12_MapRGB(icon->format,
-            0x00, 0xff, 0x00)) == 0) {
+        if (SDL12_SetColorKey(icon, SDL_SRCCOLORKEY, SDL12_MapRGB(icon->format, 0x00, 0xff, 0x00)) == 0) {
             SDL12_WM_SetIcon(icon, NULL);
         }
     }
@@ -329,13 +328,13 @@ void CVideoSDL::OnWindowMove()
 //******************************************************************************************************************************
 
 void CVideoSDL::DrawSprite(int PositionX,
-    int PositionY,
-    RECT *pZone,
-    RECT *pClip,
-    int SpriteTable,
-    int Sprite,
-    int SpriteLayer,
-    int PriorityInLayer)
+                           int PositionY,
+                           RECT *pZone,
+                           RECT *pClip,
+                           const void* SpriteTable,
+                           int Sprite,
+                           int SpriteLayer,
+                           int PriorityInLayer)
 {
 
     // Prepare a drawing request
@@ -541,136 +540,19 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth,
                             int SpriteWidth,
                             int SpriteHeight,
                             bool Transparent,
-                            int BMP_ID,
-                            HBITMAP hBitmap)
+                            const uint8_t* BitmapData,
+                            uint32_t BitmapSize)
 {
 
     SSurface Surface;
 
+    SDL_RWops *rwBitmap = SDL12_RWFromMem(const_cast<uint8_t*>(BitmapData), BitmapSize);
+
     // Create a SDLVideo surface for this bitmap
-    SDL_Surface *ddsd = NULL;
-
-#ifdef WIN32
-
-    // Info structure on the bitmap, contains the size info
-    BITMAP Bitmap;
-
-    // Get the bitmap's attributes
-    // If it fails
-    if (GetObject(hBitmap, sizeof(Bitmap), &Bitmap) == 0)
-    {
-        // Log failure
-        theLog.WriteLine("DirectDraw      => !!! Could not get the bitmap's attributes.");
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    GetObject(hBitmap, sizeof(Bitmap), &Bitmap);
-
-    Uint32 rmask, gmask, bmask, amask;
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000;
-    gmask = 0x00ff0000;
-    bmask = 0x0000ff00;
-    amask = 0x000000ff;
-#else
-    rmask = 0x000000ff;
-    gmask = 0x0000ff00;
-    bmask = 0x00ff0000;
-    amask = 0xff000000;
-#endif
-
-    SDL_Surface *surf = SDL12_CreateRGBSurface(SDL_SWSURFACE,
-                                               Bitmap.bmWidth,
-                                               Bitmap.bmHeight,
-                                               Bitmap.bmBitsPixel,
-                                               rmask,
-                                               gmask,
-                                               bmask,
-                                               amask);
-
-    BYTE* bits = new BYTE[Bitmap.bmWidthBytes * Bitmap.bmHeight];
-    BYTE* temp = new BYTE[Bitmap.bmWidthBytes * Bitmap.bmHeight];
-
-    memcpy(temp, Bitmap.bmBits, Bitmap.bmWidthBytes * Bitmap.bmHeight);
-
-    BYTE *ptemp;
-    BYTE *pbits = bits;
-
-    for (int y = Bitmap.bmHeight - 1; y >= 0; y--)
-    {
-
-        ptemp = temp + y * Bitmap.bmWidthBytes;
-
-        for (int x = 0; x < Bitmap.bmWidthBytes; x++)
-        {
-            *pbits = *ptemp;
-            pbits++;
-            ptemp++;
-        }
-
-    }
-
-    delete[] temp;
-
-    int p = 0;
-
-    //Now reverse BGR data to be RGB
-    for (int j = 0; j < Bitmap.bmHeight; j++)
-    {
-        for (int i = 0; i < Bitmap.bmWidthBytes - 3; i += 3)
-        {
-
-            p = Bitmap.bmWidthBytes * j + i;
-
-            BYTE aux = bits[p];
-            bits[p] = bits[p + 2];
-            bits[p + 2] = aux;
-
-        }
-    }
-
-    //Now just copy bits onto surface
-    memcpy(surf->pixels, bits, Bitmap.bmWidthBytes * Bitmap.bmHeight);
-
-    delete[] bits;
-
-    //Finally, convert surface to display format so it displays correctly
-
-    ddsd = SDL12_DisplayFormat(surf);
-
-    SDL12_FreeSurface(surf);
-
-#else
-
-    SDL_RWops *rwBitmap;
-
-    DWORD DataSize;
-    LPVOID pData;
-
-    // Prepare a new surface from the BMP
-    DataSize = GetObject(hBitmap, 0, &pData);
-    if (DataSize == 0)
-    {
-        // Log failure
-        theLog.WriteLine("SDLVideo        => !!! Could not get the bitmap's (res id: %d) attributes.", hBitmap);
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    rwBitmap = SDL12_RWFromMem(pData, DataSize);
-
-    ddsd = SDL12_LoadBMP_RW(rwBitmap, 0);
+    SDL_Surface *ddsd = SDL12_LoadBMP_RW(rwBitmap, 0);
 
     SDL12_FreeRW(rwBitmap);
 
-#endif
-
     // If it failed
     if (ddsd == NULL)
     {
@@ -758,129 +640,7 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth,
     }
 
     // Store the sprite table
-    m_SpriteTables[BMP_ID] = SpriteTable;
-
-    // Everything went right
-    return true;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-bool CVideoSDL::LoadSprites(int SpriteTableWidth,
-                            int SpriteTableHeight,
-                            int SpriteWidth,
-                            int SpriteHeight,
-                            bool Transparent,
-                            int BMP_ID,
-                            const std::string& programFolder,
-                            const char* file)
-{
-
-    SSurface Surface;
-
-    std::string path(programFolder + '/' + IMAGE_FOLDER);
-
-#ifdef WIN32
-    path.append("\\");
-#else
-    path.append("/");
-#endif
-
-    path.append(file);
-
-    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading sprite from %s", path.c_str());
-    SDL_Surface *ddsd = SDL12_LoadBMP(path.c_str());
-
-    // If it failed
-    if (ddsd == NULL)
-    {
-        // Log failure
-        theLog.WriteLine("SDLVideo        => !!! Could not create surface.");
-        theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
-
-        // Get out
-        return false;
-    }
-
-    // Blit the bitmap onto the SDLVideo surface
-    Surface.pSurface = ddsd;
-
-    //----------------------------------------------
-    // Set the surface transparency color if needed
-    //----------------------------------------------
-
-    // If the sprite table uses transparency
-    if (Transparent)
-    {
-        // Apply the color key to the surface
-        HRESULT hRet = SDL12_SetColorKey(ddsd, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL12_MapRGBA(ddsd->format, 0x00, 0xff, 0x00, 0xff));
-
-        // If it failed
-        if (hRet != 0)
-        {
-            // Log failure
-            theLog.WriteLine("SDLVideo        => !!! Could not set colorkey.");
-            theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
-
-            // Get out
-            return false;
-        }
-    }
-
-    //-----------------------
-    // Store the new surface
-    //-----------------------
-
-    // Add the surface to the surface container
-    m_Surfaces.push_back(Surface);
-
-    //---------------------------
-    // Create the sprite table
-    //---------------------------
-
-    // Prepare a sprite table
-    std::vector<SSprite> SpriteTable;
-
-    // Variable rectangle coordinates that will be passed during sprite creations
-    int ZoneX1 = 1;
-    int ZoneY1 = 1;
-    int ZoneX2 = 1 + SpriteWidth;
-    int ZoneY2 = 1 + SpriteHeight;
-
-    // Scan all the sprites in this surface
-    for (int Y = 0; Y < SpriteTableHeight; Y++)
-    {
-        for (int X = 0; X < SpriteTableWidth; X++)
-        {
-            // Prepare a sprite
-            SSprite Sprite;
-            Sprite.SurfaceNumber = m_Surfaces.size() - 1;       // The surface we just added to the container
-            Sprite.ZoneX1 = ZoneX1;
-            Sprite.ZoneY1 = ZoneY1;
-            Sprite.ZoneX2 = ZoneX2;
-            Sprite.ZoneY2 = ZoneY2;
-
-            // Advance the rectangle on the row
-            ZoneX1 += SpriteWidth + 1;
-            ZoneX2 += SpriteWidth + 1;
-
-            // Add the sprite to the sprite table
-            SpriteTable.push_back(Sprite);
-        }
-
-        // Back to beginning of row
-        ZoneX1 = 1;
-        ZoneX2 = 1 + SpriteWidth;
-
-        // Make the rectangle go down
-        ZoneY1 += SpriteHeight + 1;
-        ZoneY2 += SpriteHeight + 1;
-    }
-
-    // Store the sprite table
-    m_SpriteTables[BMP_ID] = SpriteTable;
+    m_SpriteTables[BitmapData] = SpriteTable;
 
     // Everything went right
     return true;

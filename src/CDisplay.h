@@ -41,7 +41,6 @@ class CDisplay
 {
 private:
     const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
-    HMODULE         m_hModule;          //!< Connection to the resources
     CVideoSDL       m_VideoSDL;         //!< Object used for display
     int             m_ViewOriginX;      //!< Top left corner of the game view
     int             m_ViewOriginY;
@@ -53,15 +52,14 @@ private:
                                 int SpriteWidth,
                                 int SpriteHeight,
                                 bool Transparent,
-                                int BMP_ID,
-                                const char *file);  //!< Load a sprite table given its bitmap data and its properties.
+                                const uint8_t* BitmapData,
+                                uint32_t BitmapSize);  //!< Load a sprite table given its bitmap data and its properties.
 
 public:
                     CDisplay(void);     //!< Initialize some members
                     ~CDisplay(void);    //!< Does nothing
     inline void     SetOptions(const COptions *pOptions);
     inline void     SetWindowHandle(HWND hWnd); //!< Set the handle of the window DirectDraw/SDLVideo has to work with
-    inline void     SetModuleHandle(HMODULE hModule); //!< Set the handle of the module linked to the resources
     bool            Create(EDisplayMode DisplayMode); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
     void            Destroy (void);     //!< Destroy the DirectDraw/SDLVideo interface and the sprite tables
     inline void     OnWindowMove (void);//!< Has to be called when the window moves (WM_MOVE)
@@ -73,7 +71,7 @@ public:
                                int PositionY,
                                RECT *pZone,
                                RECT *pClip,
-                               int SpriteTable,
+                               const void* SpriteTable,
                                int Sprite,
                                int SpriteLayer,
                                int PriorityInLayer); //!< Record a drawing request that will be executed on next call to Update
@@ -105,11 +103,6 @@ inline void CDisplay::SetWindowHandle(HWND hWnd)
     m_VideoSDL.SetWindowHandle (hWnd);
 }
 
-inline void CDisplay::SetModuleHandle(HMODULE hModule)
-{
-    m_hModule = hModule;
-}
-
 inline void CDisplay::SetOrigin(int OriginX, int OriginY)
 {
     m_VideoSDL.SetOrigin(m_ViewOriginX + OriginX, m_ViewOriginY + OriginY);
@@ -135,9 +128,16 @@ inline void CDisplay::OnPaint(void)
     m_VideoSDL.UpdateScreen ();
 }
 
-inline void CDisplay::DrawSprite(int PositionX, int PositionY, RECT *pZone, RECT *pClip, int SpriteTable, int Sprite, int SpriteLayer, int PriorityInLayer)
+inline void CDisplay::DrawSprite(int PositionX,
+                                 int PositionY,
+                                 RECT *pZone,
+                                 RECT *pClip,
+                                 const void* SpriteTable,
+                                 int Sprite,
+                                 int SpriteLayer,
+                                 int PriorityInLayer)
 {
-    m_VideoSDL.DrawSprite (PositionX, PositionY, pZone, pClip, SpriteTable, Sprite, SpriteLayer, PriorityInLayer);
+    m_VideoSDL.DrawSprite(PositionX, PositionY, pZone, pClip, SpriteTable, Sprite, SpriteLayer, PriorityInLayer);
 }
 
 inline void CDisplay::DrawDebugRectangle(int PositionX, int PositionY, int w, int h, BYTE r, BYTE g, BYTE b, int SpriteLayer, int PriorityInLayer)

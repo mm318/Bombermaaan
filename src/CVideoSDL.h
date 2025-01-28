@@ -73,7 +73,7 @@ struct SDrawingRequest
     int ZoneY1;
     int ZoneX2;
     int ZoneY2;
-    int SpriteTable;      //!< Number of the sprite page where to the sprite is
+    const void* SpriteTable;    //!< Number of the sprite page where to the sprite is
     int Sprite;           //!< Number of the sprite to draw
     int SpriteLayer;      //!< Number of the layer where the sprite has to be drawn
     int PriorityInLayer;  //!< PriorityInLayer value inside the layer.
@@ -176,7 +176,7 @@ private:
     DWORD                   m_ColorKey;                          //!< Color key for transparent surfaces
     std::priority_queue<SDrawingRequest> m_DrawingRequests;      //!< Automatically sorted drawing requests queue
     std::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
-    std::map<int, std::vector<SSprite>> m_SpriteTables;          //!< Available sprite tables
+    std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
     std::vector<SDisplayMode>    m_AvailableDisplayModes;
@@ -200,16 +200,8 @@ public:
                                         int SpriteWidth,
                                         int SpriteHeight,
                                         bool Transparent,
-                                        int BMP_ID,
-                                        HBITMAP hBitmap);
-    bool                    LoadSprites(int SpriteTableWidth,
-                                        int SpriteTableHeight,
-                                        int SpriteWidth,
-                                        int SpriteHeight,
-                                        bool Transparent,
-                                        int BMP_ID,
-                                        const std::string& programFolder,
-                                        const char* file);
+                                        const uint8_t* BitmapData,
+                                        uint32_t BitmapSize);
     void                    FreeSprites(void);
     void                    OnWindowMove (void);
     inline void             OnPaint (void);
@@ -218,7 +210,14 @@ public:
     void                    UpdateScreen (void);
     inline void             SetOrigin (int OriginX, int OriginY);
     inline void             SetNewPrimary (SDL_Surface *pSurface);
-    void                    DrawSprite (int PositionX, int PositionY, RECT *pZone, RECT *pClip, int SpriteTable, int Sprite, int SpriteLayer, int PriorityInLayer);
+    void                    DrawSprite(int PositionX,
+                                       int PositionY,
+                                       RECT *pZone,
+                                       RECT *pClip,
+                                       const void* SpriteTable,
+                                       int Sprite,
+                                       int SpriteLayer,
+                                       int PriorityInLayer);
     void                    DrawDebugRectangle (int PositionX, int PositionY, int w, int h, Uint8 r, Uint8 g, Uint8 b, int SpriteLayer, int PriorityInLayer);
     void                    RemoveAllDebugRectangles ();
     inline bool             IsModeSet (int Width, int Height, int Depth, bool FullScreen);

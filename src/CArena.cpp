@@ -783,8 +783,6 @@ void CArena::Display(void)
 
 void CArena::WriteSnapshot(CArenaSnapshot& Snapshot)
 {
-    //theConsole.Write("write snapshot\n");
-
     Snapshot.Begin();
 
     // for each type of element
@@ -829,8 +827,6 @@ void CArena::WriteSnapshot(CArenaSnapshot& Snapshot)
 
 void CArena::ReadSnapshot(CArenaSnapshot& Snapshot)
 {
-    //theConsole.Write("read snapshot\n");
-
     Snapshot.Begin();
 
     // for each type of element

@@ -31,6 +31,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CBomb.h"
 #include "CArena.h"
 #include "CItem.h"
@@ -204,7 +206,7 @@ void CBomb::Create(int BlockX, int BlockY, int FlameSize, float TimeLeft, int Ow
 {
     CElement::Create();
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "New bomb [x=%02d, y=%02d, flamesize=%02d, owner=%d].", BlockX, BlockY, FlameSize, OwnerPlayer);
 #endif
 
@@ -279,7 +281,7 @@ void CBomb::Destroy(void)
 void CBomb::Explode(void)
 {
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb exploding [x=%02d, y=%02d, flamesize=%02d, owner=%d].", m_BlockX, m_BlockY, m_FlameSize, m_OwnerPlayer);
 #endif
 
@@ -317,7 +319,7 @@ void CBomb::Explode(void)
 
 void CBomb::Crush(void)
 {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb crushing [x=%02d, y=%02d, owner=%d].", m_BlockX, m_BlockY, m_OwnerPlayer);
 #endif
 
@@ -335,7 +337,7 @@ void CBomb::Crush(void)
 
 void CBomb::Burn(void)
 {
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb burning [x=%02d, y=%02d, owner=%d].", m_BlockX, m_BlockY, m_OwnerPlayer);
 #endif
 
@@ -358,7 +360,7 @@ void CBomb::StartMoving(EBombKick BombKick, int KickerPlayer)
     if (m_BeingHeld || m_BeingLifted || m_BeingPunched)
         return;
 
-#ifdef _DEBUG
+#ifdef BOMBERMAAAN_DEBUG
     debugLog.WriteDebugMsg(DEBUGSECT_BOMB, "Bomb starts moving [x=%02d, y=%02d, owner=%d, new_direction=%d, kicker=%d, old_direction=%d].", m_BlockX, m_BlockY, m_OwnerPlayer, BombKick, KickerPlayer, m_BombKick);
 #endif
 
@@ -805,23 +807,27 @@ void CBomb::Display(void)
 
     // Draw the bomb sprite. Priority is not used.
     if (!m_Remote)
+    {
         m_pDisplay->DrawSprite(m_iX,
-        m_iY,
-        NULL,                            // Draw entire sprite
-        &Clip,                           // Clip sprite to arena view !!!
-        BMP_ARENA_BOMB,
-        m_Sprite,
-        SpriteTable,
-        PRIORITY_UNUSED);
+                               m_iY,
+                               NULL,                            // Draw entire sprite
+                               &Clip,                           // Clip sprite to arena view !!!
+                               BMP_ARENA_BOMB,
+                               m_Sprite,
+                               SpriteTable,
+                               PRIORITY_UNUSED);
+    }
     else
+    {
         m_pDisplay->DrawSprite(m_iX,
-        m_iY,
-        NULL,                            // Draw entire sprite
-        &Clip,                           // Clip sprite to arena view !!!
-        BMP_ARENA_REMOTE_BOMB,
-        m_Sprite,
-        SpriteTable,
-        PRIORITY_UNUSED);
+                               m_iY,
+                               NULL,                            // Draw entire sprite
+                               &Clip,                           // Clip sprite to arena view !!!
+                               BMP_ARENA_REMOTE_BOMB,
+                               m_Sprite,
+                               SpriteTable,
+                               PRIORITY_UNUSED);
+    }
 }
 
 //******************************************************************************************************************************
@@ -1419,7 +1425,7 @@ void CBomb::CenterOnBlock(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#ifdef _DEBUG_FLAG_1
+#ifdef BOMBERMAAAN_DEBUG
 
 void CBomb::_Debug_WriteToLog() {
 

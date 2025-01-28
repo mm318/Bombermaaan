@@ -31,6 +31,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CMenuLevel.h"
 #include "CDisplay.h"
 #include "CInput.h"
@@ -43,15 +45,15 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#define MENUMATCH_SPRITELAYER       1               //!< Sprite layer where to draw sprites
+#define MENUMATCH_SPRITELAYER               1       //!< Sprite layer where to draw sprites
 
-#define TITLE_TEXT_POSITION_Y       90              //!< Position Y of the title text that is centered on the X axis
-#define WARNING_TEXT_POSITION_Y    350              //!< Position Y of a warning text that is centered on the X axis (will be displayed if starting points are missing for some players)
+#define TITLE_TEXT_POSITION_Y               90      //!< Position Y of the title text that is centered on the X axis
+#define WARNING_TEXT_POSITION_Y             350     //!< Position Y of a warning text that is centered on the X axis (will be displayed if starting points are missing for some players)
 
-#define MINI_ARENA_POSITION_X   120
-#define MINI_ARENA_POSITION_Y   (73+60)
+#define MINI_ARENA_POSITION_X               120
+#define MINI_ARENA_POSITION_Y               (73+60)
 #define TILE_POSITION_TO_BOMBER_POSITION    (-4)
-#define MINI_ARENA_TILE_SIZE    16
+#define MINI_ARENA_TILE_SIZE                16
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************

@@ -29,6 +29,8 @@
  */
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "CMenuTeam.h"
 #include "CDisplay.h"
 #include "CInput.h"
@@ -264,26 +266,26 @@ void CMenuTeam::OnDisplay(void)
 
         // Draw the bomber head corresponding to the current player
         m_pDisplay->DrawSprite(INITIAL_TEXT_POSITION_X + BOMBER_HEAD_SPACE_X + PositionX,
-            PositionY + BOMBER_HEAD_SPACE_Y,
-            NULL,
-            NULL,
-            BMP_MENU_BOMBER,
-            Player, // Blinking bomber head sprite or not
-            MENUTEAM_SPRITELAYER,
-            BOMBER_HEAD_PRIORITY);
+                               PositionY + BOMBER_HEAD_SPACE_Y,
+                               NULL,
+                               NULL,
+                               BMP_MENU_BOMBER,
+                               Player, // Blinking bomber head sprite or not
+                               MENUTEAM_SPRITELAYER,
+                               BOMBER_HEAD_PRIORITY);
 
         // If the cursor hand is pointing to the current player
         if (m_CursorPlayer == Player)
         {
             // Draw the cursor hand sprite in front of the corresponding bomber head
             m_pDisplay->DrawSprite(INITIAL_TEXT_POSITION_X + CURSOR_HAND_SPACE_X,
-                PositionY + CURSOR_HAND_SPACE_Y,
-                NULL,
-                NULL,
-                BMP_MENU_HAND,
-                CURSOR_HAND_SPRITE,
-                MENUTEAM_SPRITELAYER,
-                CURSOR_HAND_PRIORITY);
+                                   PositionY + CURSOR_HAND_SPACE_Y,
+                                   NULL,
+                                   NULL,
+                                   BMP_MENU_HAND,
+                                   CURSOR_HAND_SPRITE,
+                                   MENUTEAM_SPRITELAYER,
+                                   CURSOR_HAND_PRIORITY);
         }
 
         // Go down

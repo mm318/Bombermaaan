@@ -37,7 +37,7 @@
 #include "SDL_mixer.h"
 #endif
 
-#include "res.h"
+#include "BombermaaanAssets.h"
 
 // now using SDL_Mixer library
 //******************************************************************************************************************************
@@ -46,9 +46,6 @@
 
 CSound::CSound(void)
 {
-    // No connection to the resources yet
-    m_hModule = NULL;
-
     // Sound is unpaused
     m_GlobalPause = false;
 
@@ -93,54 +90,54 @@ bool CSound::Create(void)
 
     Mix_AllocateChannels(32); // this was the default in FMOD
 
-    if (!LoadSample(SAMPLE_BOMB_DROP, SND_BOMB_DROP, "bomb_drop.ogg") ||
-        !LoadSample(SAMPLE_BOMBER_DEATH, SND_BOMBER_DEATH, "bomber_death.ogg") ||
-        !LoadSample(SAMPLE_BOMB_BOUNCE, SND_BOMB_BOUNCE, "bomb_bounce.ogg") ||
-        !LoadSample(SAMPLE_BOMBER_PUNCH, SND_BOMBER_PUNCH, "bomber_punch.ogg") ||
-        !LoadSample(SAMPLE_BOMBER_THROW, SND_BOMBER_THROW, "bomber_throw.ogg") ||
-        !LoadSample(SAMPLE_BOMBER_LOSE_ITEM, SND_BOMBER_LOSE_ITEM, "bomber_lose_item.ogg") ||
-        !LoadSample(SAMPLE_BREAK_1, SND_BREAK_1, "break_1.ogg") ||
-        !LoadSample(SAMPLE_BREAK_2, SND_BREAK_2, "break_2.ogg") ||
-        !LoadSample(SAMPLE_DRAW_GAME, SND_DRAW_GAME, "draw_game.ogg") ||
-        !LoadSample(SAMPLE_DRAW_GAME_VOICE, SND_DRAW_GAME_VOICE, "draw_game_voice.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_01_1, SND_EXPLOSION_01_1, "explosion_01_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_01_2, SND_EXPLOSION_01_2, "explosion_01_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_02_1, SND_EXPLOSION_02_1, "explosion_02_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_02_2, SND_EXPLOSION_02_2, "explosion_02_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_03_1, SND_EXPLOSION_03_1, "explosion_03_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_03_2, SND_EXPLOSION_03_2, "explosion_03_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_04_1, SND_EXPLOSION_04_1, "explosion_04_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_04_2, SND_EXPLOSION_04_2, "explosion_04_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_05_1, SND_EXPLOSION_05_1, "explosion_05_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_05_2, SND_EXPLOSION_05_2, "explosion_05_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_06_1, SND_EXPLOSION_06_1, "explosion_06_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_06_2, SND_EXPLOSION_06_2, "explosion_06_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_07_1, SND_EXPLOSION_07_1, "explosion_07_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_07_2, SND_EXPLOSION_07_2, "explosion_07_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_08_1, SND_EXPLOSION_08_1, "explosion_08_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_08_2, SND_EXPLOSION_08_2, "explosion_08_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_09_1, SND_EXPLOSION_09_1, "explosion_09_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_09_2, SND_EXPLOSION_09_2, "explosion_09_2.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_10_1, SND_EXPLOSION_10_1, "explosion_10_1.ogg") ||
-        !LoadSample(SAMPLE_EXPLOSION_10_2, SND_EXPLOSION_10_2, "explosion_10_2.ogg") ||
-        !LoadSample(SAMPLE_HURRY, SND_HURRY, "hurry.ogg") ||
-        !LoadSample(SAMPLE_ITEM_FUMES, SND_ITEM_FUMES, "item_fumes.ogg") ||
-        !LoadSample(SAMPLE_MENU_NEXT, SND_MENU_NEXT, "menu_next.ogg") ||
-        !LoadSample(SAMPLE_MENU_PREVIOUS, SND_MENU_PREVIOUS, "menu_previous.ogg") ||
-        !LoadSample(SAMPLE_MENU_BEEP, SND_MENU_BEEP, "menu_beep.ogg") ||
-        !LoadSample(SAMPLE_MENU_ERROR, SND_MENU_ERROR, "menu_error.ogg") ||
-        !LoadSample(SAMPLE_PAUSE, SND_PAUSE, "pause.ogg") ||
-        !LoadSample(SAMPLE_PICK_ITEM_1, SND_PICK_ITEM_1, "pick_item_1.ogg") ||
-        !LoadSample(SAMPLE_PICK_ITEM_2, SND_PICK_ITEM_2, "pick_item_2.ogg") ||
-        !LoadSample(SAMPLE_RING_DING, SND_RING_DING, "ring_ding.ogg") ||
-        !LoadSample(SAMPLE_SICK_1, SND_SICK_1, "sick_1.ogg") ||
-        !LoadSample(SAMPLE_SICK_2, SND_SICK_2, "sick_2.ogg") ||
-        !LoadSample(SAMPLE_SICK_3, SND_SICK_3, "sick_3.ogg") ||
-        !LoadSample(SAMPLE_VICTORY, SND_VICTORY, "victory.ogg") ||
-        !LoadSample(SAMPLE_VICTORY_VOICE, SND_VICTORY_VOICE, "victory_voice.ogg") ||
-        !LoadSample(SAMPLE_WALL_CLAP_1, SND_WALL_CLAP_1, "wall_clap_1.ogg") ||
-        !LoadSample(SAMPLE_WALL_CLAP_2, SND_WALL_CLAP_2, "wall_clap_2.ogg") ||
-        !LoadSample(SAMPLE_WINNER, SND_WINNER, "winner.ogg"))
+    if (!LoadSample(SAMPLE_BOMB_DROP, SND_BOMB_DROP, SND_BOMB_DROP_SIZE) ||
+        !LoadSample(SAMPLE_BOMBER_DEATH, SND_BOMBER_DEATH, SND_BOMBER_DEATH_SIZE) ||
+        !LoadSample(SAMPLE_BOMB_BOUNCE, SND_BOMB_BOUNCE, SND_BOMB_BOUNCE_SIZE) ||
+        !LoadSample(SAMPLE_BOMBER_PUNCH, SND_BOMBER_PUNCH, SND_BOMBER_PUNCH_SIZE) ||
+        !LoadSample(SAMPLE_BOMBER_THROW, SND_BOMBER_THROW, SND_BOMBER_THROW_SIZE) ||
+        !LoadSample(SAMPLE_BOMBER_LOSE_ITEM, SND_BOMBER_LOSE_ITEM, SND_BOMBER_LOSE_ITEM_SIZE) ||
+        !LoadSample(SAMPLE_BREAK_1, SND_BREAK_1, SND_BREAK_1_SIZE) ||
+        !LoadSample(SAMPLE_BREAK_2, SND_BREAK_2, SND_BREAK_2_SIZE) ||
+        !LoadSample(SAMPLE_DRAW_GAME, SND_DRAW_GAME, SND_DRAW_GAME_SIZE) ||
+        !LoadSample(SAMPLE_DRAW_GAME_VOICE, SND_DRAW_GAME_VOICE, SND_DRAW_GAME_VOICE_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_01_1, SND_EXPLOSION_01_1, SND_EXPLOSION_01_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_01_2, SND_EXPLOSION_01_2, SND_EXPLOSION_01_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_02_1, SND_EXPLOSION_02_1, SND_EXPLOSION_02_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_02_2, SND_EXPLOSION_02_2, SND_EXPLOSION_02_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_03_1, SND_EXPLOSION_03_1, SND_EXPLOSION_03_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_03_2, SND_EXPLOSION_03_2, SND_EXPLOSION_03_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_04_1, SND_EXPLOSION_04_1, SND_EXPLOSION_04_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_04_2, SND_EXPLOSION_04_2, SND_EXPLOSION_04_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_05_1, SND_EXPLOSION_05_1, SND_EXPLOSION_05_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_05_2, SND_EXPLOSION_05_2, SND_EXPLOSION_05_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_06_1, SND_EXPLOSION_06_1, SND_EXPLOSION_06_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_06_2, SND_EXPLOSION_06_2, SND_EXPLOSION_06_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_07_1, SND_EXPLOSION_07_1, SND_EXPLOSION_07_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_07_2, SND_EXPLOSION_07_2, SND_EXPLOSION_07_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_08_1, SND_EXPLOSION_08_1, SND_EXPLOSION_08_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_08_2, SND_EXPLOSION_08_2, SND_EXPLOSION_08_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_09_1, SND_EXPLOSION_09_1, SND_EXPLOSION_09_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_09_2, SND_EXPLOSION_09_2, SND_EXPLOSION_09_2_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_10_1, SND_EXPLOSION_10_1, SND_EXPLOSION_10_1_SIZE) ||
+        !LoadSample(SAMPLE_EXPLOSION_10_2, SND_EXPLOSION_10_2, SND_EXPLOSION_10_2_SIZE) ||
+        !LoadSample(SAMPLE_HURRY, SND_HURRY, SND_HURRY_SIZE) ||
+        !LoadSample(SAMPLE_ITEM_FUMES, SND_ITEM_FUMES, SND_ITEM_FUMES_SIZE) ||
+        !LoadSample(SAMPLE_MENU_NEXT, SND_MENU_NEXT, SND_MENU_NEXT_SIZE) ||
+        !LoadSample(SAMPLE_MENU_PREVIOUS, SND_MENU_PREVIOUS, SND_MENU_PREVIOUS_SIZE) ||
+        !LoadSample(SAMPLE_MENU_BEEP, SND_MENU_BEEP, SND_MENU_BEEP_SIZE) ||
+        !LoadSample(SAMPLE_MENU_ERROR, SND_MENU_ERROR, SND_MENU_ERROR_SIZE) ||
+        !LoadSample(SAMPLE_PAUSE, SND_PAUSE, SND_PAUSE_SIZE) ||
+        !LoadSample(SAMPLE_PICK_ITEM_1, SND_PICK_ITEM_1, SND_PICK_ITEM_1_SIZE) ||
+        !LoadSample(SAMPLE_PICK_ITEM_2, SND_PICK_ITEM_2, SND_PICK_ITEM_2_SIZE) ||
+        !LoadSample(SAMPLE_RING_DING, SND_RING_DING, SND_RING_DING_SIZE) ||
+        !LoadSample(SAMPLE_SICK_1, SND_SICK_1, SND_SICK_1_SIZE) ||
+        !LoadSample(SAMPLE_SICK_2, SND_SICK_2, SND_SICK_2_SIZE) ||
+        !LoadSample(SAMPLE_SICK_3, SND_SICK_3, SND_SICK_3_SIZE) ||
+        !LoadSample(SAMPLE_VICTORY, SND_VICTORY, SND_VICTORY_SIZE) ||
+        !LoadSample(SAMPLE_VICTORY_VOICE, SND_VICTORY_VOICE, SND_VICTORY_VOICE_SIZE) ||
+        !LoadSample(SAMPLE_WALL_CLAP_1, SND_WALL_CLAP_1, SND_WALL_CLAP_1_SIZE) ||
+        !LoadSample(SAMPLE_WALL_CLAP_2, SND_WALL_CLAP_2, SND_WALL_CLAP_2_SIZE) ||
+        !LoadSample(SAMPLE_WINNER, SND_WINNER, SND_WINNER_SIZE))
     { // songs are loaded when they are needed
       // Failure, get out (error is logged by the LoadSample() and LoadSong() methods)
         return false;
@@ -195,58 +192,22 @@ void CSound::Destroy(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CSound::LoadSample(ESample Sample, int ResourceID, const char *file)
+bool CSound::LoadSample(ESample Sample, const uint8_t* ResourceData, uint32_t ResourceSize)
 {
-
-#ifndef LOAD_RESOURCES_FROM_FILES
-
-    SDL_RWops *rwSample;
-
     // Check if the sample slot is free
     ASSERT(m_Samples[Sample] == NULL);
 
-    LPVOID pData;
-    DWORD DataSize;
-
-    // If we could not get the sound resource information
-    if (!GetSoundResource(ResourceID, pData, DataSize))
-    {
-        // Get out
-        return false;
-    }
-
     // Convert pData to SDL_RWops
-    rwSample = SDL_RWFromMem(pData, DataSize);
+    SDL_RWops *rwSample = SDL_RWFromMem(const_cast<uint8_t*>(ResourceData), ResourceSize);
 
     // Open Sample
     m_Samples[Sample] = Mix_LoadWAV_RW(rwSample, 0);
     SDL_FreeRW(rwSample);
 
-#else
-
-    // Check if the sample slot is free
-    ASSERT(m_Samples[Sample] == NULL);
-
-    std::string path(GetProgramFolder() + '/' + SOUND_FOLDER);
-
-#ifdef WIN32
-    path.append("\\");
-#else
-    path.append("/");
-#endif
-
-    path.append(file);
-
-    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading sound from %s", path.c_str());
-
-    m_Samples[Sample] = Mix_LoadWAV(path.c_str());
-
-#endif
-
     if (!m_Samples[Sample])
     {
         // Log failure
-        theLog.WriteLine("Sound           => !!! Could not open sample %d because %s", ResourceID, Mix_GetError());
+        theLog.WriteLine("Sound           => !!! Could not open sample %p because %s", ResourceData, Mix_GetError());
 
         // Get out
         return false;
@@ -254,7 +215,6 @@ bool CSound::LoadSample(ESample Sample, int ResourceID, const char *file)
 
     // Everything went right
     return true;
-
 }
 
 //******************************************************************************************************************************
@@ -281,55 +241,21 @@ void CSound::FreeSample(ESample Sample)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CSound::LoadSong(ESong Song, int ResourceID, const char* file)
+bool CSound::LoadSong(ESong Song, const uint8_t* ResourceData, uint32_t ResourceSize)
 {
-
     // Check if the song slot is free
     ASSERT(m_CurrentSong == NULL);
 
-#ifndef LOAD_RESOURCES_FROM_FILES
-
-    SDL_RWops *rwSong;
-
-    LPVOID pData;
-    DWORD DataSize;
-
-    // If we could not get the sound resource information
-    if (!GetSoundResource(ResourceID, pData, DataSize))
-    {
-        // Get out
-        return false;
-    }
-
     // Convert pData to SDL_RWops
-    rwSong = SDL_RWFromMem(pData, DataSize);
+    SDL_RWops *rwSong = SDL_RWFromMem(const_cast<uint8_t*>(ResourceData), ResourceSize);
 
     // Open Sample
-    m_CurrentSong = Mix_LoadMUS_RW(rwSong);
+    m_CurrentSong = Mix_LoadMUS_RW(rwSong, 0);
     SDL_FreeRW(rwSong);
-
-#else
-
-    std::string path(GetProgramFolder() + '/' + SOUND_FOLDER);
-
-#ifdef WIN32
-    path.append("\\");
-#else
-    path.append("/");
-#endif
-
-    path.append(file);
-
-    debugLog.WriteDebugMsg(DEBUGSECT_OTHER, "Loading song from %s", path.c_str());
-
-    // Open Sample
-    m_CurrentSong = Mix_LoadMUS(path.c_str());
-
-#endif
 
     if (!m_CurrentSong) {
         // Log failure
-        theLog.WriteLine("Sound           => !!! Could not load song %d because %s.", ResourceID, Mix_GetError());
+        theLog.WriteLine("Sound           => !!! Could not load song %p because %s.", ResourceData, Mix_GetError());
 
         // Get out
         return false;
@@ -355,72 +281,6 @@ void CSound::FreeSong(ESong Song)
         // Free the song slot
         m_CurrentSong = NULL;
     }
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-bool CSound::GetSoundResource(int ResourceID, LPVOID &pData, DWORD &DataSize)
-{
-    // Find the resource file
-    HRSRC hResource = FindResource(m_hModule, MAKEINTRESOURCE(ResourceID), "SOUND");
-
-    // If it failed
-    if (hResource == NULL)
-    {
-        // Log failure
-        theLog.WriteLine("Sound           => !!! Could not find resource.");
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    // Load the resource file into memory
-    HGLOBAL hGlobal = LoadResource(m_hModule, hResource);
-
-    // If it failed
-    if (hGlobal == NULL)
-    {
-        // Log failure
-        theLog.WriteLine("Sound           => !!! Could not load resource.");
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    // Get the address of the resource file in memory
-    pData = LockResource(hGlobal);
-
-    // If it failed
-    if (pData == NULL)
-    {
-        // Log failure
-        theLog.WriteLine("Sound           => !!! Could not lock resource.");
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    // Get the size (in bytes) of the PNG resource file
-    DataSize = SizeofResource(m_hModule, hResource);
-
-    // If it failed
-    if (DataSize == 0)
-    {
-        // Log failure
-        theLog.WriteLine("Sound           => !!! Could not get resource size.");
-        theLog.LogLastError();
-
-        // Get out
-        return false;
-    }
-
-    // Everything went right
-    return true;
 }
 
 //******************************************************************************************************************************
@@ -465,19 +325,19 @@ void CSound::PlaySong(ESong Song)
         if (m_ESong != Song || m_CurrentSong == NULL) {
             switch (Song) {
             case SONG_MATCH_MUSIC_1_NORMAL:
-                result = LoadSong(SONG_MATCH_MUSIC_1_NORMAL, SND_MATCH_MUSIC_1_NORMAL, "match_music_1_normal.mod");
+                result = LoadSong(SONG_MATCH_MUSIC_1_NORMAL, SND_MATCH_MUSIC_1_NORMAL, SND_MATCH_MUSIC_1_NORMAL_SIZE);
                 break;
             case SONG_MATCH_MUSIC_1_FAST:
-                result = LoadSong(SONG_MATCH_MUSIC_1_FAST, SND_MATCH_MUSIC_1_FAST, "match_music_1_fast.mod");
+                result = LoadSong(SONG_MATCH_MUSIC_1_FAST, SND_MATCH_MUSIC_1_FAST, SND_MATCH_MUSIC_1_FAST_SIZE);
                 break;
             case SONG_MENU_MUSIC:
-                result = LoadSong(SONG_MENU_MUSIC, SND_MENU_MUSIC, "menu_music.s3m");
+                result = LoadSong(SONG_MENU_MUSIC, SND_MENU_MUSIC, SND_MENU_MUSIC_SIZE);
                 break;
             case SONG_CONTROLS_MUSIC:
-                result = LoadSong(SONG_CONTROLS_MUSIC, SND_CONTROLS_MUSIC, "controls_music.s3m");
+                result = LoadSong(SONG_CONTROLS_MUSIC, SND_CONTROLS_MUSIC, SND_CONTROLS_MUSIC_SIZE);
                 break;
             case SONG_TITLE_MUSIC:
-                result = LoadSong(SONG_TITLE_MUSIC, SND_TITLE_MUSIC, "title_music.s3m");
+                result = LoadSong(SONG_TITLE_MUSIC, SND_TITLE_MUSIC, SND_TITLE_MUSIC_SIZE);
                 break;
             default:
                 result = false;

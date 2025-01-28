@@ -138,8 +138,10 @@ private:
     void                SetDefaultValues();             //!< Set the default configuration values
     void                WriteXMLData();                 //!< Write the options to the XML based configuration file
     void                ReadIntFromXML( TiXmlDocument &doc, std::string configNode, std::string attrName, int *value );
-    bool                LoadLevels( std::string appDataFolder, std::string pgmFolder );              //!< Load game levels data and names from the level directory.
-    bool                LoadConfiguration (void);       //!< Load the configuration file, create default if it does not exist.
+    bool                LoadConfiguration(void);        //!< Load the configuration file, create default if it does not exist.
+    bool                LoadLevel(const std::string& levelName, const uint8_t* data);   //!< Load game levels data from given data
+    bool                LoadLevel(const std::string& levelName, std::istream& in);      //!< Load game levels data from given data stream.
+    bool                LoadLevelFiles(const std::string& appDataFolder, const std::string& pgmFolder); //!< Load game levels data and names from the level directory.
                         
 public:                 
                         

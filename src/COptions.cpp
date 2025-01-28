@@ -36,6 +36,8 @@
 #include <algorithm>
 
 #include "StdAfx.h"
+#include "BombermaaanAssets.h"
+
 #include "COptions.h"
 #include "CInput.h"
 #include "CArena.h"
@@ -182,12 +184,59 @@ bool COptions::Create(const std::string& dynamicDataFolder, const std::string& p
         return false;
     }
 
-    // Load game levels data and names
-    if (!LoadLevels(dynamicDataFolder, pgmFolder))
+    if (!LoadLevel("L01", LEVEL_01) ||
+        !LoadLevel("L02", LEVEL_02) ||
+        !LoadLevel("L03", LEVEL_03) ||
+        !LoadLevel("L04", LEVEL_04) ||
+        !LoadLevel("L05", LEVEL_05) ||
+        !LoadLevel("L06", LEVEL_06) ||
+        !LoadLevel("L07", LEVEL_07) ||
+        !LoadLevel("L08", LEVEL_08) ||
+        !LoadLevel("L09", LEVEL_09) ||
+        !LoadLevel("L10", LEVEL_10) ||
+        !LoadLevel("L11", LEVEL_11) ||
+        !LoadLevel("L12", LEVEL_12) ||
+        !LoadLevel("L13", LEVEL_13) ||
+        !LoadLevel("L14", LEVEL_14) ||
+        !LoadLevel("L15", LEVEL_15) ||
+        !LoadLevel("L16", LEVEL_16) ||
+        !LoadLevel("L17", LEVEL_17) ||
+        !LoadLevel("L18", LEVEL_18) ||
+        !LoadLevel("L19", LEVEL_19) ||
+        !LoadLevel("L20", LEVEL_20) ||
+        !LoadLevel("L21", LEVEL_21) ||
+        !LoadLevel("L22", LEVEL_22) ||
+        !LoadLevel("L23", LEVEL_23) ||
+        !LoadLevel("L24", LEVEL_24))
     {
         return false;
     }
-    
+
+    // Load game levels data and names
+    if (!LoadLevelFiles(dynamicDataFolder, pgmFolder))
+    {
+        return false;
+    }
+
+    //---------------------
+    // Check for a problem
+    //---------------------
+
+    // If there is no level
+    if (m_Levels.size() == 0)
+    {
+        // Log failure
+        theLog.WriteLine ("Options         => !!! There should be at least 1 level.");
+        return false;
+    }
+
+    // If the level number we read in the cfg file is invalid compared to the number of existing levels
+    if (m_Level >= (int) m_Levels.size()) // #3078839
+    {
+        // Select the first level
+        m_Level = 0;
+    }
+
     // Everything went ok.
     return true;
 }
@@ -582,65 +631,71 @@ void COptions::ReadIntFromXML(TiXmlDocument &doc, std::string configNode, std::s
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool COptions::LoadLevels(std::string dynamicDataFolder, std::string pgmFolder)
+bool COptions::LoadLevel(const std::string& levelName, const uint8_t* data)
+{
+    m_Levels.push_back(CLevel(levelName));  // Create a new CLevel element and add it to the level container
+    std::istringstream in(reinterpret_cast<const char*>(data));
+    return m_Levels.back().LoadFromStream(in);
+}
+
+bool COptions::LoadLevel(const std::string& levelName, std::istream& in)
+{
+    // Create a new CLevel element and add it to the level container
+    m_Levels.push_back(CLevel(levelName));
+    return m_Levels.back().LoadFromStream(in);
+}
+
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+//******************************************************************************************************************************
+
+std::vector<SFileInfo> FindLevels(const std::string& folder)
 {
     long FindHandle;
-    _finddata_t FindData;
+    _finddata_t FindData = {};  // initialise OUR data structure
 
-#ifndef WIN32
-    // initialise OUR data structure
-    FindData.name = NULL;
-    FindData.suffix = NULL;
-#endif
-            
     //-------------------------------------------
     // Set the path where the level files are stored
-    // (in the program files folder)
     //-------------------------------------------
     
-    std::string levelFilePath_pgmFolder;
-    levelFilePath_pgmFolder = pgmFolder;
-    if (pgmFolder.length() >= 1)
+    std::string levelFilePath = folder;
+    if (folder.length() >= 1)
     {
-        char delim = pgmFolder.c_str()[pgmFolder.length()-1];
+        char delim = folder.c_str()[folder.length()-1];
         if (delim != '\\' && delim != '/')
 #ifdef WIN32
-            levelFilePath_pgmFolder.append("\\");
+            levelFilePath.append("\\");
 #else
-            levelFilePath_pgmFolder.append("/");
+            levelFilePath.append("/");
 #endif
     }
 
 #ifdef WIN32
-    levelFilePath_pgmFolder.append( "Levels\\" );
+    levelFilePath.append( "Levels\\" );
 #else
-    levelFilePath_pgmFolder.append( "levels/" );
+    levelFilePath.append( "levels/" );
 #endif
-    
-    std::string levelFilePath_pgmFolderMask;
-    levelFilePath_pgmFolderMask = levelFilePath_pgmFolder;
-    levelFilePath_pgmFolderMask.append( "*.TXT" );
+
+    std::string levelFilePathMask = levelFilePath + "*.TXT";
 
     //-------------------------------------------
     // Determine number of level files available
-    // (in the program files folder)
     //-------------------------------------------
     
-    theLog.WriteLine( "Options         => Loading level files '%s'.", levelFilePath_pgmFolderMask.c_str() );
+    theLog.WriteLine( "Options         => Loading level files '%s'.", levelFilePathMask.c_str() );
 
     std::vector<SFileInfo> files;
 
-    FindHandle = _findfirst( levelFilePath_pgmFolderMask.c_str(), &FindData );
-    
+    FindHandle = _findfirst(levelFilePathMask.c_str(), &FindData);
+
     if (FindHandle != -1)
     {
-        do 
+        do
         {
-
             SFileInfo file;
 
             file.fileNameWithoutPath = FindData.name;
-            file.fileNameWithPath = levelFilePath_pgmFolder;
+            file.fileNameWithPath = levelFilePath;
             file.fileNameWithPath.append(FindData.name);
 
             files.push_back(file);
@@ -651,89 +706,26 @@ bool COptions::LoadLevels(std::string dynamicDataFolder, std::string pgmFolder)
 
     _findclose(FindHandle);
 
-
-    // If a dynamic folder is set, load level files from there, too
-    if ( dynamicDataFolder != "" ) {
-
-        //-------------------------------------------
-        // Set the path where the level files are stored
-        // (in the user's application data folder)
-        //-------------------------------------------
-
-        std::string levelFilePath_dynamicDataFolder;
-        levelFilePath_dynamicDataFolder = dynamicDataFolder;
-
-#ifdef WIN32
-        levelFilePath_dynamicDataFolder.append( "levels\\" );
-#else
-        levelFilePath_dynamicDataFolder.append( "levels/" );
-#endif
-
-        std::string levelFilePath_dynamicDataFolderMask;
-        levelFilePath_dynamicDataFolderMask = levelFilePath_dynamicDataFolder;
-        levelFilePath_dynamicDataFolderMask.append( "*.TXT" );
-
-        //-------------------------------------------
-        // Determine number of level files available
-        // (in the dynamic data folder)
-        //-------------------------------------------    
-
-        theLog.WriteLine( "Options         => Loading level files '%s'.", levelFilePath_dynamicDataFolderMask.c_str() );
-
-        FindHandle = _findfirst( levelFilePath_dynamicDataFolderMask.c_str(), &FindData );
-        
-        if (FindHandle != -1)
-        {
-            do 
-            {
-                SFileInfo file;
-
-                file.fileNameWithoutPath = FindData.name;
-                file.fileNameWithPath = levelFilePath_dynamicDataFolder;
-                file.fileNameWithPath.append(FindData.name);
-
-                files.push_back(file);
-            }
-            while (_findnext(FindHandle, &FindData) != -1);
-        }
-
-        _findclose(FindHandle);
-
-    }
-
     //---------------------
     // Sort
     //---------------------
 #ifdef WIN32
-    sort(files.begin(), files.end(),
-        [&](const SFileInfo& a, const SFileInfo& b) {return (a.fileNameWithoutPath < b.fileNameWithoutPath);}
-    );
+    sort(files.begin(), files.end(), [&](const SFileInfo& a, const SFileInfo& b) {
+        return (a.fileNameWithoutPath < b.fileNameWithoutPath);
+    });
 #endif
 
-    for (std::vector<SFileInfo>::iterator it = files.begin(); it != files.end(); ++it)
-    {
-        // Create a new CLevel element and add it to the level container
-        m_Levels.push_back(CLevel(it->fileNameWithPath, it->fileNameWithoutPath));
-    }
+    return files;
+}
 
-    //---------------------
-    // Check for a problem
-    //---------------------
+bool COptions::LoadLevelFiles(const std::string& dynamicDataFolder, const std::string& pgmFolder)
+{
+    std::vector<SFileInfo> files = FindLevels(pgmFolder);
 
-    // If there is no level
-    if (m_Levels.size() == 0)
-    {
-        // Log failure
-        theLog.WriteLine ("Options         => !!! There should be at least 1 level.");
-
-        return false;
-    }
-
-    // If the level number we read in the cfg file is invalid compared to the number of existing levels
-    if (m_Level >= (int)m_Levels.size()) // #3078839
-    {
-        // Select the first level
-        m_Level = 0;
+    // If a dynamic folder is set, load level files from there, too
+    if ( dynamicDataFolder != "" ) {
+        std::vector<SFileInfo> dynamicDataFolderFiles = FindLevels(dynamicDataFolder);
+        files.insert(files.end(), dynamicDataFolderFiles.begin(), dynamicDataFolderFiles.end());
     }
 
     //------------------------------------------------------
@@ -741,24 +733,22 @@ bool COptions::LoadLevels(std::string dynamicDataFolder, std::string pgmFolder)
     //------------------------------------------------------
     
     bool ErrorOccurred = false;    
-    
-    for( unsigned int CurrentLevel = 0; CurrentLevel < m_Levels.size(); CurrentLevel++ )
+
+    for (std::vector<SFileInfo>::iterator it = files.begin(); it != files.end(); ++it)
     {
-
-        //theLog.WriteLine ("Options         => Loading level file %s...", levelFileNames_full.at(CurrentLevel).c_str() );
-
-        if ( !m_Levels.at( CurrentLevel ).LoadFromFile() )
+        std::ifstream in(it->fileNameWithPath);
+        if (!LoadLevel(it->fileNameWithoutPath, in))
         {
             ErrorOccurred = true;
             break;
         }
-
     }
-
 
     // If we had to stop then there is a problem.
     if (ErrorOccurred)
+    {
         return false;
+    }
 
     // Everything went right
     return true;

@@ -1463,29 +1463,22 @@ void CAiBomber::ModeThink(void)
             // If the block is inside the arena
             else
             {
-                if (m_pArena->GetSoftWallNear(BlockX, BlockY) != -1 &&
-                    m_pArena->GetSoftWallNear(BlockX, BlockY) > 0 &&
-                    m_Accessible[BlockX][BlockY] != -1 &&
-                    m_Accessible[BlockX][BlockY] <= 5 &&
-                    (m_pArena->GetDeadEnd(BlockX, BlockY) == -1 || !EnemyNear(BlockX, BlockY)) &&
-                    m_pArena->GetDanger(BlockX, BlockY) == DANGER_NONE
-                    &&
-                    (
-                    BestMark < m_BurnMark[m_pArena->GetSoftWallNear(BlockX, BlockY)][m_Accessible[BlockX][BlockY]]
-                    ||
-                    (
-                    BestMark == m_BurnMark[m_pArena->GetSoftWallNear(BlockX, BlockY)][m_Accessible[BlockX][BlockY]]
-                    &&
-                    RANDOM(100) >= 50
-                    )
-                    ) &&
-                    DropBombOK(BlockX, BlockY))
+                int SoftWallNear = std::min(m_pArena->GetSoftWallNear(BlockX, BlockY), 3);
+                if (SoftWallNear != -1
+                    && SoftWallNear > 0
+                    && m_Accessible[BlockX][BlockY] != -1
+                    && m_Accessible[BlockX][BlockY] <= 5
+                    && (m_pArena->GetDeadEnd(BlockX, BlockY) == -1 || !EnemyNear(BlockX, BlockY))
+                    && m_pArena->GetDanger(BlockX, BlockY) == DANGER_NONE
+                    && (BestMark < m_BurnMark[SoftWallNear][m_Accessible[BlockX][BlockY]]
+                        || (BestMark == m_BurnMark[SoftWallNear][m_Accessible[BlockX][BlockY]] && RANDOM(100) >= 50))
+                    && DropBombOK(BlockX, BlockY))
                 {
                     // Save the coordinates of the best block
                     BestGoalBlockX = BlockX;
                     BestGoalBlockY = BlockY;
 
-                    BestMark = m_BurnMark[m_pArena->GetSoftWallNear(BlockX, BlockY)][m_Accessible[BlockX][BlockY]];
+                    BestMark = m_BurnMark[SoftWallNear][m_Accessible[BlockX][BlockY]];
                 }
             }
         }

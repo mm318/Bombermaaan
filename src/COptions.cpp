@@ -77,8 +77,6 @@ struct SFileInfo
 COptions::COptions (void)
 {
 
-    m_DisplayMode = DISPLAYMODE_NONE;
-
     m_BattleMode = BATTLEMODE_SINGLE;
 
     m_TimeStartMinutes = 0;
@@ -144,7 +142,6 @@ COptions& COptions::operator = (const COptions& Copy)
 
     m_PlayerCount = Copy.m_PlayerCount;
     m_BattleCount = Copy.m_BattleCount;
-    m_DisplayMode = Copy.m_DisplayMode;
 
     for (i = 0 ; i < MAX_PLAYER_INPUT ; i++)
         for (j = 0 ; j < NUM_CONTROLS ; j++)
@@ -170,10 +167,6 @@ bool COptions::Create(const std::string& dynamicDataFolder, const std::string& p
     m_configFileName = dynamicDataFolder;
     m_configFileName.append( "config.xml" );
     theLog.WriteLine( "Options         => Name of config file: '%s'.", m_configFileName.c_str() );
-
-    // Set the file name of the old configuration file
-    m_oldconfigFileName = dynamicDataFolder;
-    m_oldconfigFileName.append( "config.dat" );
 
     // Set default configuration values before loading the configuration file and overwriting the default
     SetDefaultValues();
@@ -277,9 +270,6 @@ void COptions::SetDefaultValues(void)
     // First level file (index=0) is selected
     m_Level = 0;
 
-    // Default display mode is windowed, not full-screen
-    m_DisplayMode = DISPLAYMODE_WINDOWED;
-
     // Set the bomber types
     m_BomberType[0] = BOMBERTYPE_MAN;
     m_BomberType[1] = BOMBERTYPE_MAN;
@@ -296,7 +286,9 @@ void COptions::SetDefaultValues(void)
 
     // Initialise player inputs
     for (int i = 0 ; i < MAX_PLAYERS ; i++)
+    {
         m_PlayerInput[i] = CONFIGURATION_KEYBOARD_1 + i;
+    }
 
     // Set default keyboard keys and joystick buttons
     m_Control[CONFIGURATION_KEYBOARD_1][CONTROL_UP]      = KEYBOARD_UP;
@@ -360,31 +352,6 @@ void COptions::SetDefaultValues(void)
 
 bool COptions::LoadConfiguration (void)
 {
-    // Try to open the old configuration file
-    FILE* pConfigFile = fopen( m_oldconfigFileName.c_str(), "rb" );
-
-    // If the old configuration file exists
-    if ( pConfigFile != NULL )
-    {
-        theLog.WriteLine( "Options         => Note: Reading old configuration file (config.dat) values now. Once the XML file is written, you may delete the old configuration file." );
-
-        // Read each configuration value in the file
-        fread(&m_TimeUpMinutes, sizeof(int), 1, pConfigFile);
-        fread(&m_TimeUpSeconds, sizeof(int), 1, pConfigFile);
-        fread(&m_TimeStartMinutes, sizeof(int), 1, pConfigFile);
-        fread(&m_TimeStartSeconds, sizeof(int), 1, pConfigFile);
-        fread(&m_DisplayMode, sizeof(EDisplayMode), 1, pConfigFile);
-        fread(&m_BattleCount, sizeof(int), 1, pConfigFile);
-        fread(m_BomberType, sizeof(EBomberType), MAX_PLAYERS, pConfigFile);
-        fread(m_PlayerInput, sizeof(int), MAX_PLAYERS, pConfigFile);
-        fread(m_Control, sizeof(int), MAX_PLAYER_INPUT * NUM_CONTROLS, pConfigFile);
-        fread(&m_Level, sizeof(int), 1, pConfigFile);
-
-        // The configuration file is not needed anymore
-        fclose( pConfigFile );
-    }
-
-
     TiXmlDocument configDoc( m_configFileName );
     
     // Try to load XML file
@@ -393,9 +360,14 @@ bool COptions::LoadConfiguration (void)
         // The file could be loaded successfully
         int tempRevision = 0;
         TiXmlHandle configHandle( &configDoc );
-        TiXmlElement *confRevision = configHandle.FirstChild( "Bombermaaan" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+        TiXmlElement *confRevision = configHandle.FirstChild( "Bombermaaan" )
+                                                 .FirstChild( "Configuration" )
+                                                 .FirstChild( "ConfigRevision" )
+                                                 .ToElement();
         if ( confRevision )
+        {
             confRevision->QueryIntAttribute( "value", &tempRevision );
+        }
 
         theLog.WriteLine( "Options         => Configuration file was successfully loaded and is at revision %d.", tempRevision );
 
@@ -405,13 +377,11 @@ bool COptions::LoadConfiguration (void)
         ReadIntFromXML( configDoc, "TimeStart", "minutes", &m_TimeStartMinutes );
         ReadIntFromXML( configDoc, "TimeStart", "seconds", &m_TimeStartSeconds );
 
-        ReadIntFromXML(configDoc, "BattleMode", "value", (int*)&m_BattleMode);
+        ReadIntFromXML( configDoc, "BattleMode", "value", (int*)&m_BattleMode );
 
         ReadIntFromXML( configDoc, "BattleCount", "value", &m_BattleCount );
         
         ReadIntFromXML( configDoc, "LevelFileNumber", "value", &m_Level );
-
-        ReadIntFromXML( configDoc, "DisplayMode", "value", (int*) &m_DisplayMode );
 
         for ( int i = 0; i < MAX_PLAYERS; i++ ) {
             std::ostringstream oss;
@@ -533,11 +503,6 @@ void COptions::WriteXMLData()
     TiXmlElement* configLevel = new TiXmlElement( "LevelFileNumber" );
     configLevel->SetAttribute( "value", m_Level );
     config->LinkEndChild( configLevel );
-
-    // DisplayMode
-    TiXmlElement* configDisplayMode = new TiXmlElement( "DisplayMode" );
-    configDisplayMode->SetAttribute( "value", (int) m_DisplayMode );
-    config->LinkEndChild( configDisplayMode );
 
     int i;
 

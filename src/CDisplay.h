@@ -45,7 +45,7 @@ private:
     int             m_ViewOriginX;      //!< Top left corner of the game view
     int             m_ViewOriginY;
 
-    bool            Create (int Width, int Height, bool FullScreen); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the resolution
+    bool            Create (int Width, int Height); //!< (Re)Create the SDLVideo interface and (re)load the sprite tables given the resolution
     const std::string& GetProgramFolder(void) const;
     bool            LoadSprites(int SpriteTableWidth,
                                 int SpriteTableHeight,
@@ -60,7 +60,7 @@ public:
                     ~CDisplay(void);    //!< Does nothing
     inline void     SetOptions(const COptions *pOptions);
     inline void     SetWindowHandle(HWND hWnd); //!< Set the handle of the window DirectDraw/SDLVideo has to work with
-    bool            Create(EDisplayMode DisplayMode); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
+    bool            Create();           //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
     void            Destroy (void);     //!< Destroy the DirectDraw/SDLVideo interface and the sprite tables
     inline void     OnWindowMove (void);//!< Has to be called when the window moves (WM_MOVE)
     inline void     OnPaint(void);      //!< Has to be called when the window has to be repainted (WM_PAINT)
@@ -86,7 +86,6 @@ public:
                                        int PriorityInLayer); //!< Record a drawing request for debug purposes
     inline void     RemoveAllDebugRectangles(void);
     inline CVideoSDL& GetSDLVideo(void);
-    bool            IsDisplayModeAvailable (EDisplayMode DisplayMode);
 };
 
 //******************************************************************************************************************************

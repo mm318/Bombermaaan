@@ -169,7 +169,6 @@ private:
     int                     m_Width;                             //!< Display width when fullscreen
     int                     m_Height;                            //!< Display height when fullscreen
     int                     m_Depth;                             //!< Display depth when fullscreen
-    bool                    m_FullScreen;                        //!< Is it fullscreen?
     SDL_Surface             *m_pBackBuffer;                      //!< Backbuffer surface
     SDL_Surface             *m_pPrimary;                         //!< Primary surface
     std::vector<SSurface>   m_Surfaces;                          //!< Surfaces
@@ -179,7 +178,6 @@ private:
     std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
-    std::vector<SDisplayMode>    m_AvailableDisplayModes;
 
 private:
 
@@ -192,7 +190,7 @@ public:
 
 
     inline void             SetWindowHandle (HWND hWnd);
-    bool                    Create (int Width, int Height, int Depth, bool FullScreen);
+    bool                    Create(int Width, int Height, int Depth);
     void                    Destroy (void);
     bool                    SetTransparentColor (int Red, int Green, int Blue);
     bool                    LoadSprites(int SpriteTableWidth,
@@ -220,8 +218,7 @@ public:
                                        int PriorityInLayer);
     void                    DrawDebugRectangle (int PositionX, int PositionY, int w, int h, Uint8 r, Uint8 g, Uint8 b, int SpriteLayer, int PriorityInLayer);
     void                    RemoveAllDebugRectangles ();
-    inline bool             IsModeSet (int Width, int Height, int Depth, bool FullScreen);
-    bool                    IsModeAvailable (int Width, int Height, int Depth);
+    inline bool             IsModeSet(int Width, int Height, int Depth) const;
 };
 
 //******************************************************************************************************************************
@@ -233,12 +230,9 @@ inline void CVideoSDL::SetWindowHandle (HWND hWnd)
     m_hWnd = hWnd;
 }
 
-inline bool CVideoSDL::IsModeSet (int Width, int Height, int Depth, bool FullScreen)
+inline bool CVideoSDL::IsModeSet(int Width, int Height, int Depth) const
 {
-    return m_Width == Width     &&
-           m_Height == Height   &&
-           m_Depth == Depth     &&
-           m_FullScreen == FullScreen;
+    return m_Width == Width && m_Height == Height && m_Depth == Depth;
 }
 
 inline void CVideoSDL::OnPaint (void)

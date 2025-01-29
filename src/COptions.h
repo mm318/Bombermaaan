@@ -40,19 +40,6 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-enum EDisplayMode
-{
-    DISPLAYMODE_NONE,
-    DISPLAYMODE_FULL1,
-    DISPLAYMODE_FULL2,
-    DISPLAYMODE_FULL3,
-    DISPLAYMODE_WINDOWED
-};
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
 //! Describes the type of a bomber
 enum EBomberType
 {
@@ -127,13 +114,11 @@ private:
     int                 m_PlayerCount;                  //!< Total number of players in the battle
     int                 m_BattleCount;                  //!< How many battles to win in order to be victorious
     int                 m_PlayerInput [MAX_PLAYERS];    //!< Player input to use for each player
-    EDisplayMode        m_DisplayMode;                  //!< Current display mode to use in the CDisplay object
     int                 m_Control[MAX_PLAYER_INPUT][NUM_CONTROLS]; //!< Control number to use for each player input and for each control
     int                 m_Level;
     std::vector<CLevel> m_Levels;
     std::string         m_programFolder;                //!< Full path of the directory that the program resides
     std::string         m_configFileName;               //!< Full name of the config file (including path)
-    std::string         m_oldconfigFileName;            //!< Full name of the old (binary) config file (including path)
 
     void                SetDefaultValues();             //!< Set the default configuration values
     void                WriteXMLData();                 //!< Write the options to the XML based configuration file
@@ -165,8 +150,6 @@ public:
     inline void         SetBattleCount (int BattleCount); //!< Set how many battles to win in order to be victorious
     inline int          GetPlayerInput (int Player);    //!< Get the player input to use for the specified player
     inline void         SetPlayerInput (int Player, int PlayerInput); //!< Set the player input to use for the specified player
-    inline void         SetDisplayMode (EDisplayMode DisplayMode); //!< Set the display mode to use in the CDisplay object
-    inline EDisplayMode GetDisplayMode (void);          //!< Set the display mode to use in the CDisplay object
     inline int          GetControl (int PlayerInput, int Control);
     inline void         SetControl (int PlayerInput, int Control, int Value);
     inline EBlockType   GetBlockType (int X, int Y);
@@ -270,16 +253,6 @@ inline void COptions::SetPlayerInput (int Player, int PlayerInput)
     //TODO: ASSERT PlayerInput
 
     m_PlayerInput[Player] = PlayerInput;
-}
-
-inline void COptions::SetDisplayMode (EDisplayMode DisplayMode)
-{
-    m_DisplayMode = DisplayMode;
-}
-
-inline EDisplayMode COptions::GetDisplayMode (void)
-{
-    return m_DisplayMode;
 }
 
 inline int COptions::GetControl (int PlayerInput, int Control)

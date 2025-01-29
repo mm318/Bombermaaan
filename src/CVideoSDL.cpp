@@ -48,7 +48,6 @@ CVideoSDL::CVideoSDL(void)
     m_Width = 0;
     m_Height = 0;
     m_Depth = 0;
-    m_FullScreen = false;
     m_ColorKey = 0;
     m_OriginX = 0;
     m_OriginY = 0;
@@ -86,13 +85,12 @@ static void AddDisplayMode(int width, int height, int depth, std::vector<SDispla
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
+bool CVideoSDL::Create(int Width, int Height, int Depth)
 {
     // Set the display properties
     m_Width = Width;
     m_Height = Height;
     m_Depth = Depth;
-    m_FullScreen = FullScreen;
 
     m_pBackBuffer = NULL;
     m_pPrimary = NULL;
@@ -107,7 +105,8 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
     modes = SDL12_ListModes(NULL, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     // some mode available?
-    if (modes == (SDL_Rect **)0) {
+    if (modes == (SDL_Rect **)0)
+    {
         // Log failure
         theLog.WriteLine("SDLVideo        => !!! Could not find any video modes.");
         theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
@@ -115,35 +114,23 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
         // Get out
         return false;
     }
-    else if (modes == (SDL_Rect **)-1) {
+    else if (modes == (SDL_Rect **)-1)
+    {
         // Log success
         theLog.WriteLine("SDLVideo        => All modes available");
-
-        // so, add 240x234 (window), 320 x 240, 512 x 384, 640 x 480 in 32 bits
-        AddDisplayMode(240, 234, 32, m_AvailableDisplayModes);
-        AddDisplayMode(320, 240, 32, m_AvailableDisplayModes);
-        AddDisplayMode(512, 384, 32, m_AvailableDisplayModes);
-        AddDisplayMode(640, 480, 32, m_AvailableDisplayModes);
 
         // so this mode is possible
         validMode = true;
     }
-    else {
+    else
+    {
         // enumerate modes and add certain
         for (i = 0; modes[i]; ++i) {
-            if ((modes[i]->w == 240 && modes[i]->h == 234) ||
-                (modes[i]->w == 320 && modes[i]->h == 240) ||
-                (modes[i]->w == 512 && modes[i]->h == 384) ||
-                (modes[i]->w == 640 && modes[i]->h == 480)) {
-                AddDisplayMode(modes[i]->w, modes[i]->h, 32, m_AvailableDisplayModes);
-
-                // is our requested mode possbile?
-                if (modes[i]->w == m_Width && modes[i]->h == m_Height) {
-                    validMode = true;
-                }
+            // is our requested mode possbile?
+            if (modes[i]->w == m_Width && modes[i]->h == m_Height) {
+                validMode = true;
             }
         }
-
     }
 
     if (!validMode) {
@@ -154,40 +141,18 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
         return false;
     }
 
-    // If desired mode is windowed mode
-    if (!m_FullScreen)
-    {
-        // Log that windowed mode is being initialized
-        theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for windowed mode %dx%d.", m_Width, m_Height);
+    // Log that windowed mode is being initialized
+    theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for windowed mode %dx%d.", m_Width, m_Height);
 
-        // Get normal windowed mode
-        m_pPrimary = SDL12_SetVideoMode(m_Width, m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    // Get normal windowed mode
+    m_pPrimary = SDL12_SetVideoMode(m_Width, m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-        if (m_pPrimary == NULL) {
-            // Log failure
-            theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");
+    if (m_pPrimary == NULL) {
+        // Log failure
+        theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");
 
-            // Get out
-            return false;
-        }
-    }
-    // If desired mode is a fullscreen mode
-    else
-    {
-        // Log that fullscreen mode is being initialized
-        theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for fullscreen mode %dx%dx%d.", m_Width, m_Height, m_Depth);
-
-        // Get fullscreen mode
-        m_pPrimary = SDL12_SetVideoMode(m_Width, m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-
-        if (m_pPrimary == NULL) {
-            // Log failure
-            theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary/backbuffer)");
-
-            // Get out
-            return false;
-        }
-
+        // Get out
+        return false;
     }
 
     // Get the rects of the viewport and screen bounds
@@ -200,18 +165,21 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, bool FullScreen)
     memcpy(&m_rcScreen, &m_rcViewport, sizeof(SDL_Rect));
 
     // show cursor depending on windowed/fullscreen mode
-    SDL12_ShowCursor(!m_FullScreen);
+    SDL12_ShowCursor(true);
 
     SDL_RWops *rwIcon = SDL12_RWFromMem(const_cast<uint8_t*>(BombermaaanIconSmall), BombermaaanIconSmallSize);
 
     SDL_Surface *icon = SDL12_LoadBMP_RW(rwIcon, 0);
 
-    if (icon != NULL) {
-        if (SDL12_SetColorKey(icon, SDL_SRCCOLORKEY, SDL12_MapRGB(icon->format, 0x00, 0xff, 0x00)) == 0) {
+    if (icon != NULL)
+    {
+        if (SDL12_SetColorKey(icon, SDL_SRCCOLORKEY, SDL12_MapRGB(icon->format, 0x00, 0xff, 0x00)) == 0)
+        {
             SDL12_WM_SetIcon(icon, NULL);
         }
     }
-    else {
+    else
+    {
         printf("could not load icon.\n");
     }
 
@@ -243,13 +211,6 @@ void CVideoSDL::Destroy(void)
     // If a SDLVideo object exists
     if (m_pPrimary != NULL)
     {
-        // If we are in fullscreen mode
-        if (m_FullScreen)
-        {
-            // Show the cursor because we are in windowed mode
-            SDL12_ShowCursor(true);
-        }
-
         // If the back buffer surface exists
         if (m_pBackBuffer != NULL)
         {
@@ -780,29 +741,6 @@ void CVideoSDL::UpdateAll(void)
         //m_DebugDrawingRequests.pop();
     }
     UpdateScreen();
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-bool CVideoSDL::IsModeAvailable(int Width, int Height, int Depth)
-{
-    // Scan all available display modes
-    for (unsigned int i = 0; i < m_AvailableDisplayModes.size(); i++)
-    {
-        // If this is the display mode we are looking for
-        if (m_AvailableDisplayModes[i].Width == Width &&
-            m_AvailableDisplayModes[i].Height == Height &&
-            m_AvailableDisplayModes[i].Depth == Depth)
-        {
-            // Then it's available
-            return true;
-        }
-    }
-
-    // The display mode was not found so it's not available
-    return false;
 }
 
 //******************************************************************************************************************************

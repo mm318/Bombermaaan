@@ -627,7 +627,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     m_Sound.SetOptions(&m_Options);
 
     // If creating the display and setting the display mode failed
-    if (!m_Display.Create(m_Options.GetDisplayMode()))
+    if (!m_Display.Create())
     {
         // Get out
         return false;
@@ -923,12 +923,6 @@ void CGame::StartGameMode(EGameMode GameMode)
     // If we must exit the game
     if (m_GameMode == GAMEMODE_EXIT)
     {
-        // Come back to windowed mode in order to avoid a kind
-        // of bug with VC++. Otherwise the VC++ window would be
-        // resized to the size of the fullscreen mode that was
-        // set when exiting.
-        m_Display.Create(DISPLAYMODE_WINDOWED);
-
     #ifdef SDL
         SDL_Event quitevent;
 
@@ -939,7 +933,6 @@ void CGame::StartGameMode(EGameMode GameMode)
     #elif ALLEGRO
         // set_close_button_callback();
     #endif
-
     }
     // If we don't have to exit the game
     else
@@ -1051,14 +1044,11 @@ void CGame::OnMove(WPARAM wParam, LPARAM lParam)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-
 // When the window is active and a key is pressed down,
 // this method will be called.
 
 void CGame::OnKeyDown(WPARAM wParam, LPARAM lParam)
 {
-
-
 }
 
 
@@ -1072,65 +1062,23 @@ void CGame::OnKeyDown(WPARAM wParam, LPARAM lParam)
 void CGame::OnKeyUp(WPARAM wParam, LPARAM lParam)
 {
 #ifdef ENABLE_DEBUG_KEYS
-
     // Read the key that is released and apply changes to the game if needed (for debugging)
     theDebug.HandleKey(wParam, lParam);
-
 #endif // ENABLE_DEBUG_KEYS
 
-    // If the CTRL key is not pressed while the key specified by wParam is released
+    // If the CTRL key is pressed while the key specified by wParam is released
 #ifdef WIN32
-    if (!(GetKeyState(VK_CONTROL) & 0x8000))
+    if (GetKeyState(VK_CONTROL) & 0x8000)
 #else
-    if (!(lParam & KMOD_CTRL))
+    if (lParam & KMOD_CTRL)
 #endif
     {
-        EDisplayMode DisplayMode = DISPLAYMODE_NONE;
-
-        // Assume we have to change the display mode
-        bool SetDisplayMode = true;
-
-    #ifdef SDL
-        //! Change display mode if this is a F1-F4 key
-        switch (wParam)
-        {
-            //! Display modes #1 and #2 are not available in the 32-pixels version
-            //! since the screen isn't large enough (so disable F1 and F2 keys)
-        case SDLK_F3:
-            DisplayMode = DISPLAYMODE_FULL3;
-            break;
-        case SDLK_F4:
-            DisplayMode = DISPLAYMODE_WINDOWED;
-            break;
-        default:
-            SetDisplayMode = false;
-            break;
-        }
-    #elif ALLEGRO
-        // TODO:
-    #endif
-
-        // If we have to change the display mode
-        // and the new display mode to set is available on the graphic card
-        if (SetDisplayMode && m_Display.IsDisplayModeAvailable(DisplayMode))
-        {
-            // Set the display mode
-            m_Display.Create(DisplayMode);
-
-            // Save it in the options
-            m_Options.SetDisplayMode(DisplayMode);
-        }
-
-    }
-    else {
-
         //! Quickly exit the game with Ctrl + F12
         if (wParam == VK_F12)
         {
             FinishGameMode();
             StartGameMode(GAMEMODE_EXIT);
         }
-
     }
 }
 

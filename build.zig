@@ -61,6 +61,7 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "WinMain.cpp",
     "WinReplace.cpp",
+    // "video_scale_hqNx.cpp",
 };
 
 const c_flags_common = [_][]const u8{

@@ -33,8 +33,20 @@
 
 #include "CVideoSDL.h"
 
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+constexpr Uint32 rmask = 0xff000000;
+constexpr Uint32 gmask = 0x00ff0000;
+constexpr Uint32 bmask = 0x0000ff00;
+constexpr Uint32 amask = 0x000000ff;
+#else
+constexpr Uint32 rmask = 0x000000ff;
+constexpr Uint32 gmask = 0x0000ff00;
+constexpr Uint32 bmask = 0x00ff0000;
+constexpr Uint32 amask = 0xff000000;
+#endif
+
 static const char* GetSDLVideoError();
-static void AddDisplayMode(int width, int height, int depth, std::vector<SDisplayMode>& displayModes);
+// extern void hq2x_32(SDL_Surface *src_surface, SDL_Surface *dst_surface);
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -43,16 +55,15 @@ static void AddDisplayMode(int width, int height, int depth, std::vector<SDispla
 CVideoSDL::CVideoSDL(void)
 {
     m_hWnd = NULL;
-    m_pBackBuffer = NULL;
-    m_pPrimary = NULL;
     m_Width = 0;
     m_Height = 0;
     m_Depth = 0;
-    m_ColorKey = 0;
+    m_pPrimary = NULL;
+    m_PrimaryRect = SDL_Rect();
+    m_pBackBuffer = NULL;
+    m_BackBufferRect = SDL_Rect();
     m_OriginX = 0;
     m_OriginY = 0;
-    m_rcScreen = SDL_Rect();
-    m_rcViewport = SDL_Rect();
 }
 
 //******************************************************************************************************************************
@@ -92,17 +103,13 @@ bool CVideoSDL::Create(int Width, int Height, int Depth)
     m_Height = Height;
     m_Depth = Depth;
 
-    m_pBackBuffer = NULL;
     m_pPrimary = NULL;
-    m_ColorKey = 0;
+    m_pBackBuffer = NULL;
 
-    SDL_Rect **modes;
-
-    int i;
     bool validMode = false; // is this video mode valid?
 
     // Enumerate all display modes (without taking refresh rates into account)
-    modes = SDL12_ListModes(NULL, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_Rect** modes = SDL12_ListModes(NULL, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     // some mode available?
     if (modes == (SDL_Rect **)0)
@@ -125,7 +132,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth)
     else
     {
         // enumerate modes and add certain
-        for (i = 0; modes[i]; ++i) {
+        for (int i = 0; modes[i]; ++i) {
             // is our requested mode possbile?
             if (modes[i]->w == m_Width && modes[i]->h == m_Height) {
                 validMode = true;
@@ -145,24 +152,26 @@ bool CVideoSDL::Create(int Width, int Height, int Depth)
     theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for windowed mode %dx%d.", m_Width, m_Height);
 
     // Get normal windowed mode
-    m_pPrimary = SDL12_SetVideoMode(m_Width, m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
-
+    m_pPrimary = SDL12_SetVideoMode(2 * m_Width, 2 * m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
     if (m_pPrimary == NULL) {
-        // Log failure
-        theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");
-
-        // Get out
-        return false;
+        theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");  // Log failure
+        return false;   // Get out
     }
-
     // Get the rects of the viewport and screen bounds
-    m_rcViewport.x = 0;
-    m_rcViewport.y = 0;
+    m_PrimaryRect.x = 0;
+    m_PrimaryRect.y = 0;
+    m_PrimaryRect.w = 2 * m_Width;
+    m_PrimaryRect.h = 2 * m_Height;
 
-    m_rcViewport.w = m_Width;
-    m_rcViewport.h = m_Height;
-
-    memcpy(&m_rcScreen, &m_rcViewport, sizeof(SDL_Rect));
+    m_pBackBuffer = SDL12_CreateRGBSurface(SDL_HWSURFACE, m_Width, m_Height, 32, rmask, gmask, bmask, amask);
+    if (m_pBackBuffer == NULL) {
+        theLog.WriteLine("SDLVideo        => !!! Requested buffer could not be made. (back buffer)");  // Log failure
+        return false;   // Get out
+    }
+    m_BackBufferRect.x = 0;
+    m_BackBufferRect.y = 0;
+    m_BackBufferRect.w = m_Width;
+    m_BackBufferRect.h = m_Height;
 
     // show cursor depending on windowed/fullscreen mode
     SDL12_ShowCursor(true);
@@ -247,8 +256,14 @@ void CVideoSDL::Destroy(void)
 
 void CVideoSDL::UpdateScreen(void)
 {
-
     HRESULT hRet;
+
+    // hq2x_32(m_pBackBuffer, m_pPrimary);
+    // Blit the surface zone on the back buffer
+    if (SDL12_BlitSurface(m_pBackBuffer, &m_BackBufferRect, m_pPrimary, &m_PrimaryRect) < 0) {
+        // blitting failed
+        theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
+    }
 
     while (true)
     {
@@ -269,19 +284,16 @@ void CVideoSDL::UpdateScreen(void)
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
     }
-
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-// Updates the object : this updates the drawing zones
-// in case the window moves.
+// Updates the object : this updates the drawing zones in case the window moves.
 
 void CVideoSDL::OnWindowMove()
 {
-
 }
 
 //******************************************************************************************************************************
@@ -459,7 +471,7 @@ void CVideoSDL::RemoveAllDebugRectangles()
 
 void CVideoSDL::Clear()
 {
-    SDL12_FillRect(m_pPrimary, &m_rcViewport, 0);
+    SDL12_FillRect(m_pPrimary, &m_PrimaryRect, 0);
 }
 
 //******************************************************************************************************************************
@@ -475,21 +487,6 @@ WORD CVideoSDL::GetNumberOfBits(DWORD dwMask)
         wBits++;
     }
     return wBits;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-bool CVideoSDL::SetTransparentColor(int Red, int Green, int Blue)
-{
-    // Get the pixel format of the primary surface
-    SDL_PixelFormat *pf = m_pPrimary->format;
-
-    m_ColorKey = SDL12_MapRGB(pf, Red, Green, Blue);
-
-    // Everything went right
-    return true;
 }
 
 //******************************************************************************************************************************
@@ -666,7 +663,7 @@ void CVideoSDL::UpdateAll(void)
         DestRect.h = 0;
 
         // Blit the surface zone on the back buffer
-        if (SDL12_BlitSurface(m_Surfaces[pSprite->SurfaceNumber].pSurface, &SourceRect, m_pPrimary, &DestRect) < 0) {
+        if (SDL12_BlitSurface(m_Surfaces[pSprite->SurfaceNumber].pSurface, &SourceRect, m_pBackBuffer, &DestRect) < 0) {
             // blitting failed
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
@@ -696,26 +693,20 @@ void CVideoSDL::UpdateAll(void)
         DestRect.w = 0;
         DestRect.h = 0;
 
-        Uint32 rmask, gmask, bmask, amask;
         Uint8 r, g, b;
-
         r = DR.R;
         g = DR.G;
         b = DR.B;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        rmask = 0xff000000;
-        gmask = 0x00ff0000;
-        bmask = 0x0000ff00;
-        amask = 0x000000ff;
-#else
-        rmask = 0x000000ff;
-        gmask = 0x0000ff00;
-        bmask = 0x00ff0000;
-        amask = 0xff000000;
-#endif
 
         // create surface
-        SDL_Surface *rectangle = SDL12_CreateRGBSurface(SDL_HWSURFACE | SDL_SRCALPHA, SourceRect.w, SourceRect.h, 32, rmask, gmask, bmask, amask);
+        SDL_Surface *rectangle = SDL12_CreateRGBSurface(SDL_HWSURFACE | SDL_SRCALPHA,
+                                                        SourceRect.w,
+                                                        SourceRect.h,
+                                                        32,
+                                                        rmask,
+                                                        gmask,
+                                                        bmask,
+                                                        amask);
 
         SDL_Surface *reals = NULL;
 
@@ -727,7 +718,7 @@ void CVideoSDL::UpdateAll(void)
             reals = SDL12_DisplayFormatAlpha(rectangle);
 
             // Blit the surface zone on the back buffer
-            if (reals != NULL && SDL12_BlitSurface(reals, &SourceRect, m_pPrimary, &DestRect) < 0) {
+            if (reals != NULL && SDL12_BlitSurface(reals, &SourceRect, m_pBackBuffer, &DestRect) < 0) {
                 // blitting failed
                 theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
             }
@@ -735,11 +726,14 @@ void CVideoSDL::UpdateAll(void)
 
         SDL12_FreeSurface(rectangle);
         if (reals != NULL)
+        {
             SDL12_FreeSurface(reals);
+        }
 
         // do not Pop the drawing request (there is a separate function)
         //m_DebugDrawingRequests.pop();
     }
+
     UpdateScreen();
 }
 

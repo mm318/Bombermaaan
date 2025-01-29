@@ -42,10 +42,7 @@ class CDisplay
 private:
     const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
     CVideoSDL       m_VideoSDL;         //!< Object used for display
-    int             m_ViewOriginX;      //!< Top left corner of the game view
-    int             m_ViewOriginY;
 
-    bool            Create (int Width, int Height); //!< (Re)Create the SDLVideo interface and (re)load the sprite tables given the resolution
     const std::string& GetProgramFolder(void) const;
     bool            LoadSprites(int SpriteTableWidth,
                                 int SpriteTableHeight,
@@ -99,12 +96,12 @@ inline void CDisplay::SetOptions(const COptions *pOptions)
 
 inline void CDisplay::SetWindowHandle(HWND hWnd)
 {
-    m_VideoSDL.SetWindowHandle (hWnd);
+    m_VideoSDL.SetWindowHandle(hWnd);
 }
 
 inline void CDisplay::SetOrigin(int OriginX, int OriginY)
 {
-    m_VideoSDL.SetOrigin(m_ViewOriginX + OriginX, m_ViewOriginY + OriginY);
+    m_VideoSDL.SetOrigin(OriginX, OriginY);
 }
 
 inline void CDisplay::Clear(void)

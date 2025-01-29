@@ -117,8 +117,8 @@ void CCloudManager::Display (void)
         // because of the tiled background which moves to animate
         Clip.left   = 0;
         Clip.top    = 0;
-        Clip.right  = VIEW_WIDTH;
-        Clip.bottom = VIEW_HEIGHT;
+        Clip.right  = GAME_WIDTH;
+        Clip.bottom = GAME_HEIGHT;
 
         // Draw the scroller sprite
         m_pDisplay->DrawSprite (m_Clouds[i].GetPositionX(),   // Position of the current tile

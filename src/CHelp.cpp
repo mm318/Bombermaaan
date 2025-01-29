@@ -292,7 +292,7 @@ void CHelp::Display (void)
 
         // Draw the title of the screen
         m_Font.SetTextColor (FONTCOLOR_WHITE);
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_HELP_TITLE_STRING);
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_HELP_TITLE_STRING);
 
         // Bomb help
         m_pDisplay->DrawSprite(SCREEN_TEXT_POSITION_X,

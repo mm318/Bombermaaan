@@ -156,8 +156,8 @@ void CMosaic::Display (void)
     RECT Clip;
     Clip.left   = 0;
     Clip.top    = 0;
-    Clip.right  = VIEW_WIDTH;
-    Clip.bottom = VIEW_HEIGHT;
+    Clip.right  = GAME_WIDTH;
+    Clip.bottom = GAME_HEIGHT;
 
     // Prepare position variables to work with in order to 
     // draw every tile of the background at current position

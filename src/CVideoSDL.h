@@ -86,17 +86,12 @@ struct SDrawingRequest
 
     bool operator < (const SDrawingRequest &DR) const
     {
-        return SpriteLayer > DR.SpriteLayer
-               ||
-               (
-                SpriteLayer == DR.SpriteLayer &&
-                PriorityInLayer > DR.PriorityInLayer
-               );
+        return SpriteLayer > DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer > DR.PriorityInLayer);
     }
+
     bool operator == (const SDrawingRequest &DR) const
     {
-        return SpriteLayer == DR.SpriteLayer &&
-               PriorityInLayer == DR.PriorityInLayer;
+        return SpriteLayer == DR.SpriteLayer && PriorityInLayer == DR.PriorityInLayer;
     }
 };
 
@@ -164,20 +159,19 @@ class CVideoSDL
 private:
 
     HWND                    m_hWnd;                              //!< Window handle
-    SDL_Rect                m_rcScreen;                          //!< Window rect in screen coordinates
-    SDL_Rect                m_rcViewport;                        //!< Window rect in client coordinates
     int                     m_Width;                             //!< Display width when fullscreen
     int                     m_Height;                            //!< Display height when fullscreen
     int                     m_Depth;                             //!< Display depth when fullscreen
-    SDL_Surface             *m_pBackBuffer;                      //!< Backbuffer surface
-    SDL_Surface             *m_pPrimary;                         //!< Primary surface
-    std::vector<SSurface>   m_Surfaces;                          //!< Surfaces
-    DWORD                   m_ColorKey;                          //!< Color key for transparent surfaces
-    std::priority_queue<SDrawingRequest> m_DrawingRequests;      //!< Automatically sorted drawing requests queue
-    std::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
-    std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
+    SDL_Surface*            m_pPrimary;                          //!< Primary surface
+    SDL_Rect                m_PrimaryRect;                       //!< Window rect in client coordinates
+    SDL_Surface*            m_pBackBuffer;                       //!< Backbuffer surface
+    SDL_Rect                m_BackBufferRect;                    //!< Window rect in screen coordinates
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
+    std::vector<SSurface>   m_Surfaces;                          //!< Surfaces
+    std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
+    std::priority_queue<SDrawingRequest> m_DrawingRequests;      //!< Automatically sorted drawing requests queue
+    std::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
 
 private:
 
@@ -187,7 +181,6 @@ public:
 
     CVideoSDL (void);
     ~CVideoSDL (void);
-
 
     inline void             SetWindowHandle (HWND hWnd);
     bool                    Create(int Width, int Height, int Depth);
@@ -207,7 +200,6 @@ public:
     void                    UpdateAll (void);
     void                    UpdateScreen (void);
     inline void             SetOrigin (int OriginX, int OriginY);
-    inline void             SetNewPrimary (SDL_Surface *pSurface);
     void                    DrawSprite(int PositionX,
                                        int PositionY,
                                        RECT *pZone,
@@ -244,11 +236,6 @@ inline void CVideoSDL::SetOrigin (int OriginX, int OriginY)
 {
     m_OriginX = OriginX;
     m_OriginY = OriginY;
-}
-
-inline void CVideoSDL::SetNewPrimary (SDL_Surface *pSurface)
-{
-    m_pPrimary = pSurface;
 }
 
 //******************************************************************************************************************************

@@ -42,9 +42,6 @@
 
 CDisplay::CDisplay(void)
 {
-    // Reset view origin
-    m_ViewOriginX = 0;
-    m_ViewOriginY = 0;
 }
 
 //******************************************************************************************************************************
@@ -60,18 +57,18 @@ CDisplay::~CDisplay(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CDisplay::Create(int Width, int Height)
+bool CDisplay::Create()
 {
     constexpr int Depth = 32;
 
     // If no display mode has been set yet or the current display mode is not the right one
-    if (!m_VideoSDL.IsModeSet(Width, Height, Depth))
+    if (!m_VideoSDL.IsModeSet(GAME_WIDTH, GAME_HEIGHT, Depth))
     {
         // Destroy SDLVideo interface and the sprite tables
         Destroy();
 
         // If SDLVideo object creation failed
-        if (!m_VideoSDL.Create(Width, Height, Depth))
+        if (!m_VideoSDL.Create(GAME_WIDTH, GAME_HEIGHT, Depth))
         {
             // Get out
             return false;
@@ -146,25 +143,10 @@ bool CDisplay::Create(int Width, int Height)
             // Failure, get out (error is logged by the LoadSprites() method)
             return false;
         }
-
-        // Save origin where to draw from
-        m_ViewOriginX = (Width - VIEW_WIDTH) / 2;
-        m_ViewOriginY = (Height - VIEW_HEIGHT) / 2;
-
-        m_VideoSDL.SetOrigin(m_ViewOriginX, m_ViewOriginY);
     }
 
     // Everything went right
     return true;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
-bool CDisplay::Create()
-{
-    return Create(VIEW_WIDTH, VIEW_HEIGHT);
 }
 
 //******************************************************************************************************************************

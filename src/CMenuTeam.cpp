@@ -242,10 +242,10 @@ void CMenuTeam::OnDisplay(void)
 {
     // Set the right font text color and write the menu title string
     m_pFont->SetTextColor(FONTCOLOR_WHITE);
-    m_pFont->DrawCenteredX(0, VIEW_WIDTH - 1, TITLE_TEXT_POSITION_Y, TITLE_STRING);
+    m_pFont->DrawCenteredX(0, GAME_WIDTH - 1, TITLE_TEXT_POSITION_Y, TITLE_STRING);
 
     m_pFont->SetTextColor(FONTCOLOR_GREEN);
-    m_pFont->DrawCenteredX(0, VIEW_WIDTH - 1, TEAM_VS_TEXT_POSITION_Y, TEAM_VS_STRING);
+    m_pFont->DrawCenteredX(0, GAME_WIDTH - 1, TEAM_VS_TEXT_POSITION_Y, TEAM_VS_STRING);
 
     // Y Position where to write the text with the font object
     int PositionY = INITIAL_TEXT_POSITION_Y;

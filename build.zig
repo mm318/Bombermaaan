@@ -61,11 +61,12 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "WinMain.cpp",
     "WinReplace.cpp",
-    "xbrz/xbrz.cpp",
+    "hqx/HQx.cc",
+    "hqx/HQ2x.cc",
 };
 
 const c_flags_common = [_][]const u8{
-    "-std=c++20",
+    "-std=c++11",
     "-pedantic",
     "-Wall",
     "-Wextra",

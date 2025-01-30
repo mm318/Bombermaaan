@@ -32,17 +32,17 @@
 #include "BombermaaanAssets.h"
 
 #include "CVideoSDL.h"
-#include "xbrz/xbrz.h"
+#include "hqx/HQ2x.hh"
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-constexpr Uint32 rmask = 0xff000000;
+constexpr Uint32 rmask = 0x0000ff00;
 constexpr Uint32 gmask = 0x00ff0000;
-constexpr Uint32 bmask = 0x0000ff00;
+constexpr Uint32 bmask = 0xff000000;
 constexpr Uint32 amask = 0x000000ff;
 #else
-constexpr Uint32 rmask = 0x000000ff;
+constexpr Uint32 rmask = 0x00ff0000;
 constexpr Uint32 gmask = 0x0000ff00;
-constexpr Uint32 bmask = 0x00ff0000;
+constexpr Uint32 bmask = 0x000000ff;
 constexpr Uint32 amask = 0xff000000;
 #endif
 
@@ -99,6 +99,11 @@ static void AddDisplayMode(int width, int height, int depth, std::vector<SDispla
 
 bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
 {
+    theLog.WriteLine("CVideoSDL       => rmask: 0x%x", rmask);
+    theLog.WriteLine("CVideoSDL       => gmask: 0x%x", gmask);
+    theLog.WriteLine("CVideoSDL       => bmask: 0x%x", bmask);
+    theLog.WriteLine("CVideoSDL       => amask: 0x%x", amask);
+
     if (Scale <= 0)
     {
         theLog.WriteLine("CVideoSDL       => Invalid scale factor %d", Scale);
@@ -273,24 +278,16 @@ void CVideoSDL::UpdateScreen(void)
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
     }
-    else if (m_Scale >= 2)
+    else if (m_Scale == 2)
     {
-        xbrz::scale(m_Scale,
-                    reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
-                    reinterpret_cast<uint32_t*>(m_pPrimary->pixels),
-                    m_Width,
-                    m_Height,
-                    xbrz::ColorFormat::ARGB);
-        // xbrz::bilinearScale(reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
-        //                     m_Width,
-        //                     m_Height,
-        //                     reinterpret_cast<uint32_t*>(m_pPrimary->pixels),
-        //                     m_Scale * m_Width,
-        //                     m_Scale * m_Height);
+        HQ2x().resize(reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
+                      m_Width,
+                      m_Height,
+                      reinterpret_cast<uint32_t*>(m_pPrimary->pixels));
     }
     else
     {
-        theLog.WriteLine("CVideoSDL       => Invalid scale factor %d. Not updating screen", m_Scale);
+        theLog.WriteLine("CVideoSDL       => Unsupported scale factor %d. Not updating screen", m_Scale);
         return;
     }
 
@@ -298,7 +295,7 @@ void CVideoSDL::UpdateScreen(void)
     {
         // Update the primary surface by flipping backbuffer and primary surface
         hRet = SDL12_Flip(m_pPrimary);
-        SDL12_Delay(15);
+        SDL12_Delay(5);
 
         // If it worked fine
         if (hRet == 0)

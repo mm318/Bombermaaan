@@ -61,11 +61,11 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "WinMain.cpp",
     "WinReplace.cpp",
-    // "video_scale_hqNx.cpp",
+    "xbrz/xbrz.cpp",
 };
 
 const c_flags_common = [_][]const u8{
-    "-std=c++11",
+    "-std=c++20",
     "-pedantic",
     "-Wall",
     "-Wextra",

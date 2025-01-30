@@ -32,6 +32,7 @@
 #include "BombermaaanAssets.h"
 
 #include "CVideoSDL.h"
+#include "xbrz/xbrz.h"
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 constexpr Uint32 rmask = 0xff000000;
@@ -46,7 +47,6 @@ constexpr Uint32 amask = 0xff000000;
 #endif
 
 static const char* GetSDLVideoError();
-// extern void hq2x_32(SDL_Surface *src_surface, SDL_Surface *dst_surface);
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -58,6 +58,7 @@ CVideoSDL::CVideoSDL(void)
     m_Width = 0;
     m_Height = 0;
     m_Depth = 0;
+    m_Scale = 0;
     m_pPrimary = NULL;
     m_PrimaryRect = SDL_Rect();
     m_pBackBuffer = NULL;
@@ -96,12 +97,19 @@ static void AddDisplayMode(int width, int height, int depth, std::vector<SDispla
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CVideoSDL::Create(int Width, int Height, int Depth)
+bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
 {
+    if (Scale <= 0)
+    {
+        theLog.WriteLine("CVideoSDL       => Invalid scale factor %d", Scale);
+        return false;
+    }
+
     // Set the display properties
     m_Width = Width;
     m_Height = Height;
     m_Depth = Depth;
+    m_Scale = Scale;
 
     m_pPrimary = NULL;
     m_pBackBuffer = NULL;
@@ -152,7 +160,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth)
     theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for windowed mode %dx%d.", m_Width, m_Height);
 
     // Get normal windowed mode
-    m_pPrimary = SDL12_SetVideoMode(2 * m_Width, 2 * m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    m_pPrimary = SDL12_SetVideoMode(m_Scale * m_Width, m_Scale * m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
     if (m_pPrimary == NULL) {
         theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");  // Log failure
         return false;   // Get out
@@ -160,8 +168,8 @@ bool CVideoSDL::Create(int Width, int Height, int Depth)
     // Get the rects of the viewport and screen bounds
     m_PrimaryRect.x = 0;
     m_PrimaryRect.y = 0;
-    m_PrimaryRect.w = 2 * m_Width;
-    m_PrimaryRect.h = 2 * m_Height;
+    m_PrimaryRect.w = m_Scale * m_Width;
+    m_PrimaryRect.h = m_Scale * m_Height;
 
     m_pBackBuffer = SDL12_CreateRGBSurface(SDL_HWSURFACE, m_Width, m_Height, 32, rmask, gmask, bmask, amask);
     if (m_pBackBuffer == NULL) {
@@ -258,11 +266,32 @@ void CVideoSDL::UpdateScreen(void)
 {
     HRESULT hRet;
 
-    // hq2x_32(m_pBackBuffer, m_pPrimary);
-    // Blit the surface zone on the back buffer
-    if (SDL12_BlitSurface(m_pBackBuffer, &m_BackBufferRect, m_pPrimary, &m_PrimaryRect) < 0) {
-        // blitting failed
-        theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
+    if (m_Scale == 1)
+    {
+        if (SDL12_BlitSurface(m_pBackBuffer, &m_BackBufferRect, m_pPrimary, &m_PrimaryRect) < 0) {
+            // blitting failed
+            theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
+        }
+    }
+    else if (m_Scale >= 2)
+    {
+        xbrz::scale(m_Scale,
+                    reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
+                    reinterpret_cast<uint32_t*>(m_pPrimary->pixels),
+                    m_Width,
+                    m_Height,
+                    xbrz::ColorFormat::ARGB);
+        // xbrz::bilinearScale(reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
+        //                     m_Width,
+        //                     m_Height,
+        //                     reinterpret_cast<uint32_t*>(m_pPrimary->pixels),
+        //                     m_Scale * m_Width,
+        //                     m_Scale * m_Height);
+    }
+    else
+    {
+        theLog.WriteLine("CVideoSDL       => Invalid scale factor %d. Not updating screen", m_Scale);
+        return;
     }
 
     while (true)

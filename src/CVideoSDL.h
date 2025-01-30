@@ -159,9 +159,10 @@ class CVideoSDL
 private:
 
     HWND                    m_hWnd;                              //!< Window handle
-    int                     m_Width;                             //!< Display width when fullscreen
-    int                     m_Height;                            //!< Display height when fullscreen
-    int                     m_Depth;                             //!< Display depth when fullscreen
+    int                     m_Width;                             //!< Display width
+    int                     m_Height;                            //!< Display height
+    int                     m_Depth;                             //!< Display depth
+    int                     m_Scale;                             //!< Scale factor of width and height
     SDL_Surface*            m_pPrimary;                          //!< Primary surface
     SDL_Rect                m_PrimaryRect;                       //!< Window rect in client coordinates
     SDL_Surface*            m_pBackBuffer;                       //!< Backbuffer surface
@@ -183,7 +184,7 @@ public:
     ~CVideoSDL (void);
 
     inline void             SetWindowHandle (HWND hWnd);
-    bool                    Create(int Width, int Height, int Depth);
+    bool                    Create(int Width, int Height, int Depth, int Scale);
     void                    Destroy (void);
     bool                    SetTransparentColor (int Red, int Green, int Blue);
     bool                    LoadSprites(int SpriteTableWidth,

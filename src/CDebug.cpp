@@ -153,11 +153,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
         switch (VirtualKeyCode)
         {
 
-#ifdef DIRECTX
-        case VK_MULTIPLY:
-#else
         case SDLK_KP_MULTIPLY:
-#endif
             {
                 m_GameSpeed = 5.0f;
 
@@ -167,11 +163,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_DIVIDE:
-#else
             case SDLK_KP_DIVIDE:
-#endif
             {
                 m_GameSpeed = 0.2f;
 
@@ -181,11 +173,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_RETURN:
-#else
             case SDLK_RETURN:
-#endif
             {
                 m_GameSpeed = 1.0f;
 
@@ -195,11 +183,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_ADD:
-#else
             case SDLK_PLUS:
-#endif
             {
                 m_GameSpeed += 0.2f;
 
@@ -214,11 +198,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_SUBTRACT:
-#else
             case SDLK_MINUS:
-#endif
             {
                 m_GameSpeed -= 0.2f;
 
@@ -233,22 +213,14 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_F1:
-#else
             case SDLK_F1:
-#endif
             {
                 m_pGame->SwitchToGameMode (GAMEMODE_MATCH);
 
                 break;
             }
 
-#ifdef DIRECTX
-            case VK_F2:
-#else
             case SDLK_F2:
-#endif
             {
                 // Make the bombers invulnerable or not
                 m_CanBombersDie = !m_CanBombersDie;
@@ -257,11 +229,7 @@ void CDebug::HandleKey (DWORD VirtualKeyCode, DWORD Modifier)
             }
 
 #ifdef BOMBERMAAAN_DEBUG
-#ifdef DIRECTX
-            case VK_F5:
-#else
             case SDLK_F5:
-#endif
                 debugLog.Write("CDebug::HandleKey(...): Ctrl+F5 was pressed. Writing bombs to log...\n");
                 m_pMatch->_Debug_WriteBombsToLog();
                 break;

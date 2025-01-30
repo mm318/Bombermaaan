@@ -124,20 +124,20 @@ void CScroller::Update (float DeltaTime)
             
             if (m_iPositionX + m_SpriteWidth < 0)
             {
-                m_iPositionX = VIEW_WIDTH;
+                m_iPositionX = GAME_WIDTH;
                 m_fPositionX = (float) m_iPositionX;
             }
-            else if (m_iPositionX >= VIEW_WIDTH)
+            else if (m_iPositionX >= GAME_WIDTH)
             {
                 m_iPositionX = -m_SpriteWidth;
                 m_fPositionX = (float) m_iPositionX;
             }
             else if (m_iPositionY + m_SpriteHeight < 0)
             {
-                m_iPositionY = VIEW_HEIGHT;
+                m_iPositionY = GAME_HEIGHT;
                 m_fPositionY = (float) m_iPositionY;
             }
-            else if (m_iPositionY >= VIEW_HEIGHT)
+            else if (m_iPositionY >= GAME_HEIGHT)
             {
                 m_iPositionY = -m_SpriteHeight;
                 m_fPositionY = (float) m_iPositionY;
@@ -152,8 +152,8 @@ void CScroller::Update (float DeltaTime)
 
 bool CScroller::OutOfBounds (void)
 {
-    return (m_iPositionX > VIEW_WIDTH  || m_iPositionX + m_SpriteWidth  < 0 ||
-            m_iPositionY > VIEW_HEIGHT || m_iPositionY + m_SpriteHeight < 0);
+    return (m_iPositionX > GAME_WIDTH  || m_iPositionX + m_SpriteWidth  < 0 ||
+            m_iPositionY > GAME_HEIGHT || m_iPositionY + m_SpriteHeight < 0);
 }
 
 //******************************************************************************************************************************

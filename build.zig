@@ -61,6 +61,8 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "WinMain.cpp",
     "WinReplace.cpp",
+    "hqx/HQx.cc",
+    "hqx/HQ2x.cc",
 };
 
 const c_flags_common = [_][]const u8{

@@ -98,8 +98,8 @@ void CHurryMessage::Display (void)
     RECT Clip;
     Clip.left   = 0;
     Clip.top    = 0;
-    Clip.right  = VIEW_WIDTH;
-    Clip.bottom = VIEW_HEIGHT;
+    Clip.right  = GAME_WIDTH;
+    Clip.bottom = GAME_HEIGHT;
 
     // Draw the hurry message
     m_pDisplay->DrawSprite (m_Scroller.GetPositionX(),   // Position of the current tile

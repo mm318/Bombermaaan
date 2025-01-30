@@ -30,12 +30,7 @@
 
 class CTimer;
 
-#ifdef DIRECTX_INPUT
-#include "CInputDX.h"
-#else
 #include "CInputSDL.h"
-#endif
-
 #include "CMainInput.h"
 #include "CPlayerInput.h"
 #include "COptions.h"
@@ -58,12 +53,7 @@ private:
     CTimer*                 m_pTimer;           //!< Link to timer object to use
     CMainInput              m_MainInput;        //!< The main input device
     CPlayerInput*           m_PlayerInput;      //!< Dynamically allocated array of player input devices
-
-#ifdef DIRECTX_INPUT
-    CInputDX                m_input;            //!< InputDX object managing the Input interface
-#else
     CInputSDL               m_input;            //!< InputSDL object managing the Input interface
-#endif
 
 public:
 
@@ -76,11 +66,7 @@ public:
     bool                    Create (void);                              //!< Initialize the object
     void                    Destroy (void);                             //!< Uninitialize the object
     inline CMainInput&      GetMainInput (void);
-#ifdef DIRECTX_INPUT
-    inline CInputDX&        GetDirectInput (void);
-#else
     inline CInputSDL&       GetDirectInput (void);
-#endif
     inline CPlayerInput&    GetPlayerInput (int PlayerInput);
     inline int              GetPlayerInputCount (void);
 
@@ -118,11 +104,7 @@ inline CMainInput& CInput::GetMainInput (void)
     return m_MainInput;
 }
 
-#ifdef DIRECTX_INPUT
-inline CInputDX& CInput::GetDirectInput (void)
-#else
 inline CInputSDL& CInput::GetDirectInput (void)
-#endif
 {
     return m_input;
 }

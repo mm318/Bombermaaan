@@ -802,8 +802,8 @@ void CBomb::Display(void)
     RECT Clip;
     Clip.left = 0;              // Left of the arena view
     Clip.top = 0;               // Top of the arena view
-    Clip.right = VIEW_WIDTH;    // Right of the arena view
-    Clip.bottom = VIEW_HEIGHT - 26;
+    Clip.right = GAME_WIDTH;    // Right of the arena view
+    Clip.bottom = GAME_HEIGHT - 26;
 
     // Draw the bomb sprite. Priority is not used.
     if (!m_Remote)

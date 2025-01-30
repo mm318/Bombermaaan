@@ -54,7 +54,7 @@
 #define BACKGROUND_SPRITE_PRIORITY_IN_LAYER     0
 
 #define BOMBERS_POSITION_X                      0
-#define BOMBERS_POSITION_Y                      (VIEW_HEIGHT - 126)
+#define BOMBERS_POSITION_Y                      (GAME_HEIGHT - 126)
 #define BOMBERS_SPRITE                          0
 #define BOMBERS_SPRITE_LAYER                    0
 #define BOMBERS_SPRITE_PRIORITY_IN_LAYER        2

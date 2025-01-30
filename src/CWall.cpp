@@ -425,8 +425,8 @@ void CWall::Display (void)
         RECT Clip;
         Clip.left = 0;              // Left of the arena view
         Clip.top = 0;               // Top of the arena view
-        Clip.right = VIEW_WIDTH;    // Right of the arena view
-        Clip.bottom = VIEW_HEIGHT - 26;
+        Clip.right = GAME_WIDTH;    // Right of the arena view
+        Clip.bottom = GAME_HEIGHT - 26;
 
         // Put the falling wall sprite. It's a flying object, put it in the appropriate layer.
         // The priority in layer depends on the Y position of the block where the wall lands.

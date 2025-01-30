@@ -89,14 +89,10 @@ private:
     CMenuYesNo      m_MenuYesNo;            //!< Yes/No message box object
     CCredits        m_Credits;              //!< Credits screen object
     CHelp           m_Help;                 //!< Help screen object
-
 #ifdef NETWORK_MODE
     CNetwork        m_Network;                //!< Network object
 #endif
-
-#ifndef DIRECTX
     std::string     m_WindowTitle;
-#endif
 
     void            OnActivateApp  (WPARAM wParam, LPARAM lParam);
     void            OnMove         (WPARAM wParam, LPARAM lParam);
@@ -105,11 +101,9 @@ private:
     void            OnPaint        (WPARAM wParam, LPARAM lParam);
     bool            OnSysCommand   (WPARAM wParam, LPARAM lParam);
     void            OnSize         (WPARAM wParam, LPARAM lParam);
-#ifndef DIRECTX
     void            OnJoystickAxis (WPARAM wParam, LPARAM lParam);             // SDL_JOYAXISMOTION
 	void            OnJoystickHatMotion(WPARAM wParam, LPARAM lParam);
     void            OnJoystickButton (WPARAM wParam, LPARAM lParam);       // SDL_JOYBUTTONDOWN/-UP
-#endif
     void            OnWindowActive (void);
     void            StartGameMode (EGameMode GameMode);
     void            FinishGameMode (void);

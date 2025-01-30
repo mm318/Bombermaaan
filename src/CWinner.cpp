@@ -58,8 +58,8 @@
 #define WINNER_DISPLAY_ORIGIN_Y       0
 
 // Deltas for 16 and 32 pixel versions
-#define WINNER_SPRITES_OFFSET_X         ((VIEW_WIDTH - 240) / 2)
-#define WINNER_SPRITES_OFFSET_Y         ((VIEW_HEIGHT - 234) / 2)
+#define WINNER_SPRITES_OFFSET_X         ((GAME_WIDTH - 240) / 2)
+#define WINNER_SPRITES_OFFSET_Y         ((GAME_HEIGHT - 234) / 2)
 
 // Sprite layer & priority
 #define WINNER_SPRITE_LAYER             0       //!< Sprite layer where to draw the winner screen sprites

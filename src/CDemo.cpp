@@ -52,11 +52,11 @@
 
 #define DEMO_TEXT_FLASH_TIME    0.2f                //!< Flash rate (in seconds) of the demo text 
 #define DEMO_TEXT_POSITION_X    4                   //!< Position X where to draw the demo text
-#define DEMO_TEXT_POSITION_Y    VIEW_HEIGHT - 14    //!< Position Y where to draw the demo text
+#define DEMO_TEXT_POSITION_Y    GAME_HEIGHT - 14    //!< Position Y where to draw the demo text
 #define DEMO_TEXT_STRING        "DEMO"              //!< Demo text to draw
 
 #define LEVEL_FILENAME_POSITION_X   30
-#define LEVEL_FILENAME_POSITION_Y   ((VIEW_HEIGHT-14)/2)
+#define LEVEL_FILENAME_POSITION_Y   ((GAME_HEIGHT-14)/2)
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -616,7 +616,7 @@ void CDemo::Display (void)
     {
         // This would display the file name of the chosen level:
         // (Assumed: 8 is the width of a character in pixels)
-        // m_Font.Draw ((VIEW_WIDTH - 8*strlen(m_Options.GetLevelName())) / 2, LEVEL_FILENAME_POSITION_Y, m_Options.GetLevelName());
+        // m_Font.Draw ((GAME_WIDTH - 8*strlen(m_Options.GetLevelName())) / 2, LEVEL_FILENAME_POSITION_Y, m_Options.GetLevelName());
     }
     // If first black screen is done and we have to make a little 
     // pause to allow the players to see the arena before playing

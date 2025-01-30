@@ -184,7 +184,7 @@ void CMenuLevel::OnDisplay(void)
     int Player;
     // Set the right font text color and write the menu title string
     m_pFont->SetTextColor(FONTCOLOR_WHITE);
-    m_pFont->DrawCenteredX(0, VIEW_WIDTH - 1, TITLE_TEXT_POSITION_Y, m_pOptions->GetLevelName());
+    m_pFont->DrawCenteredX(0, GAME_WIDTH - 1, TITLE_TEXT_POSITION_Y, m_pOptions->GetLevelName());
 
     bool StartPointAvailable[MAX_PLAYERS];
     for (Player = 0; Player < MAX_PLAYERS; Player++)
@@ -319,7 +319,7 @@ void CMenuLevel::OnDisplay(void)
                 m_pFont->Draw(MINI_ARENA_POSITION_X / 2, WARNING_TEXT_POSITION_Y, "NO START POS:");
                 warningShown = true;
             }
-            m_pDisplay->DrawSprite(VIEW_WIDTH - MINI_ARENA_POSITION_X - (MAX_PLAYERS - Player) * (MINI_ARENA_TILE_SIZE - TILE_POSITION_TO_BOMBER_POSITION * 2) + TILE_POSITION_TO_BOMBER_POSITION,
+            m_pDisplay->DrawSprite(GAME_WIDTH - MINI_ARENA_POSITION_X - (MAX_PLAYERS - Player) * (MINI_ARENA_TILE_SIZE - TILE_POSITION_TO_BOMBER_POSITION * 2) + TILE_POSITION_TO_BOMBER_POSITION,
                 WARNING_TEXT_POSITION_Y + TILE_POSITION_TO_BOMBER_POSITION,
                 NULL, NULL, BMP_LEVEL_MINI_BOMBERS, Player, 1, 2);
         }

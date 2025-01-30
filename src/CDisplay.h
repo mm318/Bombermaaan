@@ -42,10 +42,7 @@ class CDisplay
 private:
     const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
     CVideoSDL       m_VideoSDL;         //!< Object used for display
-    int             m_ViewOriginX;      //!< Top left corner of the game view
-    int             m_ViewOriginY;
 
-    bool            Create (int Width, int Height, bool FullScreen); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the resolution
     const std::string& GetProgramFolder(void) const;
     bool            LoadSprites(int SpriteTableWidth,
                                 int SpriteTableHeight,
@@ -60,7 +57,7 @@ public:
                     ~CDisplay(void);    //!< Does nothing
     inline void     SetOptions(const COptions *pOptions);
     inline void     SetWindowHandle(HWND hWnd); //!< Set the handle of the window DirectDraw/SDLVideo has to work with
-    bool            Create(EDisplayMode DisplayMode); //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
+    bool            Create();           //!< (Re)Create the DirectDraw/SDLVideo interface and (re)load the sprite tables given the display mode
     void            Destroy (void);     //!< Destroy the DirectDraw/SDLVideo interface and the sprite tables
     inline void     OnWindowMove (void);//!< Has to be called when the window moves (WM_MOVE)
     inline void     OnPaint(void);      //!< Has to be called when the window has to be repainted (WM_PAINT)
@@ -86,7 +83,6 @@ public:
                                        int PriorityInLayer); //!< Record a drawing request for debug purposes
     inline void     RemoveAllDebugRectangles(void);
     inline CVideoSDL& GetSDLVideo(void);
-    bool            IsDisplayModeAvailable (EDisplayMode DisplayMode);
 };
 
 //******************************************************************************************************************************
@@ -100,12 +96,12 @@ inline void CDisplay::SetOptions(const COptions *pOptions)
 
 inline void CDisplay::SetWindowHandle(HWND hWnd)
 {
-    m_VideoSDL.SetWindowHandle (hWnd);
+    m_VideoSDL.SetWindowHandle(hWnd);
 }
 
 inline void CDisplay::SetOrigin(int OriginX, int OriginY)
 {
-    m_VideoSDL.SetOrigin(m_ViewOriginX + OriginX, m_ViewOriginY + OriginY);
+    m_VideoSDL.SetOrigin(OriginX, OriginY);
 }
 
 inline void CDisplay::Clear(void)

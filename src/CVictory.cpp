@@ -117,8 +117,8 @@
 
 // Confettis
 #define CONFETTI_LIMIT_LEFT     -20.0f
-#define CONFETTI_LIMIT_RIGHT    float (VIEW_WIDTH + 10)
-#define CONFETTI_LIMIT_BOTTOM   float (VIEW_HEIGHT + 10)
+#define CONFETTI_LIMIT_RIGHT    float (GAME_WIDTH + 10)
+#define CONFETTI_LIMIT_BOTTOM   float (GAME_HEIGHT + 10)
 #define CONFETTI_ANIMATION_TIME_0       1 * 0.200f      //!< Confetti animation times
 #define CONFETTI_ANIMATION_TIME_1       2 * 0.200f
 #define CONFETTI_ANIMATION_TIME_2       3 * 0.200f
@@ -129,7 +129,7 @@
 #define CONFETTI_ANIMATION_SPRITE_2     2
 #define CONFETTI_ANIMATION_SPRITE_3     3
 #define CONFETTI_ANIMATION_SPRITE_4     4
-#define CONFETTI_RESET_POSITION_X       float (RANDOM(VIEW_WIDTH))  //!< Position to set when resetting the confetti
+#define CONFETTI_RESET_POSITION_X       float (RANDOM(GAME_WIDTH))  //!< Position to set when resetting the confetti
 #define CONFETTI_RESET_POSITION_Y       -20.0f
 #define CONFETTI_RESET_SPEED_X          float (RANDOM(110)-70)      //!< Speed to set when resetting the confetti
 #define CONFETTI_RESET_SPEED_Y          float (RANDOM(100)+40)

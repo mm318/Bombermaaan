@@ -61,7 +61,7 @@ CPauseMessage::CPauseMessage (CDisplay* pDisplay, CSound* pSound)
     m_HaveToGetOut = false;
 
     // Create the scroller object that will be used to move and display the pause message sprite
-    m_Scroller.Create ((VIEW_WIDTH - 202) / 2, -16, 69, 16, 0.0f, 300.0f, -1.0f);   // 202 is X size of pause message sprite
+    m_Scroller.Create ((GAME_WIDTH - 202) / 2, -16, 69, 16, 0.0f, 300.0f, -1.0f);   // 202 is X size of pause message sprite
 
 }
 
@@ -110,8 +110,8 @@ void CPauseMessage::Display (void)
     RECT Clip;
     Clip.left   = 0;
     Clip.top    = 0;
-    Clip.right  = VIEW_WIDTH;
-    Clip.bottom = VIEW_HEIGHT;
+    Clip.right  = GAME_WIDTH;
+    Clip.bottom = GAME_HEIGHT;
 
     // Draw the pause message
     m_pDisplay->DrawSprite (m_Scroller.GetPositionX(),   // Position of the current tile

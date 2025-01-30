@@ -458,7 +458,7 @@ void CControls::Display (void)
 
         // Draw the title of the screen
         m_Font.SetTextColor (FONTCOLOR_WHITE);
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_CONTROLS_TITLE_STRING);
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_CONTROLS_TITLE_STRING);
 
         // Position Y on the screen of the first menu item in this screen
         int MenuItemPositionY = FIRST_MENU_ITEM_POSITION_Y;

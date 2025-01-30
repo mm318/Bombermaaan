@@ -281,14 +281,14 @@ void CCredits::Display (void)
 
         // Draw the title of the screen
         m_Font.SetTextColor (FONTCOLOR_WHITE);
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_CREDITS_TITLE_STRING);
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y, SCREEN_CREDITS_TITLE_STRING);
 
         m_Font.SetTextColor(FONTCOLOR_YELLOW);
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y + 60,  "Thibaut Tollemer");
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y + 80,  "Bernd Arnold");
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y + 100, "Jerome Bigot");
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y + 120, "Markus Drescher");
-        m_Font.DrawCenteredX(0, VIEW_WIDTH, SCREEN_TITLE_POSITION_Y + 140, "Billy Araujo");
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y + 60,  "Thibaut Tollemer");
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y + 80,  "Bernd Arnold");
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y + 100, "Jerome Bigot");
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y + 120, "Markus Drescher");
+        m_Font.DrawCenteredX(0, GAME_WIDTH, SCREEN_TITLE_POSITION_Y + 140, "Billy Araujo");
 
     }
     // We have to exit, so we have to make the last black screen

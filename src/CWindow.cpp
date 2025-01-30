@@ -91,119 +91,28 @@ CWindow::CWindow(HINSTANCE hInstance, const char *pWindowTitle, int IconResource
 {
     m_hWnd = NULL;
     m_Active = false;
-
-    // Init the window class
-#ifdef DIRECTX
-    WNDCLASSEX WndClassEx;
-    WndClassEx.cbSize = sizeof(WNDCLASSEX);
-    WndClassEx.lpszClassName = "Class name";
-    WndClassEx.lpfnWndProc = DefaultWinProc;        // Biiiig Hack. See the function DefaultWinProc
-    WndClassEx.style = CS_VREDRAW | CS_HREDRAW;
-    WndClassEx.hInstance = hInstance;
-    WndClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    WndClassEx.hIconSm = NULL;
-    WndClassEx.hCursor = LoadCursor (NULL, IDC_ARROW);
-    WndClassEx.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
-    WndClassEx.lpszMenuName = NULL;
-    WndClassEx.cbClsExtra = 0;
-    WndClassEx.cbWndExtra = sizeof(CWindow *);  // We'll store the 'this' pointer in the extra allocated bytes
-
-    // Prepare the window's styles (default ones)
-    DWORD Style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/;
-    DWORD ExStyle = 0;
-
-    // If registering the window class failed
-    if (!RegisterClassEx (&WndClassEx))
-    {
-        // Log failure
-        theLog.WriteLine ("Window          => !!! Could not register window class.");
-    }
-
-    // Create the window
-    m_hWnd = CreateWindowEx (ExStyle,           // Extended style
-        "Class name",      // ClassName
-        pWindowTitle,      // Title
-        Style,             // Style
-        CW_USEDEFAULT,     // Position
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,     // Size
-        CW_USEDEFAULT,
-        NULL,              // Parent window
-        NULL,              // Menu
-        hInstance,         // Handle to instance
-        this);             // Pointer to window creation data
-    // (Allows us to store the 'this' pointer)
-
-    // If it failed
-    if (m_hWnd == NULL)
-    {
-        // Log failure
-        theLog.WriteLine ("Window          => !!! Could not create the window.");
-    }
-
-    // If an icon was specified
-    if (IconResourceID != -1)
-    {
-        // Check if the resource ID seems to be valid
-        ASSERT (IconResourceID >= 0);
-
-        // Load the icon specified by the resource ID
-        HICON hIcon = LoadIcon (hInstance, MAKEINTRESOURCE(IDI_BOMBER));
-        ASSERT (hIcon != NULL);
-
-        // Tell the window to set this icon
-        PostMessage (m_hWnd, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) hIcon);
-    }
-#endif
     // the icon in Linux is loaded in CVideoSDL
 }
 
-
-
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-
-
 
 CWindow::~CWindow()
 {
-    // If the window exists
-#ifdef DIRECTX
-    if (m_hWnd != NULL)
-    {
-        // Destroy the window
-        DestroyWindow (m_hWnd);
-        m_hWnd = NULL;
-    }
-#endif
 }
 
-
-
-
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-
 
 void CWindow::SetClientSize(int ClientWidth, int ClientHeight)
 {
-#ifdef DIRECTX
-    RECT rc;
-    SetRect (&rc, 0, 0, ClientWidth, ClientHeight);
-    AdjustWindowRectEx (&rc, GetWindowStyle(m_hWnd), (int)GetMenu (m_hWnd), GetWindowExStyle (m_hWnd));
-    SetWindowPos (m_hWnd, HWND_NOTOPMOST, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE);
-#endif
 }
 
-
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-
-
-
 
 #ifdef WIN32
 LRESULT CALLBACK CWindow::WinProc(unsigned int msg, WPARAM wParam, LPARAM lParam)
@@ -225,12 +134,10 @@ void CWindow::WinProc (unsigned int msg, WPARAM wParam, LPARAM lParam)
     case WM_SYSCOMMAND:     OnSysCommand(wParam, lParam);      break;
     case WM_CLOSE:          OnClose(wParam, lParam);           break;
     case WM_DESTROY:        OnDestroy(wParam, lParam);         break;
-#ifndef DIRECTX_INPUT
     case SDL_JOYAXISMOTION: OnJoystickAxis(wParam, lParam);        break;
 	case SDL_JOYHATMOTION: OnJoystickHatMotion(wParam, lParam);        break;
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:    OnJoystickButton(wParam, lParam);    break;
-#endif
     }
 
 #ifdef WIN32
@@ -244,17 +151,9 @@ void CWindow::WinProc (unsigned int msg, WPARAM wParam, LPARAM lParam)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-
 void CWindow::Show()
 {
-#ifdef DIRECTX
-    ShowWindow(m_hWnd, SW_SHOW);
-    UpdateWindow(m_hWnd);
-#endif
 }
-
-
-
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -266,39 +165,6 @@ void CWindow::Show()
 
 void CWindow::MessagePump()
 {
-#ifdef DIRECTX_INPUT
-    MSG msg;
-
-    while (true)
-    {
-        // Manage the messages if some are waiting
-        if (PeekMessage (&msg, NULL, 0, 0, PM_NOREMOVE))
-        {
-            if (!GetMessage (&msg, NULL, 0, 0 ))
-            {
-                m_hWnd = NULL;
-                break;
-            }
-
-            TranslateMessage (&msg);
-            DispatchMessage (&msg);
-        }
-        // No message to manage ?
-        else
-        {
-            if (m_Active)
-            {
-                // call the virtual activity method
-                OnWindowActive ();
-            }
-            else
-            {
-                // make sure we go to sleep if we have nothing else to do
-                WaitMessage();
-            }
-        }
-    }
-#else
     SDL_Event event;
     bool quit = false;
 
@@ -359,7 +225,6 @@ void CWindow::MessagePump()
             SDL12_Delay(1); // rest for the cpu
         }
     }
-#endif
 }
 
 
@@ -435,10 +300,6 @@ void CWindow::OnActivateApp(WPARAM wParam, LPARAM lParam)
 
 void CWindow::OnSize(WPARAM wParam, LPARAM lParam)
 {
-    // Check to see if we are losing our window...
-#ifdef DIRECTX
-    m_Active = (wParam != SIZE_MAXHIDE && wParam != SIZE_MINIMIZED);
-#endif
 }
 
 
@@ -566,9 +427,6 @@ bool CWindow::OnSysCommand(WPARAM wParam, LPARAM lParam)
 
 void CWindow::OnClose(WPARAM wParam, LPARAM lParam)
 {
-#ifdef DIRECTX
-    DestroyWindow (m_hWnd); // Posts WM_DESTROY
-#endif
 }
 
 
@@ -585,9 +443,6 @@ void CWindow::OnClose(WPARAM wParam, LPARAM lParam)
 
 void CWindow::OnDestroy(WPARAM wParam, LPARAM lParam)
 {
-#ifdef DIRECTX
-    PostQuitMessage (0); // Posts WM_QUIT
-#endif
 }
 
 
@@ -596,35 +451,22 @@ void CWindow::OnDestroy(WPARAM wParam, LPARAM lParam)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-
-#ifndef DIRECTX_INPUT
 // Handles the SDL_JOYAXISMOTION message (SDL only).
-
 void CWindow::OnJoystickAxis(WPARAM wParam, LPARAM lParam)
 {
 
 }
-
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
 
 void CWindow::OnJoystickHatMotion(WPARAM wParam, LPARAM lParam)
 {
 
 }
 
-
-// Handles the SDL_JOYBUTTONDOWN/-UP message (SDL only).
-
 void CWindow::OnJoystickButton(WPARAM wParam, LPARAM lParam)
 {
 
 }
 
-
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-#endif // WIN32

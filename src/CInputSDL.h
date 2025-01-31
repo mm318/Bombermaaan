@@ -62,8 +62,8 @@
 #define KEYBOARD_I             SDLK_i
 #define KEYBOARD_O             SDLK_o
 #define KEYBOARD_P             SDLK_p
-#define KEYBOARD_LBRACKET      SDLK_LEFTPAREN
-#define KEYBOARD_RBRACKET      SDLK_RIGHTPAREN
+#define KEYBOARD_LBRACKET      SDLK_LEFTBRACKET
+#define KEYBOARD_RBRACKET      SDLK_RIGHTBRACKET
 #define KEYBOARD_RETURN        SDLK_RETURN              //!< Enter on main keyboard
 #define KEYBOARD_LCONTROL      SDLK_LCTRL
 #define KEYBOARD_A             SDLK_a

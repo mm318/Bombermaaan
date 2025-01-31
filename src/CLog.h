@@ -85,7 +85,9 @@ public:
 private:
     long            WriteImpl(const char *pMessage, va_list args);
 
+#ifndef __EMSCRIPTEN__
     std::ofstream   m_theLog;
+#endif
     bool            m_bOpen;
     bool            m_toStdout;
     bool            m_FilterRepeatedMessage;    //!< Should we manage message repetition by not displaying all consecutive identical messages?

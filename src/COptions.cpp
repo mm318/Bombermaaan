@@ -352,6 +352,7 @@ void COptions::SetDefaultValues(void)
 
 bool COptions::LoadConfiguration (void)
 {
+#ifndef __EMSCRIPTEN__
     TiXmlDocument configDoc( m_configFileName );
     
     // Try to load XML file
@@ -401,7 +402,11 @@ bool COptions::LoadConfiguration (void)
         TiXmlHandle handle( &configDoc );
 
         // Fetch the element
-        TiXmlElement *element = handle.FirstChild( "Bombermaaan" ).FirstChild( "Configuration" ).FirstChild( "ControlList" ).FirstChild( "Control" ).ToElement();
+        TiXmlElement *element = handle.FirstChild( "Bombermaaan" )
+                                      .FirstChild( "Configuration" )
+                                      .FirstChild( "ControlList" )
+                                      .FirstChild( "Control" )
+                                      .ToElement();
 
         // If the element exists, go on
         if ( element )
@@ -442,6 +447,9 @@ bool COptions::LoadConfiguration (void)
         theLog.WriteLine ("Options         => Configuration file could not be loaded." );
 
     }
+#else
+    theLog.WriteLine ("Options         => Configuration file was not loaded." );
+#endif
 
     //! We always return true since it doesn't matter if the configuration file could not be loaded
     // Success
@@ -454,6 +462,7 @@ bool COptions::LoadConfiguration (void)
 
 void COptions::WriteXMLData()
 {
+#ifndef __EMSCRIPTEN__
     // Create document
     TiXmlDocument newConfig;
     TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "UTF-8", "" );
@@ -561,6 +570,9 @@ void COptions::WriteXMLData()
 
     // Log a message
     theLog.WriteLine( "Options         => Configuration file was %s written.", ( saveOkay ? "successfully" : "not" ) );
+#else
+    theLog.WriteLine( "Options         => Configuration file was not written." );
+#endif
 }
 
 //******************************************************************************************************************************

@@ -116,6 +116,7 @@ bool CLog::Open(const char *pFilename, const bool tee)
     SetFileAttributes( pFilename, FILE_ATTRIBUTE_NORMAL );
 #endif
 
+#ifndef __EMSCRIPTEN__
     // Open the Log
     m_theLog.open( pFilename );
     if( !m_theLog.fail() )
@@ -155,6 +156,9 @@ bool CLog::Open(const char *pFilename, const bool tee)
         // Set indicator bOpen to false
         m_bOpen = false;
     }
+#else
+    m_bOpen = true;
+#endif
 
     m_toStdout = tee;
 
@@ -168,6 +172,7 @@ bool CLog::Open(const char *pFilename, const bool tee)
 // Close the Log
 bool CLog::Close()
 {
+#ifndef __EMSCRIPTEN__
     // Close the Log
     if( m_bOpen )
     {
@@ -204,6 +209,7 @@ bool CLog::Close()
         // Close the file
         m_theLog.close();
     }
+#endif
 
     m_bOpen = false;
 
@@ -348,6 +354,7 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
         }
     }
 
+#ifndef __EMSCRIPTEN__
     // If the log is open
     if(m_bOpen && !isRepeatMessage)
     {
@@ -388,10 +395,11 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
 
         m_theLog.flush();
     }
+#endif
 
     if (m_toStdout && !isRepeatMessage)
     {
-        std::cout.write(Message, strlen(Message));
+        puts(Message);
     }
 
     return 1;

@@ -28,6 +28,10 @@
 #ifndef __CVIDEOSDL_H__
 #define __CVIDEOSDL_H__
 
+#include "portable_stl/vector/vector.h"
+#include "portable_stl/list/list.h"
+#include "portable_stl/map/map.h"
+
 #include "SDL/SDL.h"
 #include "StdAfx.h"
 
@@ -59,6 +63,7 @@ struct SDisplayMode
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
+static constexpr int PRIORITY_UNUSED = -1;
 
 // Drawing requests are stored in a CSpriteManager
 // instance. They describe a sprite to draw, and
@@ -67,37 +72,32 @@ struct SDisplayMode
 
 struct SDrawingRequest
 {
-    int PositionX;        //!< Position X where to draw the sprite (using CDisplay origin)
-    int PositionY;        //!< Position Y where to draw the sprite (using CDisplay origin)
-    int ZoneX1;           // Zone to draw in the selected sprite
+    int PositionX;              //!< Position X where to draw the sprite (using CDisplay origin)
+    int PositionY;              //!< Position Y where to draw the sprite (using CDisplay origin)
+    int ZoneX1;                 // Zone to draw in the selected sprite
     int ZoneY1;
     int ZoneX2;
     int ZoneY2;
     const void* SpriteTable;    //!< Number of the sprite page where to the sprite is
-    int Sprite;           //!< Number of the sprite to draw
-    int SpriteLayer;      //!< Number of the layer where the sprite has to be drawn
-    int PriorityInLayer;  //!< PriorityInLayer value inside the layer.
-
-    #define PRIORITY_UNUSED     -1
+    int Sprite;                 //!< Number of the sprite to draw
+    int SpriteLayer;            //!< Number of the layer where the sprite has to be drawn
+    int PriorityInLayer;        //!< PriorityInLayer value inside the layer.
 
     // Operators used by STL's PriorityInLayer_queue when sorting
     // The top layer on the screen is the greatest layer number
-    // The top priority is the greatest priority value
+    // The top priority is the lowest layer (and lowest priority value),
+    // because the lower layers should get drawn first and then draw top layers over them
 
-    bool operator < (const SDrawingRequest &DR) const
+    bool operator<(const SDrawingRequest &DR) const
     {
-        return SpriteLayer > DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer > DR.PriorityInLayer);
+        return SpriteLayer < DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer < DR.PriorityInLayer);
     }
 
-    bool operator == (const SDrawingRequest &DR) const
+    bool operator==(const SDrawingRequest &DR) const
     {
         return SpriteLayer == DR.SpriteLayer && PriorityInLayer == DR.PriorityInLayer;
     }
 };
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
 
 // Drawing request for debug purposes
 
@@ -118,25 +118,19 @@ struct SDebugDrawingRequest
     int SpriteLayer;      //!< Number of the layer where the sprite has to be drawn
     int PriorityInLayer;  //!< PriorityInLayer value inside the layer.
 
-    #define PRIORITY_UNUSED     -1
-
     // Operators used by STL's PriorityInLayer_queue when sorting
     // The top layer on the screen is the greatest layer number
-    // The top priority is the greatest priority value
+    // The top priority is the lowest layer (and lowest priority value),
+    // because the lower layers should get drawn first and then draw top layers over them
 
-    bool operator < (const SDebugDrawingRequest &DR) const
+    bool operator<(const SDebugDrawingRequest &DR) const
     {
-        return SpriteLayer > DR.SpriteLayer
-               ||
-               (
-                SpriteLayer == DR.SpriteLayer &&
-                PriorityInLayer > DR.PriorityInLayer
-               );
+        return SpriteLayer < DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer < DR.PriorityInLayer);
     }
-    bool operator == (const SDebugDrawingRequest &DR) const
+
+    bool operator==(const SDebugDrawingRequest &DR) const
     {
-        return SpriteLayer == DR.SpriteLayer &&
-               PriorityInLayer == DR.PriorityInLayer;
+        return SpriteLayer == DR.SpriteLayer && PriorityInLayer == DR.PriorityInLayer;
     }
 };
 
@@ -146,8 +140,8 @@ struct SDebugDrawingRequest
 
 struct SSurface
 {
-    struct SDL_Surface        *pSurface;            //!< SDL surface
-    DWORD                   BlitParameters;     //!< Parameter when blitting, depends on if the surface is transparent
+    struct SDL_Surface* pSurface;           //!< SDL surface
+    DWORD               BlitParameters;     //!< Parameter when blitting, depends on if the surface is transparent
 };
 
 //******************************************************************************************************************************
@@ -169,10 +163,10 @@ private:
     SDL_Rect                m_BackBufferRect;                    //!< Window rect in screen coordinates
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
-    std::vector<SSurface>   m_Surfaces;                          //!< Surfaces
-    std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
-    std::priority_queue<SDrawingRequest> m_DrawingRequests;      //!< Automatically sorted drawing requests queue
-    std::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
+    ::portable_stl::vector<SSurface> m_Surfaces;                 //!< Surfaces
+    ::portable_stl::map<const void*, ::portable_stl::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
+    ::portable_stl::list<SDrawingRequest> m_DrawingRequests;     //!< List of drawing requests (::portable_stl::vector doesn't have sort :S)
+    ::portable_stl::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
 
 private:
 
@@ -242,8 +236,5 @@ inline void CVideoSDL::SetOrigin (int OriginX, int OriginY)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
-
-
-
 
 #endif

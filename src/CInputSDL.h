@@ -28,6 +28,7 @@
 #ifndef __CINPUTSDL_H__
 #define __CINPUTSDL_H__
 
+#include "portable_stl/vector/vector.h"
 #include "SDL/SDL.h"
 
 //******************************************************************************************************************************
@@ -198,11 +199,11 @@ private:
     HINSTANCE               m_hInstance;    //!< Handle to the application instance (needed to use SDLInput)
     HWND                    m_hWnd;         //!< Handle to the window (needed to use SDLInput)
 
-    bool                    m_KeyboardOpened;               //!< Is the system keyboard _supposed_ to be opened?
-    char                    m_KeyState[MAX_KEYS];          //!< State of each key on the system keyboard
+    bool                    m_KeyboardOpened;           //!< Is the system keyboard _supposed_ to be opened?
+    char                    m_KeyState[MAX_KEYS];       //!< State of each key on the system keyboard
     char                    m_KeyFriendlyName[MAX_KEYS][MAX_PATH]; //!< More friendly name for each key
 
-    std::vector<SJoystick*> m_pJoysticks;   //!< All joystick SDLInput devices installed in the system
+    ::portable_stl::vector<SJoystick*> m_pJoysticks;    //!< All joystick SDLInput devices installed in the system
 
     bool                    UpdateDevice(void *pState, int StateSize);
     bool                    UpdateDevice(SDL_Joystick *pDevice, void *pState, int StateSize);

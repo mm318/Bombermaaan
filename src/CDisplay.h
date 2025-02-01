@@ -29,6 +29,7 @@
 #ifndef __CDISPLAY_H__
 #define __CDISPLAY_H__
 
+#include "portable_stl/string/string.h"
 #include "CVideoSDL.h"
 #include "COptions.h"
 
@@ -43,7 +44,7 @@ private:
     const COptions* m_pOptions;         //!< Options object to use to get information about what the user chose
     CVideoSDL       m_VideoSDL;         //!< Object used for display
 
-    const std::string& GetProgramFolder(void) const;
+    const ::portable_stl::string& GetProgramFolder(void) const;
     bool            LoadSprites(int SpriteTableWidth,
                                 int SpriteTableHeight,
                                 int SpriteWidth,
@@ -146,7 +147,7 @@ inline void CDisplay::RemoveAllDebugRectangles(void)
     m_VideoSDL.RemoveAllDebugRectangles();
 }
 
-inline const std::string& CDisplay::GetProgramFolder(void) const {
+inline const ::portable_stl::string& CDisplay::GetProgramFolder(void) const {
     return m_pOptions->GetProgramFolder();
 }
 

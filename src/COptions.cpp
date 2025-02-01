@@ -31,9 +31,7 @@
  *  \brief Handling game options, saving to and reading from file
  */
 
-#include <sstream>
-#include <vector>
-#include <algorithm>
+#include <cstdio>
 
 #include "StdAfx.h"
 #include "BombermaaanAssets.h"
@@ -66,8 +64,8 @@
 
 struct SFileInfo
 {
-    std::string fileNameWithoutPath;
-    std::string fileNameWithPath;
+    ::portable_stl::string fileNameWithoutPath;
+    ::portable_stl::string fileNameWithPath;
 };
 
 //******************************************************************************************************************************
@@ -159,7 +157,7 @@ COptions& COptions::operator = (const COptions& Copy)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool COptions::Create(const std::string& dynamicDataFolder, const std::string& pgmFolder)
+bool COptions::Create(const ::portable_stl::string& dynamicDataFolder, const ::portable_stl::string& pgmFolder)
 {
     m_programFolder = pgmFolder;
 
@@ -177,30 +175,30 @@ bool COptions::Create(const std::string& dynamicDataFolder, const std::string& p
         return false;
     }
 
-    if (!LoadLevel("L01", LEVEL_01) ||
-        !LoadLevel("L02", LEVEL_02) ||
-        !LoadLevel("L03", LEVEL_03) ||
-        !LoadLevel("L04", LEVEL_04) ||
-        !LoadLevel("L05", LEVEL_05) ||
-        !LoadLevel("L06", LEVEL_06) ||
-        !LoadLevel("L07", LEVEL_07) ||
-        !LoadLevel("L08", LEVEL_08) ||
-        !LoadLevel("L09", LEVEL_09) ||
-        !LoadLevel("L10", LEVEL_10) ||
-        !LoadLevel("L11", LEVEL_11) ||
-        !LoadLevel("L12", LEVEL_12) ||
-        !LoadLevel("L13", LEVEL_13) ||
-        !LoadLevel("L14", LEVEL_14) ||
-        !LoadLevel("L15", LEVEL_15) ||
-        !LoadLevel("L16", LEVEL_16) ||
-        !LoadLevel("L17", LEVEL_17) ||
-        !LoadLevel("L18", LEVEL_18) ||
-        !LoadLevel("L19", LEVEL_19) ||
-        !LoadLevel("L20", LEVEL_20) ||
-        !LoadLevel("L21", LEVEL_21) ||
-        !LoadLevel("L22", LEVEL_22) ||
-        !LoadLevel("L23", LEVEL_23) ||
-        !LoadLevel("L24", LEVEL_24))
+    if (!LoadLevel("L01", LEVEL_01, LEVEL_01_SIZE) ||
+        !LoadLevel("L02", LEVEL_02, LEVEL_02_SIZE) ||
+        !LoadLevel("L03", LEVEL_03, LEVEL_03_SIZE) ||
+        !LoadLevel("L04", LEVEL_04, LEVEL_04_SIZE) ||
+        !LoadLevel("L05", LEVEL_05, LEVEL_05_SIZE) ||
+        !LoadLevel("L06", LEVEL_06, LEVEL_06_SIZE) ||
+        !LoadLevel("L07", LEVEL_07, LEVEL_07_SIZE) ||
+        !LoadLevel("L08", LEVEL_08, LEVEL_08_SIZE) ||
+        !LoadLevel("L09", LEVEL_09, LEVEL_09_SIZE) ||
+        !LoadLevel("L10", LEVEL_10, LEVEL_10_SIZE) ||
+        !LoadLevel("L11", LEVEL_11, LEVEL_11_SIZE) ||
+        !LoadLevel("L12", LEVEL_12, LEVEL_12_SIZE) ||
+        !LoadLevel("L13", LEVEL_13, LEVEL_13_SIZE) ||
+        !LoadLevel("L14", LEVEL_14, LEVEL_14_SIZE) ||
+        !LoadLevel("L15", LEVEL_15, LEVEL_15_SIZE) ||
+        !LoadLevel("L16", LEVEL_16, LEVEL_16_SIZE) ||
+        !LoadLevel("L17", LEVEL_17, LEVEL_17_SIZE) ||
+        !LoadLevel("L18", LEVEL_18, LEVEL_18_SIZE) ||
+        !LoadLevel("L19", LEVEL_19, LEVEL_19_SIZE) ||
+        !LoadLevel("L20", LEVEL_20, LEVEL_20_SIZE) ||
+        !LoadLevel("L21", LEVEL_21, LEVEL_21_SIZE) ||
+        !LoadLevel("L22", LEVEL_22, LEVEL_22_SIZE) ||
+        !LoadLevel("L23", LEVEL_23, LEVEL_23_SIZE) ||
+        !LoadLevel("L24", LEVEL_24, LEVEL_24_SIZE))
     {
         return false;
     }
@@ -352,8 +350,9 @@ void COptions::SetDefaultValues(void)
 
 bool COptions::LoadConfiguration (void)
 {
-    TiXmlDocument configDoc( m_configFileName );
-    
+#ifndef __EMSCRIPTEN__
+    TiXmlDocument configDoc( m_configFileName.c_str() );
+
     // Try to load XML file
     if ( configDoc.LoadFile() ) {
 
@@ -384,10 +383,9 @@ bool COptions::LoadConfiguration (void)
         ReadIntFromXML( configDoc, "LevelFileNumber", "value", &m_Level );
 
         for ( int i = 0; i < MAX_PLAYERS; i++ ) {
-            std::ostringstream oss;
-            oss << "bomber" << i;
-            std::string attributeName = oss.str();
-            ReadIntFromXML( configDoc, "BomberTypes", attributeName, (int*) (&m_BomberType[i]) );
+            char attributeName[16];
+            snprintf(attributeName, 16, "bomber%d", i);
+            ReadIntFromXML(configDoc, "BomberTypes", attributeName, (int*) (&m_BomberType[i]));
             ReadIntFromXML(configDoc, "BomberTeams", attributeName, (int*)(&m_BomberTeam[i]));
             ReadIntFromXML(configDoc, "PlayerInputs", attributeName, (int*)(&m_PlayerInput[i]));
         }
@@ -401,7 +399,11 @@ bool COptions::LoadConfiguration (void)
         TiXmlHandle handle( &configDoc );
 
         // Fetch the element
-        TiXmlElement *element = handle.FirstChild( "Bombermaaan" ).FirstChild( "Configuration" ).FirstChild( "ControlList" ).FirstChild( "Control" ).ToElement();
+        TiXmlElement *element = handle.FirstChild( "Bombermaaan" )
+                                      .FirstChild( "Configuration" )
+                                      .FirstChild( "ControlList" )
+                                      .FirstChild( "Control" )
+                                      .ToElement();
 
         // If the element exists, go on
         if ( element )
@@ -419,12 +421,10 @@ bool COptions::LoadConfiguration (void)
                 // Read all control values (up, down, left, right, action1, action2)
                 for ( unsigned int ctrl = 0; ctrl < NUM_CONTROLS; ctrl++ )
                 {
+                    char attributeName[16];
+                    snprintf(attributeName, 16, "control%u", ctrl);
+
                     int ctrldata = -1;
-
-                    std::ostringstream oss;
-                    oss << "control" << ctrl;
-                    std::string attributeName = oss.str();
-
                     element->QueryIntAttribute( attributeName, &ctrldata);
 
                     // Verify we have read a valid number
@@ -442,6 +442,9 @@ bool COptions::LoadConfiguration (void)
         theLog.WriteLine ("Options         => Configuration file could not be loaded." );
 
     }
+#else
+    theLog.WriteLine ("Options         => Configuration file was not loaded." );
+#endif
 
     //! We always return true since it doesn't matter if the configuration file could not be loaded
     // Success
@@ -454,6 +457,7 @@ bool COptions::LoadConfiguration (void)
 
 void COptions::WriteXMLData()
 {
+#ifndef __EMSCRIPTEN__
     // Create document
     TiXmlDocument newConfig;
     TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "UTF-8", "" );
@@ -509,9 +513,8 @@ void COptions::WriteXMLData()
     // BomberTypes
     TiXmlElement* configBomberTypes = new TiXmlElement( "BomberTypes" );
     for ( i = 0; i < MAX_PLAYERS; i++ ) {
-        std::ostringstream oss;
-        oss << "bomber" << i;
-        std::string attributeName = oss.str();
+        char attributeName[16];
+        snprintf(attributeName, 16, "bomber%d", i);
         configBomberTypes->SetAttribute( attributeName, (int) m_BomberType[i] );
     }
     config->LinkEndChild( configBomberTypes );
@@ -519,9 +522,8 @@ void COptions::WriteXMLData()
     // BomberTeams
     TiXmlElement* configBomberTeams = new TiXmlElement("BomberTeams");
     for (i = 0; i < MAX_PLAYERS; i++) {
-        std::ostringstream oss;
-        oss << "bomber" << i;
-        std::string attributeName = oss.str();
+        char attributeName[16];
+        snprintf(attributeName, 16, "bomber%d", i);
         configBomberTeams->SetAttribute(attributeName, (int)m_BomberTeam[i]);
     }
     config->LinkEndChild(configBomberTeams);
@@ -529,9 +531,8 @@ void COptions::WriteXMLData()
     // PlayerInputs
     TiXmlElement* configPlayerInputs = new TiXmlElement( "PlayerInputs" );
     for ( i = 0; i < MAX_PLAYERS; i++ ) {
-        std::ostringstream oss;
-        oss << "bomber" << i;
-        std::string attributeName = oss.str();
+        char attributeName[16];
+        snprintf(attributeName, 16, "bomber%d", i);
         configPlayerInputs->SetAttribute( attributeName, (int) m_PlayerInput[i] );
     }
     config->LinkEndChild( configPlayerInputs );
@@ -544,23 +545,24 @@ void COptions::WriteXMLData()
         configControl->SetAttribute( "id", j );
         for ( unsigned int ctrl = 0; ctrl < NUM_CONTROLS; ctrl++ )
         {
-            std::ostringstream oss;
-            oss << "control" << ctrl;
-            std::string attributeName = oss.str();
+            char attributeName[16];
+            snprintf(attributeName, 16, "control%u", ctrl);
             configControl->SetAttribute( attributeName, (int) m_Control[j][ctrl] );
         }
         configControlList->LinkEndChild( configControl );
     }
     config->LinkEndChild( configControlList );
 
-
     //
     // Save file
     //
-    bool saveOkay = newConfig.SaveFile( m_configFileName );
+    bool saveOkay = newConfig.SaveFile( m_configFileName.c_str() );
 
     // Log a message
     theLog.WriteLine( "Options         => Configuration file was %s written.", ( saveOkay ? "successfully" : "not" ) );
+#else
+    theLog.WriteLine( "Options         => Configuration file was not written." );
+#endif
 }
 
 //******************************************************************************************************************************
@@ -578,43 +580,52 @@ void COptions::WriteXMLData()
  *  @todo Set first three parameters to const if possible
  */
 
-void COptions::ReadIntFromXML(TiXmlDocument &doc, std::string configNode, std::string attrName, int *value)
+void COptions::ReadIntFromXML(TiXmlDocument &doc,
+                              const ::portable_stl::string& configNode,
+                              const ::portable_stl::string& attrName,
+                              int *value)
 {
     // Create a handle to the XML document
     TiXmlHandle handle( &doc );
 
     // Fetch the element
-    TiXmlElement *element = handle.FirstChild( "Bombermaaan" ).FirstChild( "Configuration" ).FirstChild( configNode ).ToElement();
+    TiXmlElement *element = handle.FirstChild( "Bombermaaan" )
+                                  .FirstChild( "Configuration" )
+                                  .FirstChild( configNode.c_str() )
+                                  .ToElement();
 
     // If the element exists, read the int value from the specified attribute
     // The value variable stays unchanged if there's no int value
     if ( element )
-        element->QueryIntAttribute( attrName, value );
+    {
+        element->QueryIntAttribute( attrName.c_str(), value );
+    }
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool COptions::LoadLevel(const std::string& levelName, const uint8_t* data)
+bool COptions::LoadLevel(const ::portable_stl::string& levelName, const uint8_t* data, const uint32_t dataSize)
 {
-    m_Levels.push_back(CLevel(levelName));  // Create a new CLevel element and add it to the level container
-    std::istringstream in(reinterpret_cast<const char*>(data));
-    return m_Levels.back().LoadFromStream(in);
+    FILE* in = fmemopen(const_cast<uint8_t*>(data), dataSize, "rb");
+    return LoadLevel(levelName, in);
 }
 
-bool COptions::LoadLevel(const std::string& levelName, std::istream& in)
+bool COptions::LoadLevel(const ::portable_stl::string& levelName, FILE* in)
 {
     // Create a new CLevel element and add it to the level container
     m_Levels.push_back(CLevel(levelName));
-    return m_Levels.back().LoadFromStream(in);
+    bool result = m_Levels.back().LoadFromStream(in);
+    fclose(in);
+    return result;
 }
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-std::vector<SFileInfo> FindLevels(const std::string& folder)
+::portable_stl::vector<SFileInfo> FindLevels(const ::portable_stl::string& folder)
 {
     long FindHandle;
     _finddata_t FindData = {};  // initialise OUR data structure
@@ -623,7 +634,7 @@ std::vector<SFileInfo> FindLevels(const std::string& folder)
     // Set the path where the level files are stored
     //-------------------------------------------
     
-    std::string levelFilePath = folder;
+    ::portable_stl::string levelFilePath = folder;
     if (folder.length() >= 1)
     {
         char delim = folder.c_str()[folder.length()-1];
@@ -641,7 +652,7 @@ std::vector<SFileInfo> FindLevels(const std::string& folder)
     levelFilePath.append( "levels/" );
 #endif
 
-    std::string levelFilePathMask = levelFilePath + "*.TXT";
+    ::portable_stl::string levelFilePathMask = levelFilePath + "*.TXT";
 
     //-------------------------------------------
     // Determine number of level files available
@@ -649,7 +660,7 @@ std::vector<SFileInfo> FindLevels(const std::string& folder)
     
     theLog.WriteLine( "Options         => Loading level files '%s'.", levelFilePathMask.c_str() );
 
-    std::vector<SFileInfo> files;
+    ::portable_stl::vector<SFileInfo> files;
 
     FindHandle = _findfirst(levelFilePathMask.c_str(), &FindData);
 
@@ -683,13 +694,13 @@ std::vector<SFileInfo> FindLevels(const std::string& folder)
     return files;
 }
 
-bool COptions::LoadLevelFiles(const std::string& dynamicDataFolder, const std::string& pgmFolder)
+bool COptions::LoadLevelFiles(const ::portable_stl::string& dynamicDataFolder, const ::portable_stl::string& pgmFolder)
 {
-    std::vector<SFileInfo> files = FindLevels(pgmFolder);
+    ::portable_stl::vector<SFileInfo> files = FindLevels(pgmFolder);
 
     // If a dynamic folder is set, load level files from there, too
     if ( dynamicDataFolder != "" ) {
-        std::vector<SFileInfo> dynamicDataFolderFiles = FindLevels(dynamicDataFolder);
+        ::portable_stl::vector<SFileInfo> dynamicDataFolderFiles = FindLevels(dynamicDataFolder);
         files.insert(files.end(), dynamicDataFolderFiles.begin(), dynamicDataFolderFiles.end());
     }
 
@@ -699,9 +710,9 @@ bool COptions::LoadLevelFiles(const std::string& dynamicDataFolder, const std::s
     
     bool ErrorOccurred = false;    
 
-    for (std::vector<SFileInfo>::iterator it = files.begin(); it != files.end(); ++it)
+    for (::portable_stl::vector<SFileInfo>::iterator it = files.begin(); it != files.end(); ++it)
     {
-        std::ifstream in(it->fileNameWithPath);
+        FILE* in = fopen(it->fileNameWithPath.c_str(), "rb");
         if (!LoadLevel(it->fileNameWithoutPath, in))
         {
             ErrorOccurred = true;

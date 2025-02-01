@@ -81,7 +81,6 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-
 #ifdef WIN32
 CGame::CGame(HINSTANCE hInstance, const char* pCommandLine)
     : CWindow(hInstance, pCommandLine, IDI_BOMBER)
@@ -103,7 +102,7 @@ CGame::CGame (HINSTANCE hInstance, char** pCommandLine)
     // Set the window title
     //
 
-    std::string windowTitle = "Bombermaaan";
+    ::portable_stl::string windowTitle = "Bombermaaan";
 
     windowTitle.append(" ");
     windowTitle.append(APP_VERSION_INFO);
@@ -251,7 +250,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     // A folder where log file and configuration file are stored.
     // Is %APPDATA%\Bombermaaan when called with --use-appdata-dir (see below) on Windows
     // and $HOME/.Bombermaaan when NOT called with --ignore-home-dir (see below) on Linux.
-    std::string dynamicDataFolder;
+    ::portable_stl::string dynamicDataFolder;
 
     // The "--use-appdata-dir" switch creates config and log file
 #ifdef WIN32
@@ -270,7 +269,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
     }
 #endif
 
-    std::string pgmDirectory;
+    ::portable_stl::string pgmDirectory;
 #ifdef WIN32
     // Set the current directory to the directory where the Bombermaaan exe file resides
     // __argv[0] is the full path including the exe file name
@@ -385,7 +384,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
         if (!CreateDirectory(dynamicDataFolder.c_str(), NULL)) {
             // Exit the game if the folder cannot be created and it doesn't exist already
             if (GetLastError() != ERROR_ALREADY_EXISTS) {
-                std::string errorMsg = "Could not create folder '";
+                ::portable_stl::string errorMsg = "Could not create folder '";
                 errorMsg.append(dynamicDataFolder);
                 errorMsg.append("'.\nBombermaaan cannot run without this folder.");
                 MessageBox(m_hWnd,
@@ -423,7 +422,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 
 #ifdef ENABLE_LOG
 
-    std::string logFileName;
+    ::portable_stl::string logFileName;
     logFileName.append(dynamicDataFolder);
     logFileName.append("log.txt");
 
@@ -436,7 +435,7 @@ bool CGame::Create (char **pCommandLine, int pCommandLineCount)
 
 #ifdef ENABLE_DEBUG_LOG
 
-    std::string debugLogFileName;
+    ::portable_stl::string debugLogFileName;
     debugLogFileName.append( dynamicDataFolder );
     debugLogFileName.append( "debug.log" );
 

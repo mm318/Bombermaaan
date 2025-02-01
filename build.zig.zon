@@ -1,17 +1,33 @@
 .{
     .name = "bombermaaan",
     .version = "1.9.3-2039",
-    .dependencies = .{ .sdl = .{
-        .path = "dep/sdl2",
-    }, .sdl_compat = .{
-        .path = "dep/sdl12_compat_static",
-    }, .sdl_mixer = .{
-        .path = "dep/sdl2_mixer",
-    }, .tinyxml = .{
-        .path = "dep/tinyxml",
-    }, .simpleini = .{
-        .path = "dep/simpleini",
-    }, .assets = .{ .path = "assets" } },
+    .dependencies = .{
+        .sdl = .{
+            .path = "dep/sdl2",
+        },
+        .sdl_compat = .{
+            .path = "dep/sdl12_compat_static",
+        },
+        .sdl_mixer = .{
+            .path = "dep/sdl2_mixer",
+        },
+        .tinyxml = .{
+            .path = "dep/tinyxml",
+        },
+        .simpleini = .{
+            .path = "dep/simpleini",
+        },
+        .assets = .{
+            .path = "assets",
+        },
+        .pstl = .{
+            .path = "dep/paragon_portable_stl",
+        },
+        .emsdk = .{
+            .url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.64.tar.gz",
+            .hash = "12206bb1c8206a3e50d43db0711e6b9e0485758265abadf6ffccee37839bb0283c6e",
+        },
+    },
 
     .paths = .{
         "build.zig",

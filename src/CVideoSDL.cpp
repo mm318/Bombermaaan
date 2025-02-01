@@ -80,23 +80,6 @@ CVideoSDL::~CVideoSDL(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-static void AddDisplayMode(int width, int height, int depth, std::vector<SDisplayMode>& displayModes)
-{
-    // The DirectInput device that will be created
-    SDisplayMode DisplayMode;
-    DisplayMode.Width = width;
-    DisplayMode.Height = height;
-    DisplayMode.Depth = depth;
-
-    displayModes.push_back(DisplayMode);
-
-    return;
-}
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-
 bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
 {
     theLog.WriteLine("CVideoSDL       => rmask: 0x%x", rmask);
@@ -438,7 +421,7 @@ void CVideoSDL::DrawSprite(int PositionX,
     DrawingRequest.PriorityInLayer = PriorityInLayer;
 
     // Store it (automatic sort)
-    m_DrawingRequests.push(DrawingRequest);
+    m_DrawingRequests.push_back(DrawingRequest);
 }
 
 //******************************************************************************************************************************
@@ -585,7 +568,7 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth,
     //---------------------------
 
     // Prepare a sprite table
-    std::vector<SSprite> SpriteTable;
+    ::portable_stl::vector<SSprite> SpriteTable;
 
     // Variable rectangle coordinates that will be passed during sprite creations
     int ZoneX1 = 1;
@@ -637,8 +620,7 @@ bool CVideoSDL::LoadSprites(int SpriteTableWidth,
 void CVideoSDL::FreeSprites(void)
 {
     // Empty drawing requests queue
-    while (!m_DrawingRequests.empty())
-        m_DrawingRequests.pop();
+    m_DrawingRequests.clear();
 
     // Remove all sprite tables
     m_SpriteTables.clear();
@@ -665,12 +647,12 @@ void CVideoSDL::FreeSprites(void)
 
 void CVideoSDL::UpdateAll(void)
 {
-
+    m_DrawingRequests.sort();
     // While all the drawing requests have not been executed
-    while (!m_DrawingRequests.empty())
+    for (::portable_stl::list<SDrawingRequest>::iterator it = m_DrawingRequests.begin(); it != m_DrawingRequests.end(); ++it)
     {
         // Save the top drawing request
-        const SDrawingRequest &DR = m_DrawingRequests.top();
+        const SDrawingRequest &DR = *it;
 
         // Save the sprite as specified by this drawing request
         const SSprite *pSprite = &m_SpriteTables[DR.SpriteTable][DR.Sprite];
@@ -693,15 +675,11 @@ void CVideoSDL::UpdateAll(void)
             // blitting failed
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
-
-        // Pop the drawing request to go to the next
-        m_DrawingRequests.pop();
     }
-
-    std::vector<SDebugDrawingRequest>::iterator it;
+    m_DrawingRequests.clear();
 
     // Debug rectangles?
-    for (it = m_DebugDrawingRequests.begin(); it < m_DebugDrawingRequests.end(); it++)
+    for (::portable_stl::vector<SDebugDrawingRequest>::iterator it = m_DebugDrawingRequests.begin(); it != m_DebugDrawingRequests.end(); it++)
     {
         // Save the top drawing request
         const SDebugDrawingRequest &DR = *it;
@@ -775,3 +753,4 @@ static const char* GetSDLVideoError()
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
+ 

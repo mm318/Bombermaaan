@@ -30,15 +30,13 @@
  *  \brief Handling a level
  */
 
+#include "SimpleIni.h"
+
 #include "StdAfx.h"
 
 #include "CLevel.h"
 #include "CArena.h"
-#include <sstream>
-#include <iomanip>
 
-#define SI_SUPPORT_IOSTREAMS
-#include "SimpleIni.h"
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -64,7 +62,7 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-CLevel::CLevel(const std::string& level_name) :
+CLevel::CLevel(const ::portable_stl::string& level_name) :
     m_LevelName(level_name)
 {
 
@@ -105,26 +103,25 @@ CLevel::~CLevel(void)
  *  @param  filename_short   The file name of the level file without path
  */
 
-bool CLevel::LoadFromStream(std::istream& in)
+bool CLevel::LoadFromStream(FILE* in)
 {
     bool ErrorOccurred = false;
 
-    // Open the existing level file for reading
-    in.seekg(0);
-
-    // If it failed
-    if (!in.good())
+    // If opening the existing level file failed
+    if (in == nullptr)
     {
         theLog.WriteLine("Options         => Loading level %s failed.", m_LevelName.c_str());
         // Stop loading levels
         return false;
     }
 
+    rewind(in);
+
     // This is the first line for the level files beginning with version 2 (therefore "V2plus")
     const char * headerV2plus = "; Bombermaaan level file version=";
 
-    std::string s;
-    std::getline(in, s);
+    ::portable_stl::string s(256, '\0');
+    fgets(s.data(), s.size(), in);
     int LevelVersion;
 
     // When header string is found at the beginning of the string, find() returns 0 (offset 0)
@@ -190,30 +187,19 @@ bool CLevel::LoadFromStream(std::istream& in)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CLevel::LoadVersion1(std::istream& in) {
+bool CLevel::LoadVersion1(FILE* in) {
 
     bool StopReadingFile = false;
 
     // go to the beginning
-    in.seekg(0);
+    rewind(in);
 
     // For each line of characters to read
     for (int y = 0; y < ARENA_HEIGHT; y++)
     {
         // Buffer where we'll store one line of characters. We'll read the two EOL characters as well.
-        std::string Line;
-        int ReadBytes;
-
-        // Read one line of characters (including the EOL chars)
-        if (in.good())
-        {
-            std::getline(in, Line);
-            ReadBytes = Line.size();
-        }
-        else
-        {
-            ReadBytes = 0;
-        }
+        ::portable_stl::string Line(256, '\0');
+        int ReadBytes = strlen(fgets(Line.data(), Line.size(), in));
 
         // Check if all the characters were read
         if (ReadBytes < ARENA_WIDTH)
@@ -307,21 +293,20 @@ bool CLevel::LoadVersion1(std::istream& in) {
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CLevel::LoadVersion2(std::istream& in)
+bool CLevel::LoadVersion2(FILE* in)
 {
-    in.seekg(0);
+    rewind(in);
 
     // Define INI file
     CSimpleIniA iniFile(false, false, false);
 
     // Load INI file
-    SI_Error rc = iniFile.Load(in);
+    SI_Error rc = iniFile.LoadFile(in);
     if (rc < 0)
     {
         return false;
     }
 
-    std::string s;
     int value;
 
     // Read the width of the map and check whether it is allowed
@@ -360,7 +345,7 @@ bool CLevel::LoadVersion2(std::istream& in)
 
     // Check if there is a line with the creator
     // The creator can be empty, it's not stored anywhere at the moment
-    std::string creator = iniFile.GetValue("General", "Creator", "");
+    ::portable_stl::string creator = iniFile.GetValue("General", "Creator", "");
 
     // Priority line following
     // The priority setting is not used currently
@@ -369,19 +354,17 @@ bool CLevel::LoadVersion2(std::istream& in)
     value = atoi(iniFile.GetValue("General", "Priority", "0"));
 
     // Comment line following (not used currently)
-    std::string comment = iniFile.GetValue("General", "Comment", "");
+    ::portable_stl::string comment = iniFile.GetValue("General", "Comment", "");
 
     // Description line following (not used currently)
-    std::string description = iniFile.GetValue("General", "Description", "");
+    ::portable_stl::string description = iniFile.GetValue("General", "Description", "");
 
     // For each line of characters to read
     for (int y = 0; y < ARENA_HEIGHT; y++)
     {
-        std::ostringstream oss;
-        oss << "Line." << std::setw(2) << std::setfill('0') << y;
-        std::string keyName = oss.str();
-
-        std::string arenaLine = iniFile.GetValue("Map", keyName.c_str(), "");
+        char keyName[8];
+        snprintf(keyName, 8, "Line.%02d", y);
+        ::portable_stl::string arenaLine = iniFile.GetValue("Map", keyName, "");
 
         if (arenaLine.length() != ARENA_WIDTH) {
             theLog.WriteLine("Options         => !!! Level file is incorrect (Line.%d wrong length %d).", y, arenaLine.length());

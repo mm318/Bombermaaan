@@ -103,7 +103,11 @@ private:
 // Return whether the log is open or not
 inline bool CLog::IsOpen() const
 {
+#ifndef __EMSCRIPTEN__
     return m_theLog != nullptr;
+#else
+    return false;
+#endif
 }
 
 //******************************************************************************************************************************

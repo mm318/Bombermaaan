@@ -54,7 +54,9 @@
 
 CLog::CLog()
 {
+#ifndef __EMSCRIPTEN__
     m_theLog = nullptr;             // Log file is not open yet
+#endif
     m_toStdout = false;
 
     m_FilterRepeatedMessage = true; // Filter repeated messages by default
@@ -118,8 +120,7 @@ bool CLog::Open(const char *pFilename, const bool tee)
 
 #ifndef __EMSCRIPTEN__
     // Open the Log
-    m_theLog = fopen( pFilename, "rb" );
-#endif
+    m_theLog = fopen( pFilename, "wb" );
 
     if( IsOpen() )
     {
@@ -145,6 +146,7 @@ bool CLog::Open(const char *pFilename, const bool tee)
                  LocalTime->tm_hour, LocalTime->tm_min, LocalTime->tm_sec );
 #endif
     }
+#endif
 
     m_toStdout = tee;
 
@@ -350,15 +352,15 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
 
         // Write the timestamp and message        
 #ifdef WIN32
-        fprintf ( m_theLog,                 // String where to write
-                  "%02d:%02d:%02d  %s",   // Format (don't forget '\n' character!)
+        fprintf ( m_theLog,             // String where to write
+                  "%02d:%02d:%02d  %s", // Format (don't forget '\n' character!)
                   LocalTime.wHour,      // Time numbers to use
                   LocalTime.wMinute, 
                   LocalTime.wSecond,
                   Message );
 #else
-        fprintf ( m_theLog,                 // String where to write
-                  "%02d:%02d:%02d  %s",   // Format (don't forget '\n' character!)
+        fprintf ( m_theLog,             // String where to write
+                  "%02d:%02d:%02d  %s", // Format (don't forget '\n' character!)
                   LocalTime->tm_hour,   // Time numbers to use
                   LocalTime->tm_min, 
                   LocalTime->tm_sec,
@@ -371,7 +373,7 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
 
     if (m_toStdout && !isRepeatMessage)
     {
-        puts(Message);
+        fputs(Message, stdout);
     }
 
     return 1;

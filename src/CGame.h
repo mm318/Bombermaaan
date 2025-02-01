@@ -28,6 +28,8 @@
 #ifndef __CGAME_H__
 #define __CGAME_H__
 
+#include "portable_stl/string/string.h"
+
 #include "CWindow.h"
 #include "CTimer.h"
 #include "COptions.h"
@@ -92,7 +94,7 @@ private:
 #ifdef NETWORK_MODE
     CNetwork        m_Network;                //!< Network object
 #endif
-    std::string     m_WindowTitle;
+    ::portable_stl::string m_WindowTitle;
 
     void            OnActivateApp  (WPARAM wParam, LPARAM lParam);
     void            OnMove         (WPARAM wParam, LPARAM lParam);

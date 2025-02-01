@@ -12,7 +12,7 @@ pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const use_stl = b.option(bool, "use_stl", "Use C++ standard template library types") orelse true;
+    const use_stl = b.option(bool, "use_stl", "Use C++ standard template library types") orelse false;
     const c_flags: []const []const u8 = if (use_stl) &.{"-DTIXML_USE_STL"} else &.{};
 
     const lib = b.addStaticLibrary(.{

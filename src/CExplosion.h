@@ -28,6 +28,7 @@
 #ifndef __CEXPLOSION_H__
 #define __CEXPLOSION_H__
 
+#include "portable_stl/vector/vector.h"
 #include "CElement.h"
 
 class CArena;
@@ -111,7 +112,7 @@ private:
     int             m_State;            //!< State of the explosion (min = STATE0, max = STATE3)
     float           m_Timer;            //!< Time counter for states evolution
     int             m_FlameSize;        //!< Maximum size of the rays of flames (in blocks)
-    std::vector<SFlame>  m_Flames;           //!< Flames created by the explosion
+    ::portable_stl::vector<SFlame> m_Flames;    //!< Flames created by the explosion
     bool            m_Dead;             //!< Is the explosion dead? (can it be deleted by the arena?)
 
 #ifdef EXPLOSIONS_ORIGINALSTYLE
@@ -142,7 +143,7 @@ public:
     void            OnReadSnapshot (CArenaSnapshot& Snapshot);
     inline int      GetBlockX (void);           //!< Return the block position X of the center of the explosion
     inline int      GetBlockY (void);           //!< Return the block position Y of the center of the explosion
-    inline const std::vector<SFlame>& GetFlames (void); //!< Return the (read-only) flames of the explosions
+    inline const ::portable_stl::vector<SFlame>& GetFlames(void); //!< Return the (read-only) flames of the explosions
 };
 
 //******************************************************************************************************************************
@@ -159,7 +160,7 @@ inline int CExplosion::GetBlockY (void)
     return m_BlockY;
 }
 
-inline const std::vector<SFlame>& CExplosion::GetFlames (void)
+inline const ::portable_stl::vector<SFlame>& CExplosion::GetFlames (void)
 {
     return m_Flames;
 }

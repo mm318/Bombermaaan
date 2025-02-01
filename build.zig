@@ -67,14 +67,13 @@ const src_files = [_][]const u8{
 };
 
 const c_flags_common = [_][]const u8{
-    "-std=c++11",
+    "-std=c++14",
     "-pedantic",
     "-Wall",
     "-Wextra",
     "-Wno-format-truncation",
     "-Wno-missing-field-initializers",
     "-Wno-date-time",
-    "-DTIXML_USE_STL",
     "-DSDL",
 };
 
@@ -157,11 +156,14 @@ pub fn build(b: *Build) !void {
     const tinyxml_dep = b.dependency("tinyxml", .{
         .target = resolved_target,
         .optimize = optimize,
-        .use_stl = true,
     });
     const simpleini_dep = b.dependency("simpleini", .{
         .target = resolved_target,
         .optimize = optimize,
+    });
+    const pstl_dep = b.dependency("pstl", .{
+        .target = resolved_target,
+        .optimize = optimize
     });
     const assets_dep = b.dependency("assets", .{
         .target = resolved_target,
@@ -184,8 +186,10 @@ pub fn build(b: *Build) !void {
     exe.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
     exe.root_module.addIncludePath(tinyxml_dep.artifact("tinyxml").getEmittedIncludeTree());
     exe.root_module.addIncludePath(simpleini_dep.path(""));
+    exe.root_module.addIncludePath(pstl_dep.path("include"));
     exe.root_module.addIncludePath(assets_dep.artifact("bombermaaan_assets").getEmittedIncludeTree());
 
+    exe.linkLibC();
     exe.linkLibrary(tinyxml_dep.artifact("tinyxml"));
     exe.linkLibrary(sdl_compat_dep.artifact("sdl12_compat_static"));
     exe.linkLibrary(sdl_mixer_dep.artifact("SDL2_mixer"));
@@ -205,8 +209,6 @@ pub fn build(b: *Build) !void {
         const run_cmd = b.step("run", "Run the demo for web via emrun");
         run_cmd.dependOn(&run.step);
     } else {
-        exe.linkLibCpp();
-
         b.installArtifact(exe);
 
         const run_cmd = b.addRunArtifact(exe);
@@ -231,46 +233,6 @@ pub fn compileEmscripten(
         .optimize = optimize,
     });
 
-    exe_lib.root_module.include_dirs.clearRetainingCapacity();
-
-    exe_lib.addSystemIncludePath(.{ .cwd_relative = b.pathJoin(&.{
-        emSdkPath(b),
-        "upstream",
-        "emscripten",
-        "cache",
-        "sysroot",
-        "include",
-        "wasm32-emscripten",
-        "c++",
-        "v1",
-    }) });
-    exe_lib.addSystemIncludePath(.{ .cwd_relative = b.pathJoin(&.{
-        emSdkPath(b),
-        "upstream",
-        "emscripten",
-        "cache",
-        "sysroot",
-        "include",
-        "c++",
-        "v1",
-    }) });
-    exe_lib.addSystemIncludePath(.{ .cwd_relative = b.pathJoin(&.{
-        emSdkPath(b),
-        "upstream",
-        "lib",
-        "clang",
-        "19",
-        "include",
-    }) });
-    exe_lib.addSystemIncludePath(.{ .cwd_relative = b.pathJoin(&.{
-        emSdkPath(b),
-        "upstream",
-        "emscripten",
-        "cache",
-        "sysroot",
-        "include",
-        "wasm32-emscripten",
-    }) });
     exe_lib.addSystemIncludePath(.{ .cwd_relative = b.pathJoin(&.{
         emSdkPath(b),
         "upstream",

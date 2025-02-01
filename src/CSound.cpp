@@ -31,13 +31,13 @@
  */
 
 #include "StdAfx.h"
-#include "CSound.h"
 
 #ifndef ALLEGRO
 #include "SDL_mixer.h"
 #endif
 
 #include "BombermaaanAssets.h"
+#include "CSound.h"
 
 // now using SDL_Mixer library
 //******************************************************************************************************************************

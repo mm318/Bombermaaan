@@ -20,6 +20,9 @@
         .assets = .{
             .path = "assets",
         },
+        .pstl = .{
+            .path = "dep/paragon_portable_stl",
+        },
         .emsdk = .{
             .url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.64.tar.gz",
             .hash = "12206bb1c8206a3e50d43db0711e6b9e0485758265abadf6ffccee37839bb0283c6e",

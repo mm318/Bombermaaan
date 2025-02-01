@@ -29,6 +29,8 @@
 #ifndef __CSOUND_H__
 #define __CSOUND_H__
 
+#include "portable_stl/string/string.h"
+
 #include "COptions.h"
 
 #ifdef ALLEGRO
@@ -126,7 +128,7 @@ private:
     Mix_Music *m_CurrentSong;           //!< The current song
     ESong m_ESong;                      //!< current song number
 
-    const std::string& GetProgramFolder(void) const;
+    const ::portable_stl::string& GetProgramFolder(void) const;
     bool LoadSample(ESample Sample, const uint8_t* ResourceData, uint32_t ResourceSize);
     void FreeSample(ESample Sample);
     bool LoadSong(ESong Song, const uint8_t* ResourceData, uint32_t ResourceSize);
@@ -164,7 +166,7 @@ inline bool CSound::IsPaused(void)
     return m_GlobalPause;
 }
 
-inline const std::string& CSound::GetProgramFolder(void) const {
+inline const ::portable_stl::string& CSound::GetProgramFolder(void) const {
     return m_pOptions->GetProgramFolder();
 }
 

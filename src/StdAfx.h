@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include <math.h>
 #include <assert.h>
 #include <time.h>
 
@@ -48,14 +47,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
-
-#include <string>
-#include <vector>
-#include <map>
-#include <list>
-#include <stack>
-#include <queue>
-#include <map>
 
 #ifndef ASSERT
 #define ASSERT assert

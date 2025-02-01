@@ -41,8 +41,9 @@
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-#include <fstream>
-#include <iostream>
+#ifndef __EMSCRIPTEN__
+#include <cstdio>
+#endif
 
 //******************************************************************************************************************************
 //******************************************************************************************************************************
@@ -79,16 +80,16 @@ public:
     void            LogLastError();                                       //!< Log the last occured error!
     long            Write( const char *pMessage, ... );
     long            WriteLine( const char *pMessage, ... );               //!< Write a line to the log
-    inline bool     IsOpen();                                             //!< Return whether the log is open or not
     long            WriteDebugMsg( EDebugSection section, const char *pMessage, ... ); //!< Write a line to the log
 
 private:
+
+    inline bool     IsOpen() const;                                       //!< Return whether the log is open or not
     long            WriteImpl(const char *pMessage, va_list args);
 
 #ifndef __EMSCRIPTEN__
-    std::ofstream   m_theLog;
+    FILE*           m_theLog;
 #endif
-    bool            m_bOpen;
     bool            m_toStdout;
     bool            m_FilterRepeatedMessage;    //!< Should we manage message repetition by not displaying all consecutive identical messages?
     int             m_NumberOfRepeatedMessages; //!< How many consecutive identical messages have been sent?
@@ -100,9 +101,9 @@ private:
 //******************************************************************************************************************************
 
 // Return whether the log is open or not
-inline bool CLog::IsOpen()
+inline bool CLog::IsOpen() const
 {
-    return m_bOpen;
+    return m_theLog != nullptr;
 }
 
 //******************************************************************************************************************************

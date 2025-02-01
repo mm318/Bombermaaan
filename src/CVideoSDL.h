@@ -28,6 +28,10 @@
 #ifndef __CVIDEOSDL_H__
 #define __CVIDEOSDL_H__
 
+#include "portable_stl/vector/vector.h"
+#include "portable_stl/list/list.h"
+#include "portable_stl/map/map.h"
+
 #include "SDL/SDL.h"
 #include "StdAfx.h"
 
@@ -67,16 +71,16 @@ struct SDisplayMode
 
 struct SDrawingRequest
 {
-    int PositionX;        //!< Position X where to draw the sprite (using CDisplay origin)
-    int PositionY;        //!< Position Y where to draw the sprite (using CDisplay origin)
-    int ZoneX1;           // Zone to draw in the selected sprite
+    int PositionX;              //!< Position X where to draw the sprite (using CDisplay origin)
+    int PositionY;              //!< Position Y where to draw the sprite (using CDisplay origin)
+    int ZoneX1;                 // Zone to draw in the selected sprite
     int ZoneY1;
     int ZoneX2;
     int ZoneY2;
     const void* SpriteTable;    //!< Number of the sprite page where to the sprite is
-    int Sprite;           //!< Number of the sprite to draw
-    int SpriteLayer;      //!< Number of the layer where the sprite has to be drawn
-    int PriorityInLayer;  //!< PriorityInLayer value inside the layer.
+    int Sprite;                 //!< Number of the sprite to draw
+    int SpriteLayer;            //!< Number of the layer where the sprite has to be drawn
+    int PriorityInLayer;        //!< PriorityInLayer value inside the layer.
 
     #define PRIORITY_UNUSED     -1
 
@@ -146,8 +150,8 @@ struct SDebugDrawingRequest
 
 struct SSurface
 {
-    struct SDL_Surface        *pSurface;            //!< SDL surface
-    DWORD                   BlitParameters;     //!< Parameter when blitting, depends on if the surface is transparent
+    struct SDL_Surface* pSurface;           //!< SDL surface
+    DWORD               BlitParameters;     //!< Parameter when blitting, depends on if the surface is transparent
 };
 
 //******************************************************************************************************************************
@@ -169,10 +173,10 @@ private:
     SDL_Rect                m_BackBufferRect;                    //!< Window rect in screen coordinates
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
-    std::vector<SSurface>   m_Surfaces;                          //!< Surfaces
-    std::unordered_map<const void*, std::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
-    std::priority_queue<SDrawingRequest> m_DrawingRequests;      //!< Automatically sorted drawing requests queue
-    std::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
+    ::portable_stl::vector<SSurface> m_Surfaces;                 //!< Surfaces
+    ::portable_stl::map<const void*, ::portable_stl::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
+    ::portable_stl::list<SDrawingRequest> m_DrawingRequests;     //!< Automatically sorted drawing requests queue
+    ::portable_stl::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
 
 private:
 

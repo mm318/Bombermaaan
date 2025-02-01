@@ -54,7 +54,7 @@
 
 CLog::CLog()
 {
-    m_bOpen = false;    // Log file is not open yet
+    m_theLog = nullptr;             // Log file is not open yet
     m_toStdout = false;
 
     m_FilterRepeatedMessage = true; // Filter repeated messages by default
@@ -69,7 +69,7 @@ CLog::CLog()
 CLog::~CLog()
 {
     // Close the log file
-    if( m_bOpen )
+    if (IsOpen())
     {
         Close();
     }
@@ -105,7 +105,7 @@ CLog& CLog::GetDebugLog()
 bool CLog::Open(const char *pFilename, const bool tee)
 {
     // Check if there already is an opened file
-    if( m_bOpen )
+    if( IsOpen() )
     {
         // Close it first
         Close();
@@ -118,12 +118,11 @@ bool CLog::Open(const char *pFilename, const bool tee)
 
 #ifndef __EMSCRIPTEN__
     // Open the Log
-    m_theLog.open( pFilename );
-    if( !m_theLog.fail() )
-    {
-        // Set indicator bOpen to true
-        m_bOpen = true;
+    m_theLog = fopen( pFilename, "rb" );
+#endif
 
+    if( IsOpen() )
+    {
         // Get current time
 #ifdef WIN32
         SYSTEMTIME LocalTime;
@@ -134,35 +133,22 @@ bool CLog::Open(const char *pFilename, const bool tee)
         LocalTime = localtime(&curTime);
 #endif
         
-        // Store first log entry
-        char FirstLogEntry [128];
 #ifdef WIN32
-        sprintf( FirstLogEntry,                                              // String where to write
-                 "==> Log started on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",  // Format to use
-                 LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay,          // Time numbers to use
+        fprintf( m_theLog,                                                          // Stream where to write
+                 "==> Log started on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",         // Format to use
+                 LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay,                 // Time numbers to use
                  LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond );
 #else
-        sprintf( FirstLogEntry,                                                     // String where to write
+        fprintf( m_theLog,                                                          // Stream where to write
                  "==> Log started on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",         // Format to use
                  LocalTime->tm_year + 1900, LocalTime->tm_mon, LocalTime->tm_mday,  // Time numbers to use
                  LocalTime->tm_hour, LocalTime->tm_min, LocalTime->tm_sec );
 #endif
-        
-        // Write first log entry
-        m_theLog.write( FirstLogEntry, strlen( FirstLogEntry ) );
     }
-    else
-    {
-        // Set indicator bOpen to false
-        m_bOpen = false;
-    }
-#else
-    m_bOpen = true;
-#endif
 
     m_toStdout = tee;
 
-    return m_bOpen;
+    return IsOpen();
 }
 
 //******************************************************************************************************************************
@@ -174,10 +160,10 @@ bool CLog::Close()
 {
 #ifndef __EMSCRIPTEN__
     // Close the Log
-    if( m_bOpen )
+    if( IsOpen() )
     {
         // Write a blank line
-        m_theLog.write( "\n", 1 );
+        fprintf(m_theLog, "\n");
         
         // Get current time
 #ifdef WIN32
@@ -190,30 +176,24 @@ bool CLog::Close()
 #endif
         
         // Store last log entry
-        char LastLogEntry [128];
 #ifdef WIN32
-        sprintf( LastLogEntry,                                             // String where to write
-                 "==> Log ended on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",  // Format to use
-                 LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay,        // Time numbers to use
+        fprintf( m_theLog,                                                  // Stream where to write
+                 "==> Log ended on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",   // Format to use
+                 LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay,         // Time numbers to use
                  LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond );
 #else
-        sprintf( LastLogEntry,                                                      // String where to write
+        fprintf( m_theLog,                                                          // Stream where to write
                  "==> Log ended on %4d-%02d-%02d at %02d:%02d:%02d.\n\n",           // Format to use
                  LocalTime->tm_year + 1900, LocalTime->tm_mon, LocalTime->tm_mday,  // Time numbers to use
                  LocalTime->tm_hour, LocalTime->tm_min, LocalTime->tm_sec );
 #endif
-        
-        // Write last log entry
-        m_theLog.write( LastLogEntry, strlen( LastLogEntry ) );
-
         // Close the file
-        m_theLog.close();
+        fclose(m_theLog);
+        m_theLog = nullptr;
     }
 #endif
 
-    m_bOpen = false;
-
-    return !m_bOpen;
+    return !IsOpen();
 }
 
 //******************************************************************************************************************************
@@ -356,7 +336,7 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
 
 #ifndef __EMSCRIPTEN__
     // If the log is open
-    if(m_bOpen && !isRepeatMessage)
+    if(IsOpen() && !isRepeatMessage)
     {
         // Get current time
 #ifdef WIN32
@@ -368,32 +348,24 @@ long CLog::WriteImpl(const char *pMessage, va_list args)
         LocalTime = localtime(&curTime);
 #endif
 
-        // Store the time string
-        char Time [64];
+        // Write the timestamp and message        
 #ifdef WIN32
-        sprintf ( Time,                 // String where to write
-                  "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
+        fprintf ( m_theLog,                 // String where to write
+                  "%02d:%02d:%02d  %s",   // Format (don't forget '\n' character!)
                   LocalTime.wHour,      // Time numbers to use
                   LocalTime.wMinute, 
-                  LocalTime.wSecond );
+                  LocalTime.wSecond,
+                  Message );
 #else
-        sprintf ( Time,                 // String where to write
-                  "%02d:%02d:%02d\n",   // Format (don't forget '\n' character!)
+        fprintf ( m_theLog,                 // String where to write
+                  "%02d:%02d:%02d  %s",   // Format (don't forget '\n' character!)
                   LocalTime->tm_hour,   // Time numbers to use
                   LocalTime->tm_min, 
-                  LocalTime->tm_sec );
+                  LocalTime->tm_sec,
+                  Message );
 #endif
-        
-        // Write the time string
-        m_theLog.write( Time, strlen( Time ) );
 
-        // Write the space between time and message
-        m_theLog.write( "  ", strlen( "  " ) );
-
-        // Write the message
-        m_theLog.write( Message, strlen( Message ) );
-
-        m_theLog.flush();
+        fflush(m_theLog);
     }
 #endif
 

@@ -1463,7 +1463,7 @@ void CAiBomber::ModeThink(void)
             // If the block is inside the arena
             else
             {
-                int SoftWallNear = std::min(m_pArena->GetSoftWallNear(BlockX, BlockY), 3);
+                int SoftWallNear = ::portable_stl::min(m_pArena->GetSoftWallNear(BlockX, BlockY), 3);
                 if (SoftWallNear != -1
                     && SoftWallNear > 0
                     && m_Accessible[BlockX][BlockY] != -1

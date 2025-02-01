@@ -63,6 +63,7 @@ struct SDisplayMode
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
+static constexpr int PRIORITY_UNUSED = -1;
 
 // Drawing requests are stored in a CSpriteManager
 // instance. They describe a sprite to draw, and
@@ -82,26 +83,21 @@ struct SDrawingRequest
     int SpriteLayer;            //!< Number of the layer where the sprite has to be drawn
     int PriorityInLayer;        //!< PriorityInLayer value inside the layer.
 
-    #define PRIORITY_UNUSED     -1
-
     // Operators used by STL's PriorityInLayer_queue when sorting
     // The top layer on the screen is the greatest layer number
-    // The top priority is the greatest priority value
+    // The top priority is the lowest layer (and lowest priority value),
+    // because the lower layers should get drawn first and then draw top layers over them
 
-    bool operator < (const SDrawingRequest &DR) const
+    bool operator<(const SDrawingRequest &DR) const
     {
-        return SpriteLayer > DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer > DR.PriorityInLayer);
+        return SpriteLayer < DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer < DR.PriorityInLayer);
     }
 
-    bool operator == (const SDrawingRequest &DR) const
+    bool operator==(const SDrawingRequest &DR) const
     {
         return SpriteLayer == DR.SpriteLayer && PriorityInLayer == DR.PriorityInLayer;
     }
 };
-
-//******************************************************************************************************************************
-//******************************************************************************************************************************
-//******************************************************************************************************************************
 
 // Drawing request for debug purposes
 
@@ -122,25 +118,19 @@ struct SDebugDrawingRequest
     int SpriteLayer;      //!< Number of the layer where the sprite has to be drawn
     int PriorityInLayer;  //!< PriorityInLayer value inside the layer.
 
-    #define PRIORITY_UNUSED     -1
-
     // Operators used by STL's PriorityInLayer_queue when sorting
     // The top layer on the screen is the greatest layer number
-    // The top priority is the greatest priority value
+    // The top priority is the lowest layer (and lowest priority value),
+    // because the lower layers should get drawn first and then draw top layers over them
 
-    bool operator < (const SDebugDrawingRequest &DR) const
+    bool operator<(const SDebugDrawingRequest &DR) const
     {
-        return SpriteLayer > DR.SpriteLayer
-               ||
-               (
-                SpriteLayer == DR.SpriteLayer &&
-                PriorityInLayer > DR.PriorityInLayer
-               );
+        return SpriteLayer < DR.SpriteLayer || (SpriteLayer == DR.SpriteLayer && PriorityInLayer < DR.PriorityInLayer);
     }
-    bool operator == (const SDebugDrawingRequest &DR) const
+
+    bool operator==(const SDebugDrawingRequest &DR) const
     {
-        return SpriteLayer == DR.SpriteLayer &&
-               PriorityInLayer == DR.PriorityInLayer;
+        return SpriteLayer == DR.SpriteLayer && PriorityInLayer == DR.PriorityInLayer;
     }
 };
 
@@ -175,7 +165,7 @@ private:
     int                     m_OriginY;
     ::portable_stl::vector<SSurface> m_Surfaces;                 //!< Surfaces
     ::portable_stl::map<const void*, ::portable_stl::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
-    ::portable_stl::list<SDrawingRequest> m_DrawingRequests;     //!< Automatically sorted drawing requests queue
+    ::portable_stl::list<SDrawingRequest> m_DrawingRequests;     //!< List of drawing requests (::portable_stl::vector doesn't have sort :S)
     ::portable_stl::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
 
 private:

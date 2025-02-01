@@ -648,7 +648,6 @@ void CVideoSDL::FreeSprites(void)
 void CVideoSDL::UpdateAll(void)
 {
     m_DrawingRequests.sort();
-
     // While all the drawing requests have not been executed
     for (::portable_stl::list<SDrawingRequest>::iterator it = m_DrawingRequests.begin(); it != m_DrawingRequests.end(); ++it)
     {

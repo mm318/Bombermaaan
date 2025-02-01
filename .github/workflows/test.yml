@@ -17,6 +17,8 @@ jobs:
             optimizaton: 'Debug'
           - target: 'native'
             optimizaton: 'ReleaseSafe'
+          - target: 'emscripten'
+            optimizaton: 'ReleaseFast'
 
     runs-on: ubuntu-latest
 

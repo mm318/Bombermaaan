@@ -75,10 +75,10 @@ const c_flags_common = [_][]const u8{
     "-Wno-missing-field-initializers",
     "-Wno-date-time",
     "-DSDL",
+    "-DENABLE_LOG", // Define this if the log file should be enabled
 };
 
 const c_flags_dbg = [_][]const u8{
-    "-DENABLE_LOG", // Define this if the log file should be enabled
     "-DENABLE_DEBUG_LOG", // Define this if the debug log file should be enabled
 };
 
@@ -90,7 +90,10 @@ const c_flags_rel = [_][]const u8{
 pub fn build(b: *Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-    const c_flags = c_flags_common ++ if (optimize == .Debug) c_flags_dbg else c_flags_rel;
+    const c_flags: []const []const u8 = if (optimize == .Debug)
+        &(c_flags_common ++ c_flags_dbg)
+    else
+        &(c_flags_common ++ c_flags_rel);
 
     // Setup sysroot with Emscripten so dependencies know where the system include files are
     const resolved_target = if (target.result.os.tag == .emscripten) blk: {
@@ -161,10 +164,7 @@ pub fn build(b: *Build) !void {
         .target = resolved_target,
         .optimize = optimize,
     });
-    const pstl_dep = b.dependency("pstl", .{
-        .target = resolved_target,
-        .optimize = optimize
-    });
+    const pstl_dep = b.dependency("pstl", .{ .target = resolved_target, .optimize = optimize });
     const assets_dep = b.dependency("assets", .{
         .target = resolved_target,
         .optimize = optimize,
@@ -180,7 +180,7 @@ pub fn build(b: *Build) !void {
         .target = resolved_target,
         .optimize = optimize,
     });
-    exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = &c_flags });
+    exe.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
     exe.root_module.addIncludePath(sdl_compat_dep.artifact("sdl12_compat_static").getEmittedIncludeTree());
     exe.root_module.addIncludePath(sdl_mixer_dep.artifact("SDL2_mixer").getEmittedIncludeTree());
     exe.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());

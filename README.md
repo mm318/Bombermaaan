@@ -122,9 +122,32 @@ The original Bombermaaan project is hosted on SourceForge.net.
 
 ## Compiling
 
-```
+#### Targeting Native Desktop
+
+To build:
+```bash
 zig build                           # for debug build
 zig build -Doptimize=ReleaseSafe    # for release build
+```
+
+For convenience, to run:
+```bash
+zig build -Doptimize=ReleaseSafe run
+```
+
+Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).
+
+#### Targeting Web Browser
+
+To build:
+```bash
+zig build -Doptimize=Debug -Dtarget=wasm32-emscripten       # for debug build
+zig build -Doptimize=ReleaseFast -Dtarget=wasm32-emscripten # for release build (recommended)
+```
+
+For convenience, to run:
+```bash
+zig build -Doptimize=ReleaseFast -Dtarget=wasm32-emscripten run
 ```
 
 Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).

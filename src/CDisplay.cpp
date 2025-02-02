@@ -68,7 +68,7 @@ bool CDisplay::Create()
         Destroy();
 
         // If SDLVideo object creation failed
-        if (!m_VideoSDL.Create(GAME_WIDTH, GAME_HEIGHT, Depth, 2))
+        if (!m_VideoSDL.Create(GAME_WIDTH, GAME_HEIGHT, Depth))
         {
             // Get out
             return false;

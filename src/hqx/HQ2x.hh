@@ -17,17 +17,25 @@
 #ifndef HQX_HQ2X_HH
 #define HQX_HQ2X_HH
 
-
 #include <stdint.h>
-#include "HQx.hh"
 
-
-class HQ2x : public HQx
+class HQ2x
 {
 	public:
 		HQ2x();
 
 		~HQ2x();
+
+		static uint32_t ARGBtoAYUV(
+			uint32_t value );
+
+		static bool isDifferent(
+			uint32_t yuv1,
+			uint32_t yuv2,
+			uint32_t trY,
+			uint32_t trU,
+			uint32_t trV,
+			uint32_t trA );
 
 		uint32_t *resize(
 			const uint32_t *image,

@@ -58,11 +58,12 @@ CVideoSDL::CVideoSDL(void)
     m_Width = 0;
     m_Height = 0;
     m_Depth = 0;
-    m_Scale = 0;
     m_pPrimary = NULL;
     m_PrimaryRect = SDL_Rect();
+#ifdef BOMBERMAAAN_SCALE_2X
     m_pBackBuffer = NULL;
     m_BackBufferRect = SDL_Rect();
+#endif
     m_OriginX = 0;
     m_OriginY = 0;
 }
@@ -80,27 +81,26 @@ CVideoSDL::~CVideoSDL(void)
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 
-bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
+bool CVideoSDL::Create(int Width, int Height, int Depth)
 {
+
     theLog.WriteLine("CVideoSDL       => rmask: 0x%x", rmask);
     theLog.WriteLine("CVideoSDL       => gmask: 0x%x", gmask);
     theLog.WriteLine("CVideoSDL       => bmask: 0x%x", bmask);
     theLog.WriteLine("CVideoSDL       => amask: 0x%x", amask);
 
-    if (Scale <= 0)
-    {
-        theLog.WriteLine("CVideoSDL       => Invalid scale factor %d", Scale);
-        return false;
-    }
-
     // Set the display properties
     m_Width = Width;
     m_Height = Height;
     m_Depth = Depth;
-    m_Scale = Scale;
 
     m_pPrimary = NULL;
+#ifdef BOMBERMAAAN_SCALE_2X
     m_pBackBuffer = NULL;
+    constexpr int scale = 2;
+#else
+    constexpr int scale = 1;
+#endif
 
     bool validMode = false; // is this video mode valid?
 
@@ -148,7 +148,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
     theLog.WriteLine("SDLVideo        => Initializing SDLVideo interface for windowed mode %dx%d.", m_Width, m_Height);
 
     // Get normal windowed mode
-    m_pPrimary = SDL12_SetVideoMode(m_Scale * m_Width, m_Scale * m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    m_pPrimary = SDL12_SetVideoMode(scale * m_Width, scale * m_Height, m_Depth, SDL_HWSURFACE | SDL_DOUBLEBUF);
     if (m_pPrimary == NULL) {
         theLog.WriteLine("SDLVideo        => !!! Requested video mode could not be set. (primary surface)");  // Log failure
         return false;   // Get out
@@ -156,9 +156,10 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
     // Get the rects of the viewport and screen bounds
     m_PrimaryRect.x = 0;
     m_PrimaryRect.y = 0;
-    m_PrimaryRect.w = m_Scale * m_Width;
-    m_PrimaryRect.h = m_Scale * m_Height;
+    m_PrimaryRect.w = scale * m_Width;
+    m_PrimaryRect.h = scale * m_Height;
 
+#ifdef BOMBERMAAAN_SCALE_2X
     m_pBackBuffer = SDL12_CreateRGBSurface(SDL_HWSURFACE, m_Width, m_Height, 32, rmask, gmask, bmask, amask);
     if (m_pBackBuffer == NULL) {
         theLog.WriteLine("SDLVideo        => !!! Requested buffer could not be made. (back buffer)");  // Log failure
@@ -168,6 +169,7 @@ bool CVideoSDL::Create(int Width, int Height, int Depth, int Scale)
     m_BackBufferRect.y = 0;
     m_BackBufferRect.w = m_Width;
     m_BackBufferRect.h = m_Height;
+#endif
 
     // show cursor depending on windowed/fullscreen mode
     SDL12_ShowCursor(true);
@@ -213,34 +215,32 @@ void CVideoSDL::Destroy(void)
     // Free drawing requests, sprite tables, surfaces...
     FreeSprites();
 
-    // If a SDLVideo object exists
-    if (m_pPrimary != NULL)
+#ifdef BOMBERMAAAN_SCALE_2X
+    // If the back buffer surface exists
+    if (m_pBackBuffer != NULL)
     {
-        // If the back buffer surface exists
-        if (m_pBackBuffer != NULL)
-        {
-            // Release it
-            SDL12_FreeSurface(m_pBackBuffer);
-            m_pBackBuffer = NULL;
-
-            // Log release
-            theLog.WriteLine("SDLVideo        => Backbuffer surface was released.");
-        }
-
-        // If the primary surface exists
-        if (m_pPrimary != NULL)
-        {
-            // Release it
-            SDL12_FreeSurface(m_pPrimary);
-            m_pPrimary = NULL;
-
-            // Log release
-            theLog.WriteLine("SDLVideo        => Primary surface was released.");
-        }
+        // Release it
+        SDL12_FreeSurface(m_pBackBuffer);
+        m_pBackBuffer = NULL;
 
         // Log release
-        theLog.WriteLine("SDLVideo        => SDLVideo object was released.");
+        theLog.WriteLine("SDLVideo        => Backbuffer surface was released.");
     }
+#endif
+
+    // If the primary surface exists
+    if (m_pPrimary != NULL)
+    {
+        // Release it
+        SDL12_FreeSurface(m_pPrimary);
+        m_pPrimary = NULL;
+
+        // Log release
+        theLog.WriteLine("SDLVideo        => Primary surface was released.");
+    }
+
+    // Log release
+    theLog.WriteLine("SDLVideo        => SDLVideo objects were released.");
 }
 
 //******************************************************************************************************************************
@@ -254,25 +254,12 @@ void CVideoSDL::UpdateScreen(void)
 {
     HRESULT hRet;
 
-    if (m_Scale == 1)
-    {
-        if (SDL12_BlitSurface(m_pBackBuffer, &m_BackBufferRect, m_pPrimary, &m_PrimaryRect) < 0) {
-            // blitting failed
-            theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
-        }
-    }
-    else if (m_Scale == 2)
-    {
-        HQ2x().resize(reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
-                      m_Width,
-                      m_Height,
-                      reinterpret_cast<uint32_t*>(m_pPrimary->pixels));
-    }
-    else
-    {
-        theLog.WriteLine("CVideoSDL       => Unsupported scale factor %d. Not updating screen", m_Scale);
-        return;
-    }
+#ifdef BOMBERMAAAN_SCALE_2X
+    HQ2x().resize(reinterpret_cast<uint32_t*>(m_pBackBuffer->pixels),
+                  m_Width,
+                  m_Height,
+                  reinterpret_cast<uint32_t*>(m_pPrimary->pixels));
+#endif
 
     while (true)
     {
@@ -671,7 +658,12 @@ void CVideoSDL::UpdateAll(void)
         DestRect.h = 0;
 
         // Blit the surface zone on the back buffer
-        if (SDL12_BlitSurface(m_Surfaces[pSprite->SurfaceNumber].pSurface, &SourceRect, m_pBackBuffer, &DestRect) < 0) {
+#ifdef BOMBERMAAAN_SCALE_2X
+        if (SDL12_BlitSurface(m_Surfaces[pSprite->SurfaceNumber].pSurface, &SourceRect, m_pBackBuffer, &DestRect) < 0)
+#else
+        if (SDL12_BlitSurface(m_Surfaces[pSprite->SurfaceNumber].pSurface, &SourceRect, m_pPrimary, &DestRect) < 0)
+#endif
+        {
             // blitting failed
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
@@ -722,7 +714,12 @@ void CVideoSDL::UpdateAll(void)
             reals = SDL12_DisplayFormatAlpha(rectangle);
 
             // Blit the surface zone on the back buffer
-            if (reals != NULL && SDL12_BlitSurface(reals, &SourceRect, m_pBackBuffer, &DestRect) < 0) {
+#ifdef BOMBERMAAAN_SCALE_2X
+            if (reals != NULL && SDL12_BlitSurface(reals, &SourceRect, m_pBackBuffer, &DestRect) < 0)
+#else
+            if (reals != NULL && SDL12_BlitSurface(reals, &SourceRect, m_pPrimary, &DestRect) < 0)
+#endif
+            {
                 // blitting failed
                 theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
             }

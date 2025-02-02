@@ -62,7 +62,6 @@ const src_files = [_][]const u8{
     "CWinner.cpp",
     "WinMain.cpp",
     "WinReplace.cpp",
-    "hqx/HQx.cc",
     "hqx/HQ2x.cc",
 };
 
@@ -75,6 +74,7 @@ const c_flags_common = [_][]const u8{
     "-Wno-missing-field-initializers",
     "-Wno-date-time",
     "-DSDL",
+    "-DBOMBERMAAAN_SCALE_2X",
     "-DENABLE_LOG", // Define this if the log file should be enabled
 };
 
@@ -285,7 +285,7 @@ pub const EmLinkOptions = struct {
     use_pthreads: bool = true,
     use_webgl2: bool = false,
     use_webgpu: bool = false,
-    use_filesystem: bool = true,
+    use_filesystem: bool = false,
     use_asyncify: bool = true,
     shell_file_path: ?[]const u8 = null,
 };

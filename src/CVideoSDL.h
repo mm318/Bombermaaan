@@ -156,11 +156,12 @@ private:
     int                     m_Width;                             //!< Display width
     int                     m_Height;                            //!< Display height
     int                     m_Depth;                             //!< Display depth
-    int                     m_Scale;                             //!< Scale factor of width and height
     SDL_Surface*            m_pPrimary;                          //!< Primary surface
     SDL_Rect                m_PrimaryRect;                       //!< Window rect in client coordinates
+#ifdef BOMBERMAAAN_SCALE_2X
     SDL_Surface*            m_pBackBuffer;                       //!< Backbuffer surface
     SDL_Rect                m_BackBufferRect;                    //!< Window rect in screen coordinates
+#endif
     int                     m_OriginX;                           //!< Origin position where to draw from
     int                     m_OriginY;
     ::portable_stl::vector<SSurface> m_Surfaces;                 //!< Surfaces
@@ -178,7 +179,7 @@ public:
     ~CVideoSDL (void);
 
     inline void             SetWindowHandle (HWND hWnd);
-    bool                    Create(int Width, int Height, int Depth, int Scale);
+    bool                    Create(int Width, int Height, int Depth);
     void                    Destroy (void);
     bool                    SetTransparentColor (int Red, int Green, int Blue);
     bool                    LoadSprites(int SpriteTableWidth,
@@ -203,7 +204,15 @@ public:
                                        int Sprite,
                                        int SpriteLayer,
                                        int PriorityInLayer);
-    void                    DrawDebugRectangle (int PositionX, int PositionY, int w, int h, Uint8 r, Uint8 g, Uint8 b, int SpriteLayer, int PriorityInLayer);
+    void                    DrawDebugRectangle(int PositionX,
+                                               int PositionY,
+                                               int w,
+                                               int h,
+                                               Uint8 r,
+                                               Uint8 g,
+                                               Uint8 b,
+                                               int SpriteLayer,
+                                               int PriorityInLayer);
     void                    RemoveAllDebugRectangles ();
     inline bool             IsModeSet(int Width, int Height, int Depth) const;
 };

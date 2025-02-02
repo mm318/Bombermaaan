@@ -28,6 +28,7 @@
  *  \brief SDL video on Linux
  */
 
+#include <algorithm>
 #include "StdAfx.h"
 #include "BombermaaanAssets.h"
 
@@ -634,9 +635,9 @@ void CVideoSDL::FreeSprites(void)
 
 void CVideoSDL::UpdateAll(void)
 {
-    m_DrawingRequests.sort();
+    std::sort(m_DrawingRequests.begin().base(), m_DrawingRequests.end().base());
     // While all the drawing requests have not been executed
-    for (::portable_stl::list<SDrawingRequest>::iterator it = m_DrawingRequests.begin(); it != m_DrawingRequests.end(); ++it)
+    for (::portable_stl::vector<SDrawingRequest>::iterator it = m_DrawingRequests.begin(); it != m_DrawingRequests.end(); ++it)
     {
         // Save the top drawing request
         const SDrawingRequest &DR = *it;

@@ -166,7 +166,7 @@ private:
     int                     m_OriginY;
     ::portable_stl::vector<SSurface> m_Surfaces;                 //!< Surfaces
     ::portable_stl::map<const void*, ::portable_stl::vector<SSprite>> m_SpriteTables; //!< Available sprite tables
-    ::portable_stl::list<SDrawingRequest> m_DrawingRequests;     //!< List of drawing requests (::portable_stl::vector doesn't have sort :S)
+    ::portable_stl::vector<SDrawingRequest> m_DrawingRequests;   //!< List of drawing requests
     ::portable_stl::vector<SDebugDrawingRequest> m_DebugDrawingRequests;    //!< vector of drawing requests for debugging purposes
 
 private:

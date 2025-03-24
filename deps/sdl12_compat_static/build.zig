@@ -14,10 +14,12 @@ pub fn build(b: *std.Build) !void {
         .optimize = .ReleaseFast,
     });
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "sdl12_compat_static",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files });
     lib.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());

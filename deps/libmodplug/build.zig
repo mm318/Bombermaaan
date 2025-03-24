@@ -50,10 +50,12 @@ pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "libmodplug",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
     lib.addIncludePath(b.path("src/libmodplug/"));

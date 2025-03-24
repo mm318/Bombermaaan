@@ -135,7 +135,7 @@ For convenience, to run:
 zig build -Doptimize=ReleaseSafe run
 ```
 
-Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).
+Tested on Ubuntu 24.04.2 using Zig 0.14.0.
 
 #### Targeting Web Browser
 
@@ -150,4 +150,4 @@ For convenience, to run:
 zig build -Doptimize=ReleaseFast -Dtarget=wasm32-emscripten run
 ```
 
-Tested on Ubuntu 20.04 using zig 0.14.0-dev.1911+3bf89f55c (2024.10.0-mach).
+Tested on Ubuntu 24.04.2 using Zig 0.14.0.

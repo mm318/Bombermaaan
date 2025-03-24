@@ -50,13 +50,15 @@ pub fn build(b: *std.Build) !void {
     });
     const modplug_dep = b.dependency("libmodplug", .{
         .target = target,
-        .optimize = .ReleaseFast, // there are some unsound coding practices in this lib, don't compile with safe
+        .optimize = .ReleaseFast, // there are some unsound code in this lib, compiling with safe will result in runtime errors
     });
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "SDL2_mixer",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
     lib.addIncludePath(b.path("include/"));

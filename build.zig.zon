@@ -1,27 +1,28 @@
 .{
-    .name = "bombermaaan",
+    .name = .bombermaaan,
     .version = "1.9.3-2039",
+
     .dependencies = .{
         .sdl = .{
-            .path = "dep/sdl2",
+            .path = "deps/sdl2",
         },
         .sdl_compat = .{
-            .path = "dep/sdl12_compat_static",
+            .path = "deps/sdl12_compat_static",
         },
         .sdl_mixer = .{
-            .path = "dep/sdl2_mixer",
+            .path = "deps/sdl2_mixer",
         },
         .tinyxml = .{
-            .path = "dep/tinyxml",
+            .path = "deps/tinyxml",
         },
         .simpleini = .{
-            .path = "dep/simpleini",
+            .path = "deps/simpleini",
         },
         .assets = .{
             .path = "assets",
         },
         .pstl = .{
-            .path = "dep/paragon_portable_stl",
+            .path = "deps/paragon_portable_stl",
         },
         .emsdk = .{
             .url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.64.tar.gz",
@@ -36,4 +37,6 @@
         "README.md",
         "LICENSE.txt",
     },
+
+    .fingerprint = 0x9e945b619ae6f97f,
 }

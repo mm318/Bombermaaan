@@ -1,11 +1,13 @@
 .{
-    .name = "sdl12-compat",
+    .name = .sdl12_compat,
     .version = "1.2.68",
+
     .dependencies = .{
         .sdl = .{
             .path = "../sdl2",
         },
     },
+
     .paths = .{
         "include",
         "src",
@@ -17,4 +19,6 @@
         "LICENSE.txt",
         "README.md",
     },
+
+    .fingerprint = 0xbd9b8c5145504be,
 }

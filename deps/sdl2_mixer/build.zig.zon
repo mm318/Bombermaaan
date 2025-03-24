@@ -1,6 +1,7 @@
 .{
-    .name = "SDL2_mixer",
+    .name = .SDL2_mixer,
     .version = "2.8.0",
+
     .dependencies = .{
         .sdl = .{
             .path = "../sdl2",
@@ -9,6 +10,7 @@
             .path = "../libmodplug",
         },
     },
+
     .paths = .{
         "include",
         "src",
@@ -20,4 +22,6 @@
         "README-versions.md",
         "release_checklist.md",
     },
+
+    .fingerprint = 0x552e63a29505f122,
 }

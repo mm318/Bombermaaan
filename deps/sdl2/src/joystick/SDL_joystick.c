@@ -73,10 +73,7 @@ static SDL_JoystickDriver *SDL_joystick_drivers[] = {
 #ifdef SDL_JOYSTICK_IOKIT
     &SDL_DARWIN_JoystickDriver,
 #endif
-// appears to require SDL3
-//#if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__TVOS__)) && !defined(SDL_JOYSTICK_DISABLED)
-//    &SDL_IOS_JoystickDriver,
-//#endif
+/* This Zig package omits the Apple MFI backend. */
 #ifdef SDL_JOYSTICK_ANDROID
     &SDL_ANDROID_JoystickDriver,
 #endif

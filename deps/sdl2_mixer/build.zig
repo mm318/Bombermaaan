@@ -1,5 +1,4 @@
 const std = @import("std");
-const builtin = @import("builtin");
 
 const src_files = [_][]const u8{
     "codecs/load_aiff.c",
@@ -29,7 +28,7 @@ const src_files = [_][]const u8{
     "utils.c",
 };
 
-const c_flags: []const []const u8 = &.{
+const c_flags = [_][]const u8{
     "-DMUSIC_CMD",
     "-DMUSIC_WAV",
     "-DMUSIC_FLAC_DRFLAC",
@@ -44,13 +43,15 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const emscripten_include = b.option(std.Build.LazyPath, "emscripten_include", "Emscripten sysroot include directory");
     const sdl_dep = b.dependency("sdl", .{
         .target = target,
-        .optimize = .ReleaseFast,
+        .optimize = .fast,
+        .emscripten_include = emscripten_include,
     });
     const modplug_dep = b.dependency("libmodplug", .{
         .target = target,
-        .optimize = .ReleaseFast, // there are some unsound code in this lib, compiling with safe will result in runtime errors
+        .optimize = .fast, // there are some unsound code in this lib, compiling with safe will result in runtime errors
     });
 
     const lib = b.addLibrary(.{
@@ -60,16 +61,16 @@ pub fn build(b: *std.Build) !void {
             .optimize = optimize,
         }),
     });
-    lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
-    lib.addIncludePath(b.path("include/"));
-    lib.addIncludePath(b.path("src/"));
-    lib.addIncludePath(b.path("src/codecs/"));
-    lib.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
-    lib.addIncludePath(modplug_dep.artifact("libmodplug").getEmittedIncludeTree());
+    lib.root_module.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = if (target.result.os.tag == .emscripten) &(c_flags ++ .{"-fno-sanitize=undefined"}) else &c_flags });
+    lib.root_module.addIncludePath(b.path("include/"));
+    lib.root_module.addIncludePath(b.path("src/"));
+    lib.root_module.addIncludePath(b.path("src/codecs/"));
+    lib.root_module.addIncludePath(sdl_dep.artifact("SDL2").getEmittedIncludeTree());
+    lib.root_module.addIncludePath(modplug_dep.artifact("libmodplug").getEmittedIncludeTree());
 
-    lib.linkLibC();
-    lib.linkLibrary(sdl_dep.artifact("SDL2"));
-    lib.linkLibrary(modplug_dep.artifact("libmodplug"));
+    lib.root_module.link_libc = true;
+    lib.root_module.linkLibrary(sdl_dep.artifact("SDL2"));
+    lib.root_module.linkLibrary(modplug_dep.artifact("libmodplug"));
 
     lib.installHeadersDirectory(b.path("include"), "", .{});
     b.installArtifact(lib);

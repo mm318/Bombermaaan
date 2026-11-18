@@ -219,7 +219,7 @@ public:
   }
 
   void swap(short_object_optimization &other) noexcept {
-    ::portable_stl::swap(m_storage, other.m_storage);
+    m_storage.swap(other.m_storage);
   }
 
   size_type size() const noexcept {
@@ -522,7 +522,7 @@ public:
   }
 
   void swap(short_object_optimization &other) noexcept {
-    ::portable_stl::swap(m_storage, other.m_storage);
+    m_storage.swap(other.m_storage);
   }
 
   size_type size() const noexcept {

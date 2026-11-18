@@ -1,6 +1,7 @@
 .{
     .name = .bombermaaan,
     .version = "1.9.3-2039",
+    .minimum_zig_version = "0.17.1",
 
     .dependencies = .{
         .sdl = .{
@@ -25,8 +26,8 @@
             .path = "deps/paragon_portable_stl",
         },
         .emsdk = .{
-            .url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.64.tar.gz",
-            .hash = "12206bb1c8206a3e50d43db0711e6b9e0485758265abadf6ffccee37839bb0283c6e",
+            .url = "git+https://github.com/emscripten-core/emsdk?ref=7.0.0#708dcbcc9ee23bc7d2dad44fc90db377e38b771c",
+            .hash = "N-V-__8AAFtICgCVOQFfkjwy7ir3VqTXKBIfbrfoKDuqstpy",
         },
     },
 
@@ -34,6 +35,9 @@
         "build.zig",
         "build.zig.zon",
         "src",
+        "deps",
+        "assets",
+        "web_assets",
         "README.md",
         "LICENSE.txt",
     },

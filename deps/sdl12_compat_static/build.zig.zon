@@ -2,6 +2,8 @@
     .name = .sdl12_compat,
     .version = "1.2.68",
 
+    .minimum_zig_version = "0.17.1",
+
     .dependencies = .{
         .sdl = .{
             .path = "../sdl2",

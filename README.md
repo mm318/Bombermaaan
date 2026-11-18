@@ -122,32 +122,54 @@ The original Bombermaaan project is hosted on SourceForge.net.
 
 ## Compiling
 
+Use Zig 0.17.1. SDL 2.32.10 is vendored in `deps/sdl2`. See
+[the SDL dependency README](deps/sdl2/README.md) for provenance and local patches.
+
+On Ubuntu, install the native build dependencies:
+
+```bash
+sudo apt install libxext-dev libgles-dev libglx-dev libpulse-dev
+```
+
 #### Targeting Native Desktop
 
 To build:
+
 ```bash
-zig build                           # for debug build
-zig build -Doptimize=ReleaseSafe    # for release build
+zig build                   # Debug
+zig build -Doptimize=safe    # Release with runtime safety checks
 ```
 
 For convenience, to run:
-```bash
-zig build -Doptimize=ReleaseSafe run
-```
 
-Tested on Ubuntu 24.04.2 using Zig 0.14.0.
+```bash
+zig build -Doptimize=safe run
+```
 
 #### Targeting Web Browser
 
-To build:
+Install the pinned Emscripten 7.0.0 SDK into `zig-pkg` first:
+
 ```bash
-zig build -Doptimize=Debug -Dtarget=wasm32-emscripten       # for debug build
-zig build -Doptimize=ReleaseFast -Dtarget=wasm32-emscripten # for release build (recommended)
+zig build install-emsdk
+```
+
+To build:
+
+```bash
+zig build -Dtarget=wasm32-emscripten                    # Debug
+zig build -Dtarget=wasm32-emscripten -Doptimize=fast    # Release (recommended)
 ```
 
 For convenience, to run:
+
 ```bash
-zig build -Doptimize=ReleaseFast -Dtarget=wasm32-emscripten run
+zig build -Dtarget=wasm32-emscripten -Doptimize=fast run
 ```
 
-Tested on Ubuntu 24.04.2 using Zig 0.14.0.
+The web build is installed to `zig-out/web/index.html`. Serve the entire
+`zig-out/web` directory over HTTP; the included service worker enables
+cross-origin isolation for pthreads on localhost or HTTPS.
+
+Assets are extracted on the build host into the Zig build cache and embedded
+into the executable or WebAssembly module.

@@ -111,7 +111,7 @@ CGame::CGame (HINSTANCE hInstance, char** pCommandLine)
     // At the end, the windowTitle is "... - Compiled YYYY-MM-DD"
 
     // Year
-    windowTitle.append(__DATE__ + 7);
+    windowTitle.append(&__DATE__[7]);
     windowTitle.append("-");
 
     // Month: Jan/Jun/Jul, Feb, Mar/May, Apr/Aug, Sep, Oct, Nov, Dec
@@ -153,10 +153,10 @@ CGame::CGame (HINSTANCE hInstance, char** pCommandLine)
     // Day (ensure for leading zero when day is 1 to 9)
     if (__DATE__[4] == ' ') {
         windowTitle.append("0");
-        windowTitle.append(__DATE__ + 5, 1);
+        windowTitle.append(&__DATE__[5], 1);
     }
     else {
-        windowTitle.append(__DATE__ + 4, 2);
+        windowTitle.append(&__DATE__[4], 2);
     }
 
     // keep the window text in mind

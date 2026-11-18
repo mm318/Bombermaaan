@@ -57,11 +57,11 @@ pub fn build(b: *Build) void {
             .optimize = optimize,
         }),
     });
-    lib.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
-    lib.addIncludePath(b.path("src/libmodplug/"));
+    lib.root_module.addCSourceFiles(.{ .root = b.path("src/"), .files = &src_files, .flags = c_flags });
+    lib.root_module.addIncludePath(b.path("src/libmodplug/"));
 
-    lib.linkLibC();
-    lib.linkLibCpp();
+    lib.root_module.link_libc = true;
+    lib.root_module.link_libcpp = true;
 
     lib.installHeader(b.path("src/modplug.h"), "libmodplug/modplug.h");
     b.installArtifact(lib);

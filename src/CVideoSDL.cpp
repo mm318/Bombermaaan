@@ -266,7 +266,9 @@ void CVideoSDL::UpdateScreen(void)
     {
         // Update the primary surface by flipping backbuffer and primary surface
         hRet = SDL12_Flip(m_pPrimary);
+#ifndef __EMSCRIPTEN__
         SDL12_Delay(5);
+#endif
 
         // If it worked fine
         if (hRet == 0)
@@ -280,6 +282,10 @@ void CVideoSDL::UpdateScreen(void)
             theLog.WriteLine("SDLVideo        => !!! Updating failed (switching primary/backbuffer).");
             theLog.WriteLine("SDLVideo        => !!! SDLVideo error is : %s.", GetSDLVideoError());
         }
+#ifdef __EMSCRIPTEN__
+        // Retry on the next animation frame instead of blocking the browser.
+        break;
+#endif
     }
 }
 
@@ -751,4 +757,3 @@ static const char* GetSDLVideoError()
 //******************************************************************************************************************************
 //******************************************************************************************************************************
 //******************************************************************************************************************************
- 

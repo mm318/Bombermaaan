@@ -171,5 +171,10 @@ The web build is installed to `zig-out/web/index.html`. Serve the entire
 `zig-out/web` directory over HTTP; the included service worker enables
 cross-origin isolation for pthreads on localhost or HTTPS.
 
+The browser build updates and presents once per display refresh using
+`requestAnimationFrame`, without Asyncify or frame-loop sleeps. The game pauses
+when the browser window loses focus or the tab is hidden. HQ2x software scaling
+still produces the same 2x output.
+
 Assets are extracted on the build host into the Zig build cache and embedded
 into the executable or WebAssembly module.

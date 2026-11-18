@@ -165,66 +165,68 @@ void CWindow::Show()
 
 void CWindow::MessagePump()
 {
-    SDL_Event event;
-    bool quit = false;
-
     WinProc(WM_ACTIVATEAPP, WA_ACTIVE, 0);
 
-    // Start main game loop here
-    while (!quit) {
-        while (SDL12_PollEvent(&event))
+    while (ProcessFrame())
+    {
+        SDL12_Delay(1); // rest for the cpu
+    }
+}
+
+// Process one frame so browser builds can return to the event loop between frames.
+bool CWindow::ProcessFrame()
+{
+    SDL_Event event;
+    while (SDL12_PollEvent(&event))
+    {
+        switch (event.type)
         {
-            switch (event.type)
+        case SDL_KEYDOWN:
+            WinProc(WM_KEYDOWN, event.key.keysym.sym, event.key.keysym.mod);
+            break;
+
+        case SDL_KEYUP:
+            WinProc(WM_KEYUP, event.key.keysym.sym, event.key.keysym.mod);
+            break;
+
+        case SDL_JOYAXISMOTION:
+            WinProc(SDL_JOYAXISMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
+            break;
+
+        case SDL_JOYHATMOTION:
+            WinProc(SDL_JOYHATMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
+            break;
+
+        case SDL_JOYBUTTONDOWN:
+        case SDL_JOYBUTTONUP:
+            WinProc(event.type, (WPARAM)&event.jbutton, (LPARAM)&event);
+            break;
+
+        case SDL_VIDEORESIZE:
+            WinProc(WM_SIZE, (WPARAM)&event.resize, (LPARAM)&event);
+            break;
+
+        case SDL_ACTIVEEVENT:
+            if (event.active.state != SDL_APPMOUSEFOCUS)
             {
-            case SDL_KEYDOWN:
-                WinProc(WM_KEYDOWN, event.key.keysym.sym, event.key.keysym.mod);
-                break;
-
-            case SDL_KEYUP:
-                WinProc(WM_KEYUP, event.key.keysym.sym, event.key.keysym.mod);
-                break;
-
-            case SDL_JOYAXISMOTION:  // Handle Joystick Motion
-                WinProc(SDL_JOYAXISMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
-                break;
-
-			case SDL_JOYHATMOTION:
-				WinProc(SDL_JOYHATMOTION, (WPARAM)&event.jaxis, (LPARAM)&event);
-				break;;
-
-            case SDL_JOYBUTTONDOWN:  // Handle Joystick buttons
-            case SDL_JOYBUTTONUP:
-                WinProc(event.type, (WPARAM)&event.jbutton, (LPARAM)&event);
-                break;
-
-            case SDL_VIDEORESIZE:     // resize our window
-                WinProc(WM_SIZE, (WPARAM)&event.resize, (LPARAM)&event);
-                break;
-
-            case SDL_ACTIVEEVENT:
-                if (event.active.state != SDL_APPMOUSEFOCUS)
-                {
-                    if (event.active.gain)
-                        WinProc(WM_ACTIVATEAPP, WA_ACTIVE, 0);
-                    else
-                        WinProc(WM_ACTIVATEAPP, 0, 0);
-                }
-                break;
-
-            case SDL_QUIT:
-                WinProc(WM_CLOSE, (WPARAM)&event, 0);
-                quit = true;
-                break;
+                if (event.active.gain)
+                    WinProc(WM_ACTIVATEAPP, WA_ACTIVE, 0);
+                else
+                    WinProc(WM_ACTIVATEAPP, 0, 0);
             }
-        }
+            break;
 
-        if (m_Active)
-        {
-            // call the virtual activity method
-            OnWindowActive();
-            SDL12_Delay(1); // rest for the cpu
+        case SDL_QUIT:
+            WinProc(WM_CLOSE, (WPARAM)&event, 0);
+            return false;
         }
     }
+
+    if (m_Active)
+    {
+        OnWindowActive();
+    }
+    return true;
 }
 
 

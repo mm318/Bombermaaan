@@ -38,6 +38,29 @@
 
 #include "Bombermaaan.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+
+static EM_BOOL BrowserVisibilityChanged(int, const EmscriptenVisibilityChangeEvent* event, void* context)
+{
+    CGame* game = static_cast<CGame*>(context);
+    // requestAnimationFrame stops in hidden tabs, so pause the timer immediately.
+    game->WinProc(WM_ACTIVATEAPP, event->hidden ? 0 : WA_ACTIVE, 0);
+    return EM_FALSE;
+}
+
+static void BrowserFrame(void* context)
+{
+    CGame* game = static_cast<CGame*>(context);
+    if (!game->ProcessFrame())
+    {
+        emscripten_cancel_main_loop();
+        game->Destroy();
+    }
+}
+#endif
+
 /**
  *  \mainpage Bombermaaan source code documentation
  *
@@ -91,8 +114,12 @@ int main(int argc, char **argv)
     char **lpCmdline = argv;
 #endif
 
-    // Create the CGame instance    
+    // Browser callbacks keep using the game after main returns.
+#ifdef __EMSCRIPTEN__
+    static CGame Game(hInstance, lpCmdline);
+#else
     CGame Game(hInstance, lpCmdline);
+#endif
 
     // If creating the game failed
 #ifdef WIN32
@@ -108,11 +135,18 @@ int main(int argc, char **argv)
     //! Show the game window (CGame::Show())
     Game.Show();
 
-    // Update the game (CGame::MesagePump())
+#ifdef __EMSCRIPTEN__
+    Game.WinProc(WM_ACTIVATEAPP, WA_ACTIVE, 0);
+    emscripten_set_visibilitychange_callback(&Game, false, BrowserVisibilityChanged);
+    // fps=0 uses requestAnimationFrame and follows the display's refresh rate.
+    emscripten_set_main_loop_arg(BrowserFrame, &Game, 0, false);
+#else
+    // Update the game (CGame::MessagePump())
     Game.MessagePump();
 
     // Destroy everything (CGame::Destroy())
     Game.Destroy();
+#endif
 
 #ifdef CRASH_REPORT
     int nUninstRes = crUninstall(); // Uninstall exception handlers

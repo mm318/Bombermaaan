@@ -79,6 +79,7 @@ public:
     void SetClientSize(int ClientWidth, int ClientHeight);
     void Show(void);
     void MessagePump(void);
+    bool ProcessFrame(void);
 #ifdef WIN32
     LRESULT CALLBACK WinProc(unsigned int msg, WPARAM wParam, LPARAM lParam);
 #else

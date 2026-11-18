@@ -62,7 +62,9 @@
 
 // Define this if the game should update normally even when the window does not have the focus
 // Note : when the window does not have the focus, you will not have the input focus.
+#ifndef __EMSCRIPTEN__
 #define ENABLE_UPDATE_WHEN_WINDOW_IS_INACTIVE
+#endif
 
 // Define this if you want sound and music in the game
 #define ENABLE_SOUND

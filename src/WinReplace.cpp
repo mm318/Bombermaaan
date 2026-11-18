@@ -29,6 +29,10 @@
 
 #include "WinReplace.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 static abs_time_t server_start_time = { 0, 0 };  /* time of server startup */
 static unsigned char *currentResource = NULL;
 static unsigned long currentResourceLen = 0;
@@ -342,6 +346,13 @@ int _findclose(long handle) {
 
 bool NtQueryPerformanceCounter( PLARGE_INTEGER Counter, PLARGE_INTEGER Frequency )
 {
+#ifdef __EMSCRIPTEN__
+    if (!Counter) return false;
+    // Use the browser's monotonic, high-resolution clock for animation timing.
+    Counter->QuadPart = static_cast<LONGLONG>(emscripten_get_now() * 1000.0);
+    if (Frequency) Frequency->QuadPart = 1000000;
+    return true;
+#else
     struct timeval now;
 
     if (!Counter) return false;
@@ -354,6 +365,7 @@ bool NtQueryPerformanceCounter( PLARGE_INTEGER Counter, PLARGE_INTEGER Frequency
                           (now.tv_usec - server_start_time.usec)) * 105) / 88;
     if (Frequency) Frequency->QuadPart = 1193182;
     return true;
+#endif
 }
 
 bool QueryPerformanceFrequency(PLARGE_INTEGER frequency)

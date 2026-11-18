@@ -192,7 +192,6 @@ fn emLinkStep(b: *Build, emsdk: *Build.Dependency, lib: *Build.Step.Compile, opt
         "-sINITIAL_MEMORY=64MB",
         "-sSTACK_SIZE=16MB",
         "-sFULL_ES3=1",
-        "-sASYNCIFY=1",
     });
     empp.addPrefixedFileArg("--shell-file=", b.path("web_assets/shell_minimal.html"));
     empp.addArtifactArg(lib);
